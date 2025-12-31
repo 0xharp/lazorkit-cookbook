@@ -32,13 +32,14 @@ While LazorKit provides an excellent standalone experience, many users prefer th
 
 ## Supported Adapters
 
-This recipe includes examples for three popular wallet adapters:
+This recipe includes examples for four popular wallet adapters:
 
 | Adapter | Package | Description                            |
 |---------|---------|----------------------------------------|
 | **Anza Wallet Adapter** | `@solana/wallet-adapter-react` | Industry standard, built-in modal UI   |
-| **ConnectorKit** | `@solana/connector` | Solana Foundation's Latest official package |
+| **ConnectorKit** | `@solana/connector` | Solana Foundation's latest official package |
 | **Wallet-UI** | `@wallet-ui/react` | Modern, headless/unstyled components   |
+| **Jupiter Unified Wallet Kit** | `@jup-ag/wallet-adapter` | Feature-rich adapter used by Jupiter & Meteora |
 
 Each example demonstrates the same gasless USDC transfer functionality.
 
@@ -56,6 +57,8 @@ Each example demonstrates the same gasless USDC transfer functionality.
 │   └── page.tsx                # ConnectorKit demo
 ├── wallet-ui/
 │   └── page.tsx                # Wallet-UI demo
+├── unified-wallet-kit/
+│   └── page.tsx                # Jupiter Unified Wallet Kit demo
 └── README.md                   # This tutorial
 ```
 
@@ -179,6 +182,51 @@ function App() {
   );
 }
 ```
+
+### Option D: Jupiter Unified Wallet Kit
+
+The "Swiss Army Knife" wallet adapter used by Jupiter and Meteora in production.
+
+```bash
+npm install @jup-ag/wallet-adapter @lazorkit/wallet
+```
+
+```typescript
+import { ConnectionProvider } from '@solana/wallet-adapter-react';
+import { UnifiedWalletProvider, UnifiedWalletButton } from '@jup-ag/wallet-adapter';
+
+const RPC_URL = 'https://api.devnet.solana.com';
+
+function App() {
+  return (
+    <ConnectionProvider endpoint={RPC_URL}>
+      <UnifiedWalletProvider
+        wallets={[]}
+        config={{
+          autoConnect: true,
+          env: 'devnet',
+          metadata: {
+            name: 'My App',
+            description: 'My Solana dApp',
+            url: 'https://myapp.com',
+            iconUrls: ['https://myapp.com/icon.png'],
+          },
+          theme: 'dark',  // 'light', 'dark', or 'jupiter'
+        }}
+      >
+        <UnifiedWalletButton />  {/* LazorKit appears here! */}
+        <YourComponent />
+      </UnifiedWalletProvider>
+    </ConnectionProvider>
+  );
+}
+```
+
+**Key Features:**
+- Built-in themes (Light, Dark, Jupiter)
+- Mobile Wallet Adapter support
+- Auto-reconnect functionality
+- Battle-tested by Jupiter & Meteora
 
 ---
 
@@ -347,6 +395,7 @@ Each adapter page follows this structure:
 > - [Anza Adapter](anza-adapter/page.tsx)
 > - [ConnectorKit](connectorkit/page.tsx)
 > - [Wallet-UI](wallet-ui/page.tsx)
+> - [Jupiter Unified Wallet Kit](unified-wallet-kit/page.tsx)
 
 ---
 
@@ -372,6 +421,7 @@ Try this recipe live at: [https://lazorkit-cookbook.vercel.app/recipes/05-wallet
 - [Anza Wallet Adapter](https://github.com/anza-xyz/wallet-adapter)
 - [ConnectorKit](https://www.connectorkit.dev)
 - [Wallet-UI](https://wallet-ui.dev)
+- [Jupiter Unified Wallet Kit](https://github.com/TeamRaccoons/Unified-Wallet-Kit)
 - [Wallet Standard](https://github.com/wallet-standard/wallet-standard)
 - [LazorKit Documentation](https://docs.lazorkit.com/)
 

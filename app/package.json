@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.31.1",
+    "@jup-ag/wallet-adapter": "^0.2.6",
     "@lazorkit/wallet": "^2.0.1",
     "@metaplex-foundation/mpl-bubblegum": "^5.0.2",
     "@metaplex-foundation/mpl-token-metadata": "^3.4.0",
@@ -39,6 +40,7 @@
     "buffer": "^6.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "decimal.js": "^10.6.0",
     "dotenv": "^17.2.3",
     "gill": "^0.14.0",
     "lucide-react": "^0.562.0",

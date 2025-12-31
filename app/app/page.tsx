@@ -195,15 +195,15 @@ export default function HomePage() {
                             <ul className="space-y-2 text-sm text-gray-300">
                                 <li className="flex items-center gap-2">
                                     <span className="text-green-400">✓</span>
-                                    Anza Wallet Adapter
+                                    4 popular wallet adapters
                                 </li>
                                 <li className="flex items-center gap-2">
                                     <span className="text-green-400">✓</span>
-                                    Wallet UI
+                                    Anza, Jupiter, Wallet UI, ConnectorKit
                                 </li>
                                 <li className="flex items-center gap-2">
                                     <span className="text-green-400">✓</span>
-                                    New Solana ConnectorKit
+                                    Gasless USDC transfer demo
                                 </li>
                             </ul>
                             <div className="mt-6 text-purple-400 group-hover:text-purple-300 font-semibold">

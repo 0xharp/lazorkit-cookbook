@@ -44,7 +44,7 @@ This project demonstrates that you can build sophisticated Solana applications (
 | [02: Gasless USDC Transfer](app/app/recipes/02-gasless-transfer) | Send tokens without paying gas fees | Intermediate | [Read Tutorial](app/app/recipes/02-gasless-transfer/README.md) |
 | [03: Subscription Service](app/app/recipes/03-subscription-service) | Automated recurring USDC payments on Solana | Advanced     | [Read Tutorial](app/app/recipes/03-subscription-service/README.md) |
 | [04: Gasless Raydium Swap](app/app/recipes/04-gasless-raydium-swap) | DEX token swaps without gas fees | Advanced     | [Read Tutorial](app/app/recipes/04-gasless-raydium-swap/README.md) |
-| [05: Wallet Adapter Integration](app/app/recipes/05-wallet-adapter-integration) | Use LazorKit with Anza, ConnectorKit, Wallet-UI | Advanced     | [Read Tutorial](app/app/recipes/05-wallet-adapter-integration/README.md) |
+| [05: Wallet Adapter Integration](app/app/recipes/05-wallet-adapter-integration) | Use LazorKit with Anza, ConnectorKit, Wallet-UI, Jupiter Unified Wallet | Advanced     | [Read Tutorial](app/app/recipes/05-wallet-adapter-integration/README.md) |
 | [06: Regular Metaplex NFT](app/app/recipes/06-nft-minting) | Mint standard NFTs with Metaplex Token Metadata | Intermediate | [Read Tutorial](app/app/recipes/06-nft-minting/README.md) |
 | [07: Gasless cNFT Minting](app/app/recipes/07-compressed-nft-minting) | Mint compressed NFTs with Bubblegum (truly gasless!) | Advanced     | [Read Tutorial](app/app/recipes/07-compressed-nft-minting/README.md) |
 
@@ -138,6 +138,7 @@ lazorkit-cookbook/
 │   │   │   │   ├── anza-adapter/page.tsx   # Anza Wallet Adapter demo
 │   │   │   │   ├── connectorkit/page.tsx   # ConnectorKit demo
 │   │   │   │   ├── wallet-ui/page.tsx      # Wallet-UI demo
+│   │   │   │   ├── unified-wallet-kit/page.tsx  # Jupiter Unified Wallet Kit demo
 │   │   │   │   └── README.md               # 📖 Tutorial: Wallet Adapter Integration
 │   │   │   ├── 06-nft-minting/             # Recipe 06 (has README.md tutorial)
 │   │   │   │   ├── page.tsx                # Regular NFT minting interface
@@ -347,7 +348,7 @@ This cookbook was created for the [**Superteam x LazorKit Bounty**](https://earn
 - Live demo deployed on Solana Devnet
 - Custom Anchor program for subscription billing
 - Raydium DEX integration for gasless token swaps
-- Wallet adapter integration examples (Anza, ConnectorKit, Wallet-UI)
+- Wallet adapter integration examples (Anza, ConnectorKit, Wallet-UI, Jupiter Unified Wallet)
 - NFT minting with Metaplex (regular and compressed)
 
 ---

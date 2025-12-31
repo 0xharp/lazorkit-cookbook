@@ -46,6 +46,20 @@ const ADAPTERS = [
     ],
     github: 'https://github.com/solana-foundation/connectorkit',
   },
+  {
+    id: 'unified-wallet-kit',
+    name: 'Jupiter Unified Wallet Kit',
+    icon: '/icons/jupiter.png',
+    description: 'The Swiss Army Knife wallet adapter used by Jupiter and Meteora. Feature-rich with multiple themes.',
+    packages: ['@jup-ag/wallet-adapter'],
+    features: [
+      'Battle-tested by Jupiter & Meteora',
+      'Built-in themes (Light, Dark, Jupiter)',
+      'Mobile Wallet Adapter support',
+      'Auto-reconnect & notifications',
+    ],
+    github: 'https://github.com/TeamRaccoons/Unified-Wallet-Kit',
+  },
 ];
 
 export default function Recipe05Page() {
