@@ -11,6 +11,7 @@ import { DEV_API_URLS } from '@raydium-io/raydium-sdk-v2'
 import { useBalances } from '@/hooks/useBalances';
 import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 import { getAssociatedTokenAddressSync, getConnection, formatTransactionError } from '@/lib/solana-utils';
+import { processInstructionsForLazorKit } from '@/lib/lazorkit-utils';
 
 const TOKENS = {
     SOL: {
@@ -173,17 +174,13 @@ export default function Recipe04() {
             const txBuffer = Buffer.from(swapData.data[0].transaction, 'base64');
             const legacyTx = Transaction.from(txBuffer);
 
-            // Skip ComputeBudget instructions - LazorKit handles compute budget
-            const COMPUTE_BUDGET_PROGRAM = new PublicKey('ComputeBudget111111111111111111111111111111');
-            const instructions = legacyTx.instructions.filter(ix => !ix.programId.equals(COMPUTE_BUDGET_PROGRAM));
-
-            // Fix for LazorKit validation: Add smart wallet to instructions that need it
-            instructions.forEach((ix) => {
-                const hasSmartWallet = ix.keys.some(k => k.pubkey.toBase58() === wallet.smartWallet);
-                if (!hasSmartWallet) {
-                    ix.keys.push({ pubkey: new PublicKey(wallet.smartWallet), isSigner: false, isWritable: false });
-                }
-            });
+            // Process instructions for LazorKit:
+            // 1. Remove ComputeBudget instructions (LazorKit handles compute)
+            // 2. Add smart wallet to all instructions (LazorKit validation requirement)
+            const instructions = processInstructionsForLazorKit(
+                legacyTx.instructions,
+                wallet.smartWallet
+            );
 
             // Send to LazorKit
             const signature = await signAndSendTransaction({

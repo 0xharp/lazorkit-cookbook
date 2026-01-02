@@ -18,6 +18,9 @@ import {
 import { toWeb3JsInstruction } from '@metaplex-foundation/umi-web3js-adapters';
 import { getConnection, RPC_URL } from './solana-utils';
 
+// Re-export LazorKit utilities for convenience
+export { addSmartWalletToInstructions } from './lazorkit-utils';
+
 // ============================================================================
 // Constants
 // ============================================================================
@@ -76,24 +79,6 @@ export function createDummySigner(walletAddress: string): Signer {
         signTransaction: async (tx) => tx,
         signAllTransactions: async (txs) => txs,
     };
-}
-
-/**
- * Add smart wallet to instructions for LazorKit validation
- * LazorKit requires the smart wallet to be in the accounts list
- */
-export function addSmartWalletToInstructions(
-    instructions: TransactionInstruction[],
-    smartWalletAddress: string
-): void {
-    const walletPubkey = new PublicKey(smartWalletAddress);
-
-    instructions.forEach((ix) => {
-        const hasSmartWallet = ix.keys.some(k => k.pubkey.toBase58() === smartWalletAddress);
-        if (!hasSmartWallet) {
-            ix.keys.push({ pubkey: walletPubkey, isSigner: false, isWritable: false });
-        }
-    });
 }
 
 // ============================================================================

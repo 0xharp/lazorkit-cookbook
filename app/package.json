@@ -12,6 +12,7 @@
     "@coral-xyz/anchor": "^0.31.1",
     "@jup-ag/wallet-adapter": "^0.2.6",
     "@lazorkit/wallet": "^2.0.1",
+    "@marinade.finance/marinade-ts-sdk": "^5.0.18",
     "@metaplex-foundation/mpl-bubblegum": "^5.0.2",
     "@metaplex-foundation/mpl-token-metadata": "^3.4.0",
     "@metaplex-foundation/umi": "^1.0.0",
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
+    "@types/bn.js": "^5.2.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

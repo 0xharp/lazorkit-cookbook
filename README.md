@@ -47,6 +47,7 @@ This project demonstrates that you can build sophisticated Solana applications (
 | [05: Wallet Adapter Integration](app/app/recipes/05-wallet-adapter-integration) | Use LazorKit with Anza, ConnectorKit, Wallet-UI, Jupiter Unified Wallet | Advanced     | [Read Tutorial](app/app/recipes/05-wallet-adapter-integration/README.md) |
 | [06: Regular Metaplex NFT](app/app/recipes/06-nft-minting) | Mint standard NFTs with Metaplex Token Metadata | Intermediate | [Read Tutorial](app/app/recipes/06-nft-minting/README.md) |
 | [07: Gasless cNFT Minting](app/app/recipes/07-compressed-nft-minting) | Mint compressed NFTs with Bubblegum (truly gasless!) | Advanced     | [Read Tutorial](app/app/recipes/07-compressed-nft-minting/README.md) |
+| [08: Liquid Staking (Marinade)](app/app/recipes/08-marinade-staking) | Stake SOL for mSOL with Marinade Finance | Advanced     | [Read Tutorial](app/app/recipes/08-marinade-staking/README.md) |
 
 **Anchor Program**: Custom smart contract powering the subscription service. [Read Documentation](program/subscription-program/README.md)
 
@@ -143,9 +144,12 @@ lazorkit-cookbook/
 │   │   │   ├── 06-nft-minting/             # Recipe 06 (has README.md tutorial)
 │   │   │   │   ├── page.tsx                # Regular NFT minting interface
 │   │   │   │   └── README.md               # 📖 Tutorial: Regular Metaplex NFT
-│   │   │   └── 07-compressed-nft-minting/  # Recipe 07 (has README.md tutorial)
-│   │   │       ├── page.tsx                # Compressed NFT minting interface
-│   │   │       └── README.md               # 📖 Tutorial: Gasless cNFT Minting
+│   │   │   ├── 07-compressed-nft-minting/  # Recipe 07 (has README.md tutorial)
+│   │   │   │   ├── page.tsx                # Compressed NFT minting interface
+│   │   │   │   └── README.md               # 📖 Tutorial: Gasless cNFT Minting
+│   │   │   └── 08-marinade-staking/        # Recipe 08 (has README.md tutorial)
+│   │   │       ├── page.tsx                # Liquid staking interface
+│   │   │       └── README.md               # 📖 Tutorial: Liquid Staking (Marinade)
 │   │   ├── api/
 │   │   │   └── charge-subscriptions/       # Backend recurring charge job
 │   │   │       └── route.ts
@@ -161,6 +165,8 @@ lazorkit-cookbook/
 │   ├── lib/
 │   │   ├── constants.ts                    # Subscription plans & config
 │   │   ├── solana-utils.ts                 # Shared Solana utilities
+│   │   ├── lazorkit-utils.ts               # LazorKit integration utilities
+│   │   ├── nft-utils.ts                    # NFT minting utilities (Metaplex)
 │   │   └── program/
 │   │       └── subscription-service.ts     # On-chain program helpers
 │   ├── providers/
@@ -188,6 +194,7 @@ lazorkit-cookbook/
 | [Recipe 05 Tutorial](app/app/recipes/05-wallet-adapter-integration/README.md) | Wallet adapter integration |
 | [Recipe 06 Tutorial](app/app/recipes/06-nft-minting/README.md) | Regular Metaplex NFT minting |
 | [Recipe 07 Tutorial](app/app/recipes/07-compressed-nft-minting/README.md) | Gasless cNFT minting with Bubblegum |
+| [Recipe 08 Tutorial](app/app/recipes/08-marinade-staking/README.md) | Liquid staking with Marinade Finance |
 | [Anchor Program Docs](program/subscription-program/README.md) | Smart contract implementation |
 
 ---
@@ -298,7 +305,7 @@ export function LazorkitProvider({ children }) {
 | New to Solana | [Recipe 01: Passkey Wallet Basics](app/app/recipes/01-passkey-wallet-basics/README.md) - Understand wallet basics                                                                 |
 | Familiar with Solana | [Recipe 02: Gasless USDC Transfer](app/app/recipes/02-gasless-transfer/README.md) - See how LazorKit simplifies your code                                                         |
 | Using existing wallets | [Recipe 05: Wallet Adapter Integration](app/app/recipes/05-wallet-adapter-integration/README.md) - Integrate LazorKit with Wallet Adapter to make it work alongside other wallets |
-| DeFi enthusiast | [Recipe 04: Gasless Raydium Swap](app/app/recipes/04-gasless-raydium-swap/README.md) - DEX swaps without gas fees                                                                 |
+| DeFi enthusiast | [Recipe 04: Gasless Raydium Swap](app/app/recipes/04-gasless-raydium-swap/README.md) & [Recipe 08: Liquid Staking](app/app/recipes/08-marinade-staking/README.md) - DeFi integrations |
 | NFT developer | [Recipe 06](app/app/recipes/06-nft-minting/README.md) & [Recipe 07](app/app/recipes/07-compressed-nft-minting/README.md) - Regular and compressed NFT minting                     |
 | Advanced developer | [Recipe 03: Subscription Service](app/app/recipes/03-subscription-service/README.md) - Build complex on-chain programs                                                            |
 
@@ -328,6 +335,7 @@ Visit the deployed cookbook: **[https://lazorkit-cookbook.vercel.app/](https://l
 - [Recipe 05: Wallet Adapter Integration](app/app/recipes/05-wallet-adapter-integration/README.md)
 - [Recipe 06: Regular Metaplex NFT](app/app/recipes/06-nft-minting/README.md)
 - [Recipe 07: Gasless cNFT Minting](app/app/recipes/07-compressed-nft-minting/README.md)
+- [Recipe 08: Liquid Staking (Marinade)](app/app/recipes/08-marinade-staking/README.md)
 - [Anchor Program Documentation](program/subscription-program/README.md)
 
 ### External Documentation
@@ -343,13 +351,14 @@ Visit the deployed cookbook: **[https://lazorkit-cookbook.vercel.app/](https://l
 This cookbook was created for the [**Superteam x LazorKit Bounty**](https://earn.superteam.fun/listing/integrate-passkey-technology-with-lazorkit-to-10x-solana-ux).
 
 **Deliverables:**
-- Working example repository with 7 recipes
+- Working example repository with 8 recipes
 - Step-by-step tutorials for each recipe
 - Live demo deployed on Solana Devnet
 - Custom Anchor program for subscription billing
 - Raydium DEX integration for gasless token swaps
 - Wallet adapter integration examples (Anza, ConnectorKit, Wallet-UI, Jupiter Unified Wallet)
 - NFT minting with Metaplex (regular and compressed)
+- Marinade Finance liquid staking integration
 
 ---
 

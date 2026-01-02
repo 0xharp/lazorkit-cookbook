@@ -255,6 +255,10 @@ export async function buildUsdcTransferInstructions(
     return instructions;
 }
 
+// ============================================================================
+// Retry Logic
+// ============================================================================
+
 /**
  * Execute a function with retry logic and exponential backoff
  */
