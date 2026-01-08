@@ -82,7 +82,7 @@ async function main() {
         console.log(`\n🔗 Explorer:`);
         console.log(`   https://explorer.solana.com/address/${merkleTree.publicKey}?cluster=devnet`);
         console.log(`\n📝 Next steps:`);
-        console.log(`   1. Update DEMO_MERKLE_TREE in app/app/recipes/07-compressed-nft-minting/page.tsx`);
+        console.log(`   1. Update DEMO_MERKLE_TREE in app/app/examples/07-compressed-nft-minting/page.tsx`);
         console.log(`   2. Replace 'TREE_ADDRESS_PLACEHOLDER' with the address above`);
 
     } catch (error: any) {
