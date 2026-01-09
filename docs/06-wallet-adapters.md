@@ -1,29 +1,31 @@
 # Wallet Adapter Integration
 
-This guide explains how to use LazorKit alongside other Solana wallets like Phantom and Solflare.
+This guide shows how to use LazorKit alongside other Solana wallets like Phantom and Solflare.
 
 ## Why Multi-Wallet Support?
+
+Give your users the best of both worlds:
 
 | User Type | Experience |
 |-----------|------------|
 | **New users** | Onboard instantly with passkeys (no extension needed) |
 | **Existing crypto users** | Connect their preferred wallet |
-| **LazorKit users** | Still get gasless transactions via paymaster |
+| **All LazorKit users** | Get gasless transactions automatically |
 
 ## Supported Adapters
 
 The cookbook demonstrates integration with four popular adapters:
 
-| Adapter | Package | Description |
-|---------|---------|-------------|
-| Anza Wallet Adapter | `@solana/wallet-adapter-react` | Industry standard |
-| ConnectorKit | `@solana/connector` | Solana Foundation's latest |
+| Adapter | Package | Best For |
+|---------|---------|----------|
+| Anza Wallet Adapter | `@solana/wallet-adapter-react` | Industry standard, most documentation |
+| ConnectorKit | `@solana/connector` | Solana Foundation's latest approach |
 | Wallet-UI | `@wallet-ui/react` | Modern, headless components |
 | Jupiter Unified Wallet Kit | `@jup-ag/wallet-adapter` | Used by Jupiter & Meteora |
 
-## Key Concept: Wallet Registration
+## How It Works
 
-LazorKit registers itself as a wallet-standard compatible wallet. This makes it appear alongside other wallets in any compatible adapter.
+LazorKit registers itself as a wallet-standard compatible wallet. After registration, it appears alongside other wallets in any compatible adapter.
 
 ```typescript
 import { registerLazorkitWallet } from '@lazorkit/wallet';
@@ -39,14 +41,12 @@ useEffect(() => {
 }, []);
 ```
 
-After registration, LazorKit appears in the wallet selection modal.
-
 ## Quick Setup Examples
 
 ### Anza Wallet Adapter
 
 ```typescript
-import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react';
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import '@solana/wallet-adapter-react-ui/styles.css';
 
@@ -105,15 +105,17 @@ import { UnifiedWalletProvider, UnifiedWalletButton } from '@jup-ag/wallet-adapt
 
 ## Gasless Detection
 
-When connected via LazorKit, users automatically get gasless transactions. No code changes needed - the paymaster handles it.
+When users connect via LazorKit, they automatically get gasless transactions. Your code stays the same:
 
 ```typescript
 // Same code works for all wallets
 const signature = await sendTransaction(transaction, connection);
 
-// If connected via LazorKit: gasless
-// If connected via Phantom: user pays SOL
+// If connected via LazorKit: gasless (paymaster covers fees)
+// If connected via Phantom: user pays SOL for gas
 ```
+
+No code changes needed - the paymaster handles everything behind the scenes.
 
 ## Live Demo
 
@@ -124,13 +126,13 @@ See Example 05 for complete implementations:
 - [Wallet-UI](https://lazorkit-cookbook.vercel.app/examples/05-wallet-adapter-integration/wallet-ui)
 - [Jupiter Unified](https://lazorkit-cookbook.vercel.app/examples/05-wallet-adapter-integration/unified-wallet-kit)
 
-## Troubleshooting
+## Common Questions
 
-| Issue | Solution |
-|-------|----------|
-| LazorKit not appearing | Ensure `registerLazorkitWallet()` is called before provider mounts |
-| Popup blocked | Allow popups for the site in browser settings |
-| "Wallet not connected" | Ensure user has selected a wallet from the modal |
+| Question | Answer |
+|----------|--------|
+| Does LazorKit appear automatically? | Yes, after calling `registerLazorkitWallet()` |
+| Do I need to change my transaction code? | No, gasless works automatically for LazorKit users |
+| What if users block popups? | Show a message asking them to allow popups |
 
 ## Resources
 
