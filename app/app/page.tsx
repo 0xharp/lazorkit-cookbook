@@ -21,7 +21,7 @@ export default function HomePage() {
                 {/* Recipe Cards */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
                     {/* Recipe 01 */}
-                    <Link href="/recipes/01-passkey-wallet-basics">
+                    <Link href="/examples/01-passkey-wallet-basics">
                         <div
                             className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
                             <div className="text-5xl mb-4">👛</div>
@@ -60,7 +60,7 @@ export default function HomePage() {
                     </Link>
 
                     {/* Recipe 02 */}
-                    <Link href="/recipes/02-gasless-transfer">
+                    <Link href="/examples/02-gasless-transfer">
                         <div
                             className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
                             <div className="text-5xl mb-4">⚡</div>
@@ -99,7 +99,7 @@ export default function HomePage() {
                     </Link>
 
                     {/* Recipe 03 */}
-                    <Link href="/recipes/03-subscription-service">
+                    <Link href="/examples/03-subscription-service">
                         <div
                             className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
                             <div className="text-5xl mb-4">💰</div>
@@ -136,7 +136,7 @@ export default function HomePage() {
                         </div>
                     </Link>
                     {/* Recipe 04 */}
-                    <Link href="/recipes/04-gasless-raydium-swap">
+                    <Link href="/examples/04-gasless-raydium-swap">
                         <div
                             className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
                             <div className="text-5xl mb-4">🔄</div>
@@ -175,7 +175,7 @@ export default function HomePage() {
                     </Link>
 
                     {/* Recipe 05 */}
-                    <Link href="/recipes/05-wallet-adapter-integration">
+                    <Link href="/examples/05-wallet-adapter-integration">
                         <div
                             className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
                             <div className="text-5xl mb-4">🔌</div>
@@ -213,7 +213,7 @@ export default function HomePage() {
                     </Link>
 
                     {/* Recipe 06 */}
-                    <Link href="/recipes/06-nft-minting">
+                    <Link href="/examples/06-nft-minting">
                         <div
                             className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
                             <div className="text-5xl mb-4">🎨</div>
@@ -251,7 +251,7 @@ export default function HomePage() {
                     </Link>
 
                     {/* Recipe 07 */}
-                    <Link href="/recipes/07-compressed-nft-minting">
+                    <Link href="/examples/07-compressed-nft-minting">
                         <div
                             className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
                             <div className="text-5xl mb-4">🌳</div>
@@ -289,7 +289,7 @@ export default function HomePage() {
                     </Link>
 
                     {/* Recipe 08 */}
-                    <Link href="/recipes/08-marinade-staking">
+                    <Link href="/examples/08-marinade-staking">
                         <div
                             className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
                             <div className="text-5xl mb-4">🥩</div>
@@ -464,7 +464,7 @@ export default function HomePage() {
                         </p>
                         <div className="flex gap-4 justify-center flex-wrap">
                             <Link
-                                href="/recipes/01-passkey-wallet-basics"
+                                href="/examples/01-passkey-wallet-basics"
                                 className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl font-semibold transition-all shadow-lg shadow-purple-500/50"
                             >
                                 Start with Recipe 01 →
