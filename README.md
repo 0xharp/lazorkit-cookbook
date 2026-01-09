@@ -22,6 +22,16 @@ A collection of working examples demonstrating how LazorKit simplifies Solana de
 
 ---
 
+## Why This Project?
+
+The goal of this cookbook is to showcase how **LazorKit can be integrated with complex on-chain programs** while dramatically reducing onboarding friction for end users. Traditional blockchain applications suffer from poor UX - seed phrases, wallet extensions, and gas fees create barriers that drive users away.
+
+This project demonstrates that you can build sophisticated Solana applications (including custom Anchor programs with token delegation and automated recurring payments) while maintaining a seamless, Web2-like user experience through LazorKit's passkey authentication and gasless transactions.
+
+> **Note on the Subscription Program**: The custom Solana program powering Recipe 03 is currently deployed on **Devnet** and should be considered a proof-of-concept. Before deploying to Mainnet, the program should undergo a **professional security audit**. After audit completion, the **upgrade authority can be revoked** to make the program fully trustless and immutable.
+
+---
+
 ## How This Cookbook Is Organized
 
 This cookbook has two main parts:
