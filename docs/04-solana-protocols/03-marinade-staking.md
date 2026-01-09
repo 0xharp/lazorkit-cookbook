@@ -231,7 +231,8 @@ webpack: (config, { isServer }) => {
 
 ## Resources
 
+- [Example 08 README](../../app/app/examples/08-marinade-staking/README.md) - Full implementation details
+- [Example 08 Source Code](../../app/app/examples/08-marinade-staking/page.tsx)
+- [Live Demo](https://lazorkit-cookbook.vercel.app/examples/08-marinade-staking)
 - [Marinade Finance Docs](https://docs.marinade.finance/)
 - [Marinade SDK GitHub](https://github.com/marinade-finance/marinade-ts-sdk)
-- [Example 08 Full Source](../../app/app/examples/08-marinade-staking/page.tsx)
-- [Live Demo](https://lazorkit-cookbook.vercel.app/examples/08-marinade-staking)

@@ -179,6 +179,7 @@ const TOKENS = {
 
 ## Resources
 
-- [Raydium Trade API Docs](https://docs.raydium.io/raydium/traders/trade-api)
-- [Example 04 Full Source](../../app/app/examples/04-gasless-raydium-swap/page.tsx)
+- [Example 04 README](../../app/app/examples/04-gasless-raydium-swap/README.md) - Full implementation details
+- [Example 04 Source Code](../../app/app/examples/04-gasless-raydium-swap/page.tsx)
 - [Live Demo](https://lazorkit-cookbook.vercel.app/examples/04-gasless-raydium-swap)
+- [Raydium Trade API Docs](https://docs.raydium.io/raydium/traders/trade-api)

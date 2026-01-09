@@ -418,7 +418,15 @@ Try this recipe live at: [https://lazorkit-cookbook.vercel.app/examples/05-walle
 
 ---
 
-## Resources
+## Related Documentation
+
+For step-by-step tutorials and patterns explanation, see the [Cookbook Documentation](../../../../docs/README.md):
+
+- [Wallet Adapters Tutorial](../../../../docs/06-wallet-adapters.md) - Integration walkthrough for all adapters
+- [LazorKit Basics](../../../../docs/02-lazorkit-basics.md) - Understanding `registerLazorkitWallet` and native features
+- [Cookbook Patterns](../../../../docs/03-cookbook-patterns.md) - Reusable patterns for LazorKit integrations
+
+## External Resources
 
 - [Anza Wallet Adapter](https://github.com/anza-xyz/wallet-adapter)
 - [ConnectorKit](https://www.connectorkit.dev)
@@ -431,6 +439,6 @@ Try this recipe live at: [https://lazorkit-cookbook.vercel.app/examples/05-walle
 
 ## Next Steps
 
-- Explore [Recipe 02: Gasless USDC Transfer](../02-gasless-transfer/README.md) for standalone LazorKit usage
-- Try [Recipe 03: Subscription Service](../03-subscription-service/README.md) for advanced program integration
-- Check out [Recipe 04: Gasless Raydium Swap](../04-gasless-raydium-swap/README.md) for DeFi integration
+- Explore [Example 02: Gasless USDC Transfer](../02-gasless-transfer/README.md) for standalone LazorKit usage
+- Try [Example 03: Subscription Service](../03-subscription-service/README.md) for advanced program integration
+- Check out [Solana Protocol Integrations](../../../../docs/04-solana-protocols/README.md) for DeFi examples

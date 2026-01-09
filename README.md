@@ -22,20 +22,57 @@ A collection of working examples demonstrating how LazorKit simplifies Solana de
 
 ---
 
+## How This Cookbook Is Organized
+
+This cookbook has two main parts:
+
+### Examples (`/examples`)
+Working code implementations you can run and explore. Each example has its own README with:
+- What it demonstrates
+- How to run it
+- Key code snippets
+- Implementation details
+
+### Documentation (`/docs`)
+Step-by-step tutorials for integrating LazorKit into your own projects:
+- [Tutorials](docs/README.md) - Guides that walk you through building features
+- [Cookbook Patterns](docs/03-cookbook-patterns.md) - Reusable patterns we created that you can adopt
+- [API Reference](docs/07-utilities-reference.md) - Documentation for hooks and utilities
+
+**The relationship**: Examples show the complete working code, while docs explain the concepts and patterns behind them. Use examples as reference implementations and docs as learning guides.
+
+---
+
 ## Examples
 
-| # | Example | Description | Difficulty |
-|---|---------|-------------|------------|
-| 01 | [Passkey Wallet Basics](examples/01-passkey-wallet-basics) | Create wallets with Face ID, check balances | Beginner |
-| 02 | [Gasless USDC Transfer](examples/02-gasless-transfer) | Send tokens without paying gas fees | Intermediate |
-| 03 | [Subscription Service](examples/03-subscription-service) | Automated recurring USDC payments | Advanced |
-| 04 | [Gasless Raydium Swap](examples/04-gasless-raydium-swap) | DEX token swaps without gas fees | Advanced |
-| 05 | [Wallet Adapters](examples/05-wallet-adapter-integration) | LazorKit with Anza, ConnectorKit, Jupiter | Advanced |
-| 06 | [NFT Minting](examples/06-nft-minting) | Standard Metaplex NFTs | Intermediate |
-| 07 | [Compressed NFT](examples/07-compressed-nft-minting) | Truly gasless cNFT minting | Advanced |
-| 08 | [Marinade Staking](examples/08-marinade-staking) | Liquid staking with Marinade Finance | Advanced |
+| # | Example | Description | Docs |
+|---|---------|-------------|------|
+| 01 | [Passkey Wallet Basics](examples/01-passkey-wallet-basics) | Create wallets with Face ID, check balances | [Getting Started](docs/01-getting-started.md) |
+| 02 | [Gasless USDC Transfer](examples/02-gasless-transfer) | Send tokens without paying gas fees | [Getting Started](docs/01-getting-started.md) |
+| 03 | [Subscription Service](examples/03-subscription-service) | Automated recurring USDC payments | [Custom Programs](docs/05-custom-programs/README.md) |
+| 04 | [Gasless Raydium Swap](examples/04-gasless-raydium-swap) | DEX token swaps without gas fees | [Raydium Tutorial](docs/04-solana-protocols/01-raydium-swap.md) |
+| 05 | [Wallet Adapters](examples/05-wallet-adapter-integration) | LazorKit with Anza, ConnectorKit, Jupiter | [Wallet Adapters](docs/06-wallet-adapters.md) |
+| 06 | [NFT Minting](examples/06-nft-minting) | Standard Metaplex NFTs | [Metaplex Tutorial](docs/04-solana-protocols/02-metaplex-nft.md) |
+| 07 | [Compressed NFT](examples/07-compressed-nft-minting) | Truly gasless cNFT minting | [Metaplex Tutorial](docs/04-solana-protocols/02-metaplex-nft.md) |
+| 08 | [Marinade Staking](examples/08-marinade-staking) | Liquid staking with Marinade Finance | [Marinade Tutorial](docs/04-solana-protocols/03-marinade-staking.md) |
+
+Each example has a detailed README - click on the example name to view it.
 
 **Anchor Program**: [Subscription program documentation](program/subscription-program/README.md)
+
+---
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Getting Started](docs/01-getting-started.md) | Installation and first integration |
+| [LazorKit Basics](docs/02-lazorkit-basics.md) | What the SDK provides natively |
+| [Cookbook Patterns](docs/03-cookbook-patterns.md) | Reusable patterns we built |
+| [Solana Protocols](docs/04-solana-protocols/README.md) | Raydium, Metaplex, Marinade integrations |
+| [Custom Programs](docs/05-custom-programs/README.md) | Building with custom Anchor programs |
+| [Wallet Adapters](docs/06-wallet-adapters.md) | Multi-wallet support |
+| [Utilities Reference](docs/07-utilities-reference.md) | Hooks and utility API |
 
 ---
 
@@ -56,25 +93,13 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
-For detailed setup instructions, see [Getting Started](docs/getting-started.md).
+For detailed setup instructions, see [Getting Started](docs/01-getting-started.md).
 
 > **Windows Users**: The root `examples/` symlink may not work automatically. If needed, run as Administrator:
 > ```cmd
 > mklink /D examples app\app\examples
 > ```
 > Or enable Developer Mode in Windows Settings to allow symlinks without admin rights.
-
----
-
-## Documentation
-
-| Document | Description |
-|----------|-------------|
-| [Getting Started](docs/getting-started.md) | Installation and first integration |
-| [LazorKit Basics](docs/lazorkit-basics.md) | Core concepts and patterns |
-| [Wallet Adapters](docs/wallet-adapters.md) | Multi-wallet support |
-| [Protocol Integrations](docs/protocol-integrations/README.md) | Raydium, Metaplex, Marinade |
-| [Utilities Reference](docs/utilities-reference.md) | Hooks and utility API |
 
 ---
 

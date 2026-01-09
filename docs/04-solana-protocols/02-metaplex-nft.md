@@ -223,7 +223,11 @@ Capacity: 16,384 cNFTs
 
 ## Resources
 
+- [Example 06 README](../../app/app/examples/06-nft-minting/README.md) - Regular NFT implementation details
+- [Example 07 README](../../app/app/examples/07-compressed-nft-minting/README.md) - cNFT implementation details
+- [Example 06 Source Code](../../app/app/examples/06-nft-minting/page.tsx)
+- [Example 07 Source Code](../../app/app/examples/07-compressed-nft-minting/page.tsx)
+- [Live Demo - Regular NFT](https://lazorkit-cookbook.vercel.app/examples/06-nft-minting)
+- [Live Demo - cNFT](https://lazorkit-cookbook.vercel.app/examples/07-compressed-nft-minting)
 - [Metaplex Token Metadata Docs](https://developers.metaplex.com/token-metadata)
 - [Metaplex Bubblegum Docs](https://developers.metaplex.com/bubblegum)
-- [Example 06 - Regular NFT](../../app/app/examples/06-nft-minting/page.tsx)
-- [Example 07 - Compressed NFT](../../app/app/examples/07-compressed-nft-minting/page.tsx)

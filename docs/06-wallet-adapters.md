@@ -136,6 +136,9 @@ See Example 05 for complete implementations:
 
 ## Resources
 
-- [Example 05 README](../examples/05-wallet-adapter-integration/README.md)
+- [Example 05 README](../app/app/examples/05-wallet-adapter-integration/README.md) - Full implementation details for all adapters
+- [Live Demo - Anza Adapter](https://lazorkit-cookbook.vercel.app/examples/05-wallet-adapter-integration/anza-adapter)
+- [Live Demo - ConnectorKit](https://lazorkit-cookbook.vercel.app/examples/05-wallet-adapter-integration/connectorkit)
+- [Live Demo - Wallet-UI](https://lazorkit-cookbook.vercel.app/examples/05-wallet-adapter-integration/wallet-ui)
 - [Wallet Standard](https://github.com/wallet-standard/wallet-standard)
 - [LazorKit Docs](https://docs.lazorkit.com/)

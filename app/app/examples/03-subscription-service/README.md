@@ -343,17 +343,27 @@ Try this recipe live at: [https://lazorkit-cookbook.vercel.app/examples/03-subsc
 
 ---
 
+## Related Documentation
+
+For step-by-step tutorials and patterns explanation, see the [Cookbook Documentation](../../../../docs/README.md):
+
+- [Custom Programs Tutorial](../../../../docs/05-custom-programs/01-subscription-service.md) - Detailed integration walkthrough
+- [Custom Programs Overview](../../../../docs/05-custom-programs/README.md) - Why we built a custom Anchor program
+- [Cookbook Patterns](../../../../docs/03-cookbook-patterns.md) - Reusable patterns for LazorKit integrations
+- [LazorKit Basics](../../../../docs/02-lazorkit-basics.md) - What the SDK provides natively
+
 ## Next Steps
 
-- Explore the [Anchor Program Documentation](../../../../program/subscription-program/README.md)
-- Try [Recipe 04: Gasless Raydium Swap](../04-gasless-raydium-swap/README.md) - DEX integration!
-- Learn about [LazorKit SDK](https://docs.lazorkit.com/)
+- Explore the [Anchor Program Source](../../../../program/subscription-program/README.md)
+- Try [Example 04: Gasless Raydium Swap](../04-gasless-raydium-swap/README.md) - DEX integration!
+- Check [Solana Protocol Integrations](../../../../docs/04-solana-protocols/README.md) for more examples
 - Build your own subscription-based dApp!
 
 ---
 
-## Resources
+## External Resources
 
 - [Anchor Framework](https://www.anchor-lang.com/docs)
 - [SPL Token Delegation](https://spl.solana.com/token#authority-delegation)
 - [Solana PDAs Explained](https://solanacookbook.com/core-concepts/pdas.html)
+- [LazorKit SDK Documentation](https://docs.lazorkit.com/)

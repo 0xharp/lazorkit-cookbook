@@ -221,7 +221,8 @@ No user interaction required!
 
 ## Resources
 
-- [Example 03 Full Source](../../app/app/examples/03-subscription-service)
+- [Example 03 README](../../app/app/examples/03-subscription-service/README.md) - Full implementation details
+- [Example 03 Source Code](../../app/app/examples/03-subscription-service)
 - [Anchor Program Source](../../program/subscription-program)
 - [Live Demo](https://lazorkit-cookbook.vercel.app/examples/03-subscription-service)
 - [SPL Token Delegation Docs](https://spl.solana.com/token#authority-delegation)

@@ -315,7 +315,15 @@ Try this recipe live at: [https://lazorkit-cookbook.vercel.app/examples/07-compr
 
 ---
 
-## Resources
+## Related Documentation
+
+For step-by-step tutorials and patterns explanation, see the [Cookbook Documentation](../../../../docs/README.md):
+
+- [Metaplex NFT Tutorial](../../../../docs/04-solana-protocols/02-metaplex-nft.md) - Covers both regular and compressed NFTs
+- [Cookbook Patterns](../../../../docs/03-cookbook-patterns.md) - Understanding `createDummySigner` and other patterns
+- [LazorKit Basics](../../../../docs/02-lazorkit-basics.md) - What the SDK provides natively
+
+## External Resources
 
 - [Metaplex Bubblegum Documentation](https://developers.metaplex.com/bubblegum)
 - [Metaplex State Compression Guide](https://developers.metaplex.com/bubblegum/create-trees)
@@ -327,6 +335,7 @@ Try this recipe live at: [https://lazorkit-cookbook.vercel.app/examples/07-compr
 
 ## Next Steps
 
-- Compare with [Recipe 06: Regular NFT Minting](../06-nft-minting/README.md) to understand trade-offs
-- Explore [Recipe 04: Gasless Raydium Swap](../04-gasless-raydium-swap/README.md) for DeFi integration
+- Compare with [Example 06: Regular NFT Minting](../06-nft-minting/README.md) to understand trade-offs
+- Explore [Example 04: Gasless Raydium Swap](../04-gasless-raydium-swap/README.md) for DeFi integration
+- See all [Solana Protocol Integrations](../../../../docs/04-solana-protocols/README.md)
 - Build your own gasless NFT drop with cNFTs!

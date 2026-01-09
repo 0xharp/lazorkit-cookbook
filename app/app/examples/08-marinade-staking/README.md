@@ -337,7 +337,15 @@ Try this recipe live at: [https://lazorkit-cookbook.vercel.app/examples/08-marin
 
 ---
 
-## Resources
+## Related Documentation
+
+For step-by-step tutorials and patterns explanation, see the [Cookbook Documentation](../../../../docs/README.md):
+
+- [Marinade Staking Tutorial](../../../../docs/04-solana-protocols/03-marinade-staking.md) - Integration walkthrough
+- [Cookbook Patterns](../../../../docs/03-cookbook-patterns.md) - Understanding `processInstructionsForLazorKit` and other patterns
+- [LazorKit Basics](../../../../docs/02-lazorkit-basics.md) - What the SDK provides natively
+
+## External Resources
 
 - [Marinade Finance Documentation](https://docs.marinade.finance/)
 - [Marinade SDK GitHub](https://github.com/marinade-finance/marinade-ts-sdk)
@@ -348,6 +356,7 @@ Try this recipe live at: [https://lazorkit-cookbook.vercel.app/examples/08-marin
 
 ## Next Steps
 
-- Explore [Recipe 04: Gasless Raydium Swap](../04-gasless-raydium-swap/README.md) for another DeFi integration pattern
-- Check out [Recipe 07: Gasless cNFT Minting](../07-compressed-nft-minting/README.md) for truly gasless operations
+- Explore [Example 04: Gasless Raydium Swap](../04-gasless-raydium-swap/README.md) for another DeFi integration pattern
+- Check out [Example 07: Gasless cNFT Minting](../07-compressed-nft-minting/README.md) for truly gasless operations
+- See all [Solana Protocol Integrations](../../../../docs/04-solana-protocols/README.md)
 - Build your own gasless DeFi application with LazorKit!

@@ -300,7 +300,15 @@ Try this recipe live at: [https://lazorkit-cookbook.vercel.app/examples/06-nft-m
 
 ---
 
-## Resources
+## Related Documentation
+
+For step-by-step tutorials and patterns explanation, see the [Cookbook Documentation](../../../../docs/README.md):
+
+- [Metaplex NFT Tutorial](../../../../docs/04-solana-protocols/02-metaplex-nft.md) - Integration walkthrough
+- [Cookbook Patterns](../../../../docs/03-cookbook-patterns.md) - Understanding `createDummySigner` and other patterns
+- [LazorKit Basics](../../../../docs/02-lazorkit-basics.md) - What the SDK provides natively
+
+## External Resources
 
 - [Metaplex Token Metadata Documentation](https://developers.metaplex.com/token-metadata)
 - [Metaplex Umi Documentation](https://developers.metaplex.com/umi)
@@ -311,5 +319,6 @@ Try this recipe live at: [https://lazorkit-cookbook.vercel.app/examples/06-nft-m
 
 ## Next Steps
 
-- Explore [Recipe 07: Gasless cNFT Minting](../07-compressed-nft-minting/README.md) for truly gasless NFT minting
+- Explore [Example 07: Gasless cNFT Minting](../07-compressed-nft-minting/README.md) for truly gasless NFT minting
+- Check out other [Solana Protocol Integrations](../../../../docs/04-solana-protocols/README.md)
 - Build your own NFT marketplace with LazorKit!

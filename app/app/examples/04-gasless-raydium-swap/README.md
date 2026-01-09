@@ -313,7 +313,15 @@ Try this recipe live at: [https://lazorkit-cookbook.vercel.app/examples/04-gasle
 
 ---
 
-## Resources
+## Related Documentation
+
+For step-by-step tutorials and patterns explanation, see the [Cookbook Documentation](../../../../docs/README.md):
+
+- [Raydium Swap Tutorial](../../../../docs/04-solana-protocols/01-raydium-swap.md) - Walkthrough of the integration pattern
+- [Cookbook Patterns](../../../../docs/03-cookbook-patterns.md) - Understanding `processInstructionsForLazorKit` and other utilities
+- [LazorKit Basics](../../../../docs/02-lazorkit-basics.md) - What the SDK provides natively
+
+## External Resources
 
 - [Raydium Trade API Documentation](https://docs.raydium.io/raydium/traders/trade-api)
 - [LazorKit SDK Documentation](https://docs.lazorkit.com/)
@@ -324,6 +332,6 @@ Try this recipe live at: [https://lazorkit-cookbook.vercel.app/examples/04-gasle
 
 ## Next Steps
 
-- Explore [Recipe 03: Subscription Service](../03-subscription-service/README.md) for recurring payment patterns
-- Check out the [Anchor Program Documentation](../../../../program/subscription-program/README.md)
+- Explore [Example 03: Subscription Service](../03-subscription-service/README.md) for recurring payment patterns
+- Check out the [Custom Program Integration](../../../../docs/05-custom-programs/README.md) docs
 - Build your own gasless DeFi application!
