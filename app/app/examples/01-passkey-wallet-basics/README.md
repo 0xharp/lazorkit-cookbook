@@ -4,7 +4,7 @@
 
 This recipe teaches you the fundamentals of LazorKit's passkey authentication and smart wallet system. By the end, you'll understand how to create wallets, check balances, and provide a seamless Web2-like onboarding experience.
 
-> **Environment**: Next.js 16 + React 19. See [next.config.ts](../../next.config.ts) for required polyfills.
+> **Environment**: Next.js 16 + React 19. For polyfill setup, see [`lib/polyfills.ts`](../../../lib/polyfills.ts) and [`next.config.ts`](../../../next.config.ts). For complete setup instructions, refer to the [Getting Started guide](/docs/01-getting-started.md).
 
 ---
 

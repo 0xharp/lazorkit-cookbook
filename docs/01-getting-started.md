@@ -2,6 +2,17 @@
 
 Get up and running with the LazorKit Cookbook in 5 minutes.
 
+## Tech Stack
+
+This cookbook is built with:
+- **React** 19
+- **Next.js** 16
+- **TypeScript** 5
+- **Tailwind CSS** 4
+- **@lazorkit/wallet** 2.0.1
+
+This guide covers **Next.js integration**. For polyfill setup with other frameworks like Vite, React Native, or Expo, refer to the [LazorKit documentation](https://docs.lazorkit.com/).
+
 ## Prerequisites
 
 - Node.js 18+
@@ -29,12 +40,7 @@ npm install
 cp .env.example .env.local
 ```
 
-Edit `.env.local`:
-
-```env
-NEXT_PUBLIC_SOLANA_RPC_URL=https://api.devnet.solana.com
-NEXT_PUBLIC_USDC_MINT=4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU
-```
+Feel free to edit `.env.local` as per your details and needs.
 
 **4. Start the development server**
 
@@ -43,6 +49,30 @@ npm run dev
 ```
 
 Visit [http://localhost:3000](http://localhost:3000) to explore the examples.
+
+## Polyfills (Next.js)
+
+The cookbook includes polyfill setup for Next.js:
+
+**1. Webpack fallbacks (`next.config.ts`)** - Already configured for Node.js modules (`fs`, `path`, `os`)
+
+**2. Buffer polyfill (`lib/polyfills.ts`)** - For browser environments:
+
+```typescript
+import { Buffer } from 'buffer';
+
+if (typeof window !== 'undefined') {
+  window.Buffer = Buffer;
+}
+```
+
+If you encounter `Buffer is not defined` errors when integrating LazorKit into your own project, import this file in your root layout:
+
+```typescript
+import '@/lib/polyfills';
+```
+
+For other frameworks (Vite, React Native, Expo), see the [LazorKit documentation](https://docs.lazorkit.com/) for framework-specific polyfill configuration.
 
 ## Your First LazorKit Integration
 

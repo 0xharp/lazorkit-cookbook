@@ -27,7 +27,7 @@ A collection of working examples demonstrating how LazorKit simplifies Solana de
 This cookbook has two main parts:
 
 ### Examples (`/examples`)
-Working code implementations you can run and explore. Each example has its own README with:
+Working code implementations you can run and explore. The `/examples` directory at the root provides quick access to all examples (the actual implementations live in `app/app/examples/`). Each example has its own README with:
 - What it demonstrates
 - How to run it
 - Key code snippets
@@ -94,12 +94,6 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000)
 
 For detailed setup instructions, see [Getting Started](docs/01-getting-started.md).
-
-> **Windows Users**: The root `examples/` symlink may not work automatically. If needed, run as Administrator:
-> ```cmd
-> mklink /D examples app\app\examples
-> ```
-> Or enable Developer Mode in Windows Settings to allow symlinks without admin rights.
 
 ---
 
