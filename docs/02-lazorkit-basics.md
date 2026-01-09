@@ -37,28 +37,38 @@ The primary interface for wallet interactions:
 import { useWallet } from '@lazorkit/wallet';
 
 const {
-  wallet,                  // Wallet info after connection
-  isConnected,             // Boolean: is user connected?
-  isConnecting,            // Boolean: is connection in progress?
-  connect,                 // Function: opens passkey authentication
-  disconnect,              // Function: clears session
-  signAndSendTransaction,  // Function: sends gasless transactions
-  signMessage,             // Function: signs arbitrary messages
-  verifyMessage,           // Function: verifies signed messages
+  wallet,                  // WalletInfo | null - wallet data after connection
+  smartWalletPubkey,       // PublicKey | null - user's Solana public key
+  isConnected,             // boolean - is user connected?
+  isConnecting,            // boolean - is connection in progress?
+  isLoading,               // boolean - general loading state
+  isSigning,               // boolean - is transaction signing in progress?
+  error,                   // Error | null - last error if any
+  connect,                 // (options?) => Promise<WalletInfo> - opens passkey auth
+  disconnect,              // () => Promise<void> - clears session
+  signAndSendTransaction,  // (payload) => Promise<string> - sends gasless transactions
+  signMessage,             // (message: string) => Promise<{signature, signedPayload}>
+  verifyMessage,           // (args) => Promise<boolean> - verifies signed messages
 } = useWallet();
 ```
+
+**Most commonly used:** `connect`, `disconnect`, `wallet`, `isConnected`, and `signAndSendTransaction`. These are also exposed in our custom `useLazorkitWalletConnect` hook (see [Getting Started](01-getting-started.md)).
+
+For complete type definitions and detailed information, refer to the `index.d.ts` file in the [@lazorkit/wallet npm package](https://www.npmjs.com/package/@lazorkit/wallet?activeTab=code).
 
 ### Wallet Object
 
 After connection, `wallet` contains:
 
 ```typescript
-{
-  smartWallet: string,    // User's Solana address - use this for transactions
-  credentialId: string,   // Passkey identifier
-  passkeyPubkey: string,  // Public key from passkey
-  platform: string,       // Device type
-  walletDevice: string,   // Device model
+interface WalletInfo {
+  smartWallet: string;       // User's Solana address - use this for transactions
+  credentialId: string;      // Passkey identifier
+  passkeyPubkey: number[];   // Public key bytes from passkey (33 bytes)
+  expo: string;              // Exponent value
+  platform: string;          // Device type (e.g., "web", "mobile")
+  walletDevice: string;      // Device model
+  accountName?: string;      // Optional account name
 }
 ```
 
@@ -129,19 +139,25 @@ Signature returned to your app
 
 Different operations require different compute limits. Pass these via `transactionOptions`:
 
-| Operation | Recommended Limit |
-|-----------|-------------------|
-| Token Transfer | 200,000 |
-| NFT Mint | 400,000 |
-| DEX Swap | 600,000 |
-| Complex DeFi | 400,000 - 600,000 |
-
 ```typescript
 signAndSendTransaction({
   instructions,
   transactionOptions: { computeUnitLimit: 400_000 }
 });
 ```
+
+**Recommendation**: Start with a lower compute unit value and increase only if the transaction fails due to insufficient compute. This avoids wasting compute resources and ensures efficient transaction processing.
+
+After testing internally for our cookbook examples, here are the compute units we're using:
+
+| Operation | Cookbook Value |
+|-----------|----------------|
+| Token Transfer | 200,000 |
+| NFT Mint | 400,000 |
+| DEX Swap | 600,000 |
+| Complex DeFi | 400,000 - 600,000 |
+
+These values work for our examples, but your specific use case may require different limits depending on the complexity of your instructions.
 
 ## What This Cookbook Adds
 

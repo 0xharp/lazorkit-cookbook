@@ -309,7 +309,11 @@ export function parseTransactionError(error: unknown): string {
 
   return 'Transaction failed. Please try again.';
 }
+```
 
+These are the common errors we encountered while building the cookbook examples and have mapped them accordingly. Feel free to adopt this pattern for your own error handling and retry logic - it provides a good foundation. You can add or edit error messages based on the specific errors you encounter in your application.
+
+```typescript
 export async function withRetry<T>(
   fn: () => Promise<T>,
   options: { maxRetries?: number; delayMs?: number } = {}
