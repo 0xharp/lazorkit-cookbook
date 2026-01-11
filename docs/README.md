@@ -2,6 +2,13 @@
 
 Welcome to the LazorKit Cookbook! This collection of tutorials shows you how to build seamless Solana dApps using LazorKit's passkey authentication and gasless transaction infrastructure.
 
+## Choose Your Platform
+
+| Platform | SDK | Examples |
+|----------|-----|----------|
+| **[Web (Next.js)](./web/)** | `@lazorkit/wallet` | 8 examples including NFT minting, DEX swaps, staking |
+| **[Mobile (React Native / Expo)](./mobile/)** | `@lazorkit/wallet-mobile-adapter` | 3 examples: connect, transfer, swap |
+
 ## What You'll Learn
 
 This cookbook demonstrates how to:
@@ -10,58 +17,75 @@ This cookbook demonstrates how to:
 2. **Build gasless experiences** - Send tokens, swap on DEXs, mint NFTs - all without users paying gas
 3. **Integrate with Solana protocols** - Connect LazorKit with Raydium, Metaplex, Marinade
 4. **Build custom programs** - Create your own Anchor programs that work with LazorKit
-5. **Support multiple wallets** - Use LazorKit alongside Phantom, Solflare, and other popular wallets
+5. **Support multiple wallets** - Use LazorKit alongside Phantom, Solflare, and other wallets
 
-## Documentation
+---
+
+## Web Documentation
 
 | Guide | Description |
 |-------|-------------|
-| [01 - Getting Started](01-getting-started.md) | Set up your environment and run your first example |
-| [02 - LazorKit Basics](02-lazorkit-basics.md) | What the LazorKit SDK provides natively |
-| [03 - Cookbook Patterns](03-cookbook-patterns.md) | Reusable patterns we built for protocol integrations |
-| [04 - Solana Protocols](04-solana-protocols/README.md) | Integrate with Raydium, Metaplex, Marinade |
-| [05 - Custom Programs](05-custom-programs/README.md) | Build custom Anchor programs with LazorKit |
-| [06 - Wallet Adapters](06-wallet-adapters.md) | Multi-wallet support with LazorKit |
-| [07 - Utilities Reference](07-utilities-reference.md) | API reference for hooks and helpers |
+| [01 - Getting Started](./web/01-getting-started.md) | Set up your environment and run your first example |
+| [02 - LazorKit Basics](./web/02-lazorkit-basics.md) | What the LazorKit SDK provides natively |
+| [03 - Cookbook Patterns](./web/03-cookbook-patterns.md) | Reusable patterns for protocol integrations |
+| [04 - Solana Protocols](./web/04-solana-protocols/README.md) | Integrate with Raydium, Metaplex, Marinade |
+| [05 - Custom Programs](./web/05-custom-programs/README.md) | Build custom Anchor programs with LazorKit |
+| [06 - Wallet Adapters](./web/06-wallet-adapters.md) | Multi-wallet support with LazorKit |
+| [07 - Utilities Reference](./web/07-utilities-reference.md) | API reference for hooks and helpers |
 
-## Examples
+### Web Examples
 
-| # | Example | What You'll Build |
-|---|---------|-------------------|
-| 01 | [Passkey Wallet](../app/app/examples/01-passkey-wallet-basics) | One-click wallet creation with Face ID/Touch ID |
-| 02 | [Gasless Transfer](../app/app/examples/02-gasless-transfer) | Send USDC without gas fees |
-| 03 | [Subscription Service](../app/app/examples/03-subscription-service) | Automated recurring payments with custom Anchor program |
-| 04 | [Raydium Swap](../app/app/examples/04-gasless-raydium-swap) | Gasless DEX trading |
-| 05 | [Wallet Adapters](../app/app/examples/05-wallet-adapter-integration) | Multi-wallet dApp |
-| 06 | [NFT Minting](../app/app/examples/06-nft-minting) | Mint Metaplex NFTs |
-| 07 | [Compressed NFTs](../app/app/examples/07-compressed-nft-minting) | Mint cNFTs with Bubblegum |
-| 08 | [Marinade Staking](../app/app/examples/08-marinade-staking) | Liquid staking integration |
+| # | Example | Description |
+|---|---------|-------------|
+| 01 | [Passkey Wallet](../web/app/examples/01-passkey-wallet-basics) | One-click wallet creation with Face ID/Touch ID |
+| 02 | [Gasless Transfer](../web/app/examples/02-gasless-transfer) | Send USDC without gas fees |
+| 03 | [Subscription Service](../web/app/examples/03-subscription-service) | Automated recurring payments |
+| 04 | [Raydium Swap](../web/app/examples/04-gasless-raydium-swap) | Gasless DEX trading |
+| 05 | [Wallet Adapters](../web/app/examples/05-wallet-adapter-integration) | Multi-wallet dApp |
+| 06 | [NFT Minting](../web/app/examples/06-nft-minting) | Mint Metaplex NFTs |
+| 07 | [Compressed NFTs](../web/app/examples/07-compressed-nft-minting) | Mint cNFTs with Bubblegum |
+| 08 | [Marinade Staking](../web/app/examples/08-marinade-staking) | Liquid staking integration |
+
+---
+
+## Mobile Documentation
+
+| Guide | Description |
+|-------|-------------|
+| [01 - Getting Started](./mobile/01-getting-started.md) | Expo setup, polyfills, deep linking |
+| [02 - Connect Wallet](./mobile/02-connect-wallet.md) | Passkey auth with deep links |
+| [03 - Gasless Transfer](./mobile/03-gasless-transfer.md) | USDC transfers on mobile |
+| [04 - Raydium Swap](./mobile/04-raydium-swap.md) | DEX swaps with Raydium API |
+
+### Mobile Examples
+
+| # | Example | Description |
+|---|---------|-------------|
+| 01 | [Connect Wallet](../mobile/app/examples/01-connect-wallet.tsx) | Passkey authentication with deep linking |
+| 02 | [Gasless Transfer](../mobile/app/examples/02-gasless-transfer.tsx) | USDC transfers without gas fees |
+| 03 | [Raydium Swap](../mobile/app/examples/03-raydium-swap.tsx) | DEX swaps powered by Raydium |
+
+---
 
 ## Architecture Overview
-
-This cookbook adds a layer of reusable patterns on top of the LazorKit SDK:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                      Your dApp                               │
 ├─────────────────────────────────────────────────────────────┤
-│  COOKBOOK PATTERNS (what we built - copy these!)            │
-│  ├─ Hooks: useLazorkitWalletConnect, useBalances            │
-│  └─ Utils: processInstructionsForLazorKit, createDummySigner│
+│  COOKBOOK PATTERNS (copy these!)                            │
+│  ├─ Hooks: useLazorkitWallet, useBalances                   │
+│  └─ Utils: processInstructionsForLazorKit                   │
 ├─────────────────────────────────────────────────────────────┤
-│  @lazorkit/wallet (native SDK)                              │
-│  ├─ LazorkitProvider     ├─ useWallet()                     │
-│  ├─ Passkey auth         ├─ signAndSendTransaction()        │
-│  └─ Paymaster service    └─ Gasless transactions            │
+│  LazorKit SDK                                               │
+│  ├─ Web: @lazorkit/wallet                                   │
+│  └─ Mobile: @lazorkit/wallet-mobile-adapter                 │
 ├─────────────────────────────────────────────────────────────┤
 │                      Solana                                  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-See [03 - Cookbook Patterns](03-cookbook-patterns.md) for detailed explanations of each pattern.
-
 ## Quick Links
 
-- [Live Demo](https://lazorkit-cookbook.vercel.app)
-- [LazorKit SDK Docs](https://docs.lazorkit.com)
+- [LazorKit SDK Docs](https://docs.lazor.sh)
 - [GitHub Repository](https://github.com/0xharp/lazorkit-cookbook)
