@@ -25,6 +25,7 @@ import {
 import { processInstructionsForLazorKit } from '@/lib/lazorkit-utils';
 import { colors, spacing, borderRadius, fontSize, commonStyles } from '@/lib/theme';
 import { Footer } from '@/components/Footer';
+import { Stack } from 'expo-router';
 
 const TOKENS = {
     SOL: {
@@ -292,6 +293,12 @@ export default function RaydiumSwapScreen() {
     const canSwap = inputAmount.trim() !== '' && !quoteError && !swapping;
 
     return (
+        <>
+        <Stack.Screen
+            options={{
+                title: 'Gasless Raydium Token Swaps',
+            }}
+        />
         <LinearGradient
             colors={[colors.gradient.start, colors.gradient.middle, colors.gradient.end]}
             style={styles.container}
@@ -553,6 +560,7 @@ await signAndSendTransaction({
             {/* Footer */}
             <Footer />
         </LinearGradient>
+        </>
     );
 }
 

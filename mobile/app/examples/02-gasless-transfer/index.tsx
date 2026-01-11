@@ -27,6 +27,7 @@ import {
 import { getExplorerUrl, COMPUTE_UNITS } from '@/lib/constants';
 import { colors, spacing, borderRadius, fontSize, commonStyles } from '@/lib/theme';
 import { Footer } from '@/components/Footer';
+import { Stack } from 'expo-router';
 
 export default function GaslessTransferScreen() {
     const { wallet, isConnected, connect, signAndSendTransaction, connecting } = useLazorkitWallet();
@@ -149,6 +150,12 @@ export default function GaslessTransferScreen() {
     const canSend = recipient.trim() !== '' && amount.trim() !== '' && !sending;
 
     return (
+        <>
+        <Stack.Screen
+            options={{
+                title: 'Gasless USDC Transfer',
+            }}
+        />
         <LinearGradient
             colors={[colors.gradient.start, colors.gradient.middle, colors.gradient.end]}
             style={styles.container}
@@ -382,6 +389,7 @@ const signature = await signAndSendTransaction({
             {/* Footer */}
             <Footer />
         </LinearGradient>
+        </>
     );
 }
 

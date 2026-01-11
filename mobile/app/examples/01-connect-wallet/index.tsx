@@ -16,7 +16,8 @@ import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
 import { useBalances } from '@/hooks/useBalances';
 import { getConnection, shortenAddress } from '@/lib/solana-utils';
 import { colors, spacing, borderRadius, fontSize, commonStyles } from '@/lib/theme';
-import { Footer } from '@/components/Footer';
+import { Footer } from '@/components/Footer'
+import { Stack } from 'expo-router';
 
 export default function ConnectWalletScreen() {
     const { wallet, isConnected, connect, disconnect, connecting } = useLazorkitWallet();
@@ -75,6 +76,12 @@ export default function ConnectWalletScreen() {
     };
 
     return (
+        <>
+            <Stack.Screen
+                options={{
+                    title: 'Connect Wallet',
+                }}
+            />
         <LinearGradient
             colors={[colors.gradient.start, colors.gradient.middle, colors.gradient.end]}
             style={styles.container}
@@ -290,6 +297,7 @@ export default function ConnectWalletScreen() {
             {/* Footer */}
             <Footer />
         </LinearGradient>
+        </>
     );
 }
 

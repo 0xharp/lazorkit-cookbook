@@ -32,24 +32,24 @@ export default function RootLayout() {
                                 title: 'Home',
                             }}
                         />
-                        <Stack.Screen
-                            name="examples/01-connect-wallet"
-                            options={{
-                                title: 'Connect Wallet',
-                            }}
-                        />
-                        <Stack.Screen
-                            name="examples/02-gasless-transfer"
-                            options={{
-                                title: 'Gasless Transfer',
-                            }}
-                        />
-                        <Stack.Screen
-                            name="examples/03-raydium-swap"
-                            options={{
-                                title: 'Raydium Swap',
-                            }}
-                        />
+                    {/*    <Stack.Screen*/}
+                    {/*        name="examples/01-connect-wallet"*/}
+                    {/*        options={{*/}
+                    {/*            title: 'Connect Wallet',*/}
+                    {/*        }}*/}
+                    {/*    />*/}
+                    {/*    <Stack.Screen*/}
+                    {/*        name="examples/02-gasless-transfer"*/}
+                    {/*        options={{*/}
+                    {/*            title: 'Gasless Transfer',*/}
+                    {/*        }}*/}
+                    {/*    />*/}
+                    {/*    <Stack.Screen*/}
+                    {/*        name="examples/03-raydium-swap"*/}
+                    {/*        options={{*/}
+                    {/*            title: 'Raydium Swap',*/}
+                    {/*        }}*/}
+                    {/*    />*/}
                     </Stack>
                 </WalletProvider>
             </LazorkitProvider>

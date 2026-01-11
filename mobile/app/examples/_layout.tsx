@@ -16,24 +16,24 @@ export default function ExamplesLayout() {
         },
       }}
     >
-      <Stack.Screen
-        name="01-connect-wallet"
-        options={{
-          title: 'Connect Wallet',
-        }}
-      />
-      <Stack.Screen
-        name="02-gasless-transfer"
-        options={{
-          title: 'Gasless Transfer',
-        }}
-      />
-      <Stack.Screen
-        name="03-raydium-swap"
-        options={{
-          title: 'Raydium Swap',
-        }}
-      />
+      {/*<Stack.Screen*/}
+      {/*  name="01-connect-wallet"*/}
+      {/*  options={{*/}
+      {/*    title: 'Connect Wallet',*/}
+      {/*  }}*/}
+      {/*/>*/}
+      {/*<Stack.Screen*/}
+      {/*  name="02-gasless-transfer"*/}
+      {/*  options={{*/}
+      {/*    title: 'Gasless Transfer',*/}
+      {/*  }}*/}
+      {/*/>*/}
+      {/*<Stack.Screen*/}
+      {/*  name="03-raydium-swap"*/}
+      {/*  options={{*/}
+      {/*    title: 'Raydium Swap',*/}
+      {/*  }}*/}
+      {/*/>*/}
     </Stack>
   );
 }
