@@ -2,7 +2,7 @@
 
 **Practical examples for building Solana dApps with LazorKit SDK**
 
-A collection of working examples demonstrating how LazorKit simplifies Solana development - from basic passkey authentication to advanced DeFi integrations with gasless transactions.
+A collection of working examples demonstrating how LazorKit simplifies Solana development - from basic passkey authentication to advanced DeFi integrations with gasless transactions. **Now with React Native mobile support!**
 
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://lazorkit-cookbook.vercel.app/)
 [![Solana Devnet](https://img.shields.io/badge/Solana-Devnet-blueviolet)](https://explorer.solana.com/?cluster=devnet)
@@ -16,94 +16,96 @@ A collection of working examples demonstrating how LazorKit simplifies Solana de
 | Traditional Solana UX | With LazorKit |
 |----------------------|---------------|
 | Seed phrases required | Face ID / Touch ID authentication |
-| Browser extensions needed | Works directly in browser |
+| Browser extensions needed | Works directly in browser or mobile app |
 | Users must buy SOL for gas | Gasless transactions via paymaster |
 | Complex wallet setup | One-click wallet creation |
 
 ---
 
-## Why This Project?
+## Platforms
 
-The goal of this cookbook is to showcase how **LazorKit can be integrated with complex on-chain programs** while dramatically reducing onboarding friction for end users. Traditional blockchain applications suffer from poor UX - seed phrases, wallet extensions, and gas fees create barriers that drive users away.
-
-This project demonstrates that you can build sophisticated Solana applications (including custom Anchor programs with token delegation and automated recurring payments) while maintaining a seamless, Web2-like user experience through LazorKit's passkey authentication and gasless transactions.
-
-> **Note on the Subscription Program**: The custom Solana program powering Recipe 03 is currently deployed on **Devnet** and should be considered a proof-of-concept. Before deploying to Mainnet, the program should undergo a **professional security audit**. After audit completion, the **upgrade authority can be revoked** to make the program fully trustless and immutable.
-
----
-
-## How This Cookbook Is Organized
-
-This cookbook has two main parts:
-
-### Examples (`/examples`)
-Working code implementations you can run and explore. The `/examples` directory at the root provides quick access to all examples (the actual implementations live in `app/app/examples/`). Each example has its own README with:
-- What it demonstrates
-- How to run it
-- Key code snippets
-- Implementation details
-
-### Documentation (`/docs`)
-Step-by-step tutorials for integrating LazorKit into your own projects:
-- [Tutorials](docs/README.md) - Guides that walk you through building features
-- [Cookbook Patterns](docs/03-cookbook-patterns.md) - Reusable patterns we created that you can adopt
-- [API Reference](docs/07-utilities-reference.md) - Documentation for hooks and utilities
-
-**The relationship**: Examples show the complete working code, while docs explain the concepts and patterns behind them. Use examples as reference implementations and docs as learning guides.
+| Platform | Directory | SDK | Description |
+|----------|-----------|-----|-------------|
+| **Web** | [`/web`](./web) | `@lazorkit/wallet` | Next.js 16 app with 8 examples |
+| **Mobile** | [`/mobile`](./mobile) | `@lazorkit/wallet-mobile-adapter` | Expo app with 3 examples |
 
 ---
 
-## Examples
+## Web Examples
 
 | # | Example | Description | Docs |
 |---|---------|-------------|------|
-| 01 | [Passkey Wallet Basics](examples/01-passkey-wallet-basics) | Create wallets with Face ID, check balances | [Getting Started](docs/01-getting-started.md) |
-| 02 | [Gasless USDC Transfer](examples/02-gasless-transfer) | Send tokens without paying gas fees | [Getting Started](docs/01-getting-started.md) |
-| 03 | [Subscription Service](examples/03-subscription-service) | Automated recurring USDC payments | [Custom Programs](docs/05-custom-programs/README.md) |
-| 04 | [Gasless Raydium Swap](examples/04-gasless-raydium-swap) | DEX token swaps without gas fees | [Raydium Tutorial](docs/04-solana-protocols/01-raydium-swap.md) |
-| 05 | [Wallet Adapters](examples/05-wallet-adapter-integration) | LazorKit with Anza, ConnectorKit, Jupiter | [Wallet Adapters](docs/06-wallet-adapters.md) |
-| 06 | [NFT Minting](examples/06-nft-minting) | Standard Metaplex NFTs | [Metaplex Tutorial](docs/04-solana-protocols/02-metaplex-nft.md) |
-| 07 | [Compressed NFT](examples/07-compressed-nft-minting) | Truly gasless cNFT minting | [Metaplex Tutorial](docs/04-solana-protocols/02-metaplex-nft.md) |
-| 08 | [Marinade Staking](examples/08-marinade-staking) | Liquid staking with Marinade Finance | [Marinade Tutorial](docs/04-solana-protocols/03-marinade-staking.md) |
+| 01 | [Passkey Wallet Basics](web/app/examples/01-passkey-wallet-basics) | Create wallets with Face ID, check balances | [Getting Started](docs/web/01-getting-started.md) |
+| 02 | [Gasless USDC Transfer](web/app/examples/02-gasless-transfer) | Send tokens without paying gas fees | [Getting Started](docs/web/01-getting-started.md) |
+| 03 | [Subscription Service](web/app/examples/03-subscription-service) | Automated recurring USDC payments | [Custom Programs](docs/web/05-custom-programs/README.md) |
+| 04 | [Gasless Raydium Swap](web/app/examples/04-gasless-raydium-swap) | DEX token swaps without gas fees | [Raydium Tutorial](docs/web/04-solana-protocols/01-raydium-swap.md) |
+| 05 | [Wallet Adapters](web/app/examples/05-wallet-adapter-integration) | LazorKit with Anza, ConnectorKit, Jupiter | [Wallet Adapters](docs/web/06-wallet-adapters.md) |
+| 06 | [NFT Minting](web/app/examples/06-nft-minting) | Standard Metaplex NFTs | [Metaplex Tutorial](docs/web/04-solana-protocols/02-metaplex-nft.md) |
+| 07 | [Compressed NFT](web/app/examples/07-compressed-nft-minting) | Truly gasless cNFT minting | [Metaplex Tutorial](docs/web/04-solana-protocols/02-metaplex-nft.md) |
+| 08 | [Marinade Staking](web/app/examples/08-marinade-staking) | Liquid staking with Marinade Finance | [Marinade Tutorial](docs/web/04-solana-protocols/03-marinade-staking.md) |
 
-Each example has a detailed README - click on the example name to view it.
+## Mobile Examples (React Native / Expo)
 
-**Anchor Program**: [Subscription program documentation](program/subscription-program/README.md)
-
----
-
-## Documentation
-
-| Document | Description |
-|----------|-------------|
-| [Getting Started](docs/01-getting-started.md) | Installation and first integration |
-| [LazorKit Basics](docs/02-lazorkit-basics.md) | What the SDK provides natively |
-| [Cookbook Patterns](docs/03-cookbook-patterns.md) | Reusable patterns we built |
-| [Solana Protocols](docs/04-solana-protocols/README.md) | Raydium, Metaplex, Marinade integrations |
-| [Custom Programs](docs/05-custom-programs/README.md) | Building with custom Anchor programs |
-| [Wallet Adapters](docs/06-wallet-adapters.md) | Multi-wallet support |
-| [Utilities Reference](docs/07-utilities-reference.md) | Hooks and utility API |
+| # | Example | Description | Docs |
+|---|---------|-------------|------|
+| 01 | [Connect Wallet](mobile/app/examples/01-connect-wallet.tsx) | Passkey auth with deep linking | [Mobile Docs](docs/mobile/02-connect-wallet.md) |
+| 02 | [Gasless Transfer](mobile/app/examples/02-gasless-transfer.tsx) | USDC transfers without gas fees | [Mobile Docs](docs/mobile/03-gasless-transfer.md) |
+| 03 | [Raydium Swap](mobile/app/examples/03-raydium-swap.tsx) | DEX swaps powered by Raydium | [Mobile Docs](docs/mobile/04-raydium-swap.md) |
 
 ---
 
 ## Quick Start
 
+### Web (Next.js)
+
 ```bash
-# Clone and install
-git clone https://github.com/0xharp/lazorkit-cookbook.git
-cd lazorkit-cookbook/app
+cd web
 npm install
-
-# Configure environment
-cp env.example .env.local
-
-# Start dev server
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
 
-For detailed setup instructions, see [Getting Started](docs/01-getting-started.md).
+### Mobile (Expo)
+
+```bash
+cd mobile
+npm install
+npx expo start
+```
+
+Scan the QR code with Expo Go or run on simulator.
+
+---
+
+## Documentation
+
+| Platform | Docs |
+|----------|------|
+| Web | [docs/web/](docs/web/) |
+| Mobile | [docs/mobile/](docs/mobile/) |
+| Overview | [docs/README.md](docs/README.md) |
+
+---
+
+## Project Structure
+
+```
+lazorkit-cookbook/
+├── web/                    # Next.js web app
+│   ├── app/examples/       # 8 web examples
+│   ├── hooks/              # Custom React hooks
+│   └── lib/                # Utilities
+├── mobile/                 # Expo mobile app
+│   ├── app/examples/       # 3 mobile examples
+│   ├── hooks/              # Mobile hooks
+│   └── lib/                # Shared utilities
+├── docs/                   # Documentation
+│   ├── web/                # Web tutorials
+│   └── mobile/             # Mobile tutorials
+├── examples/               # Quick reference
+└── program/                # Anchor subscription program
+```
 
 ---
 
@@ -123,8 +125,9 @@ For detailed setup instructions, see [Getting Started](docs/01-getting-started.m
 
 | Category | Technology |
 |----------|------------|
-| Framework | Next.js 16, React 19 |
-| Styling | Tailwind CSS 4 |
+| Web Framework | Next.js 16, React 19 |
+| Mobile Framework | Expo 54, React Native |
+| Styling | Tailwind CSS 4 (web), StyleSheet (mobile) |
 | Blockchain | Solana (Devnet) |
 | Wallet SDK | LazorKit 2.0.1 |
 | Smart Contracts | Anchor 0.31.1 |
@@ -136,11 +139,12 @@ For detailed setup instructions, see [Getting Started](docs/01-getting-started.m
 Created for the [Superteam x LazorKit Bounty](https://earn.superteam.fun/listing/integrate-passkey-technology-with-lazorkit-to-10x-solana-ux).
 
 **Deliverables:**
-- 8 working examples with tutorials
+- 8 web examples + 3 mobile examples with tutorials
 - Live demo on Solana Devnet
 - Custom Anchor subscription program
 - Protocol integrations: Raydium, Metaplex, Marinade
 - Wallet adapter examples: Anza, ConnectorKit, Wallet-UI, Jupiter
+- **React Native mobile SDK integration**
 
 ---
 

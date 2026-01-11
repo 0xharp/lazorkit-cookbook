@@ -91,6 +91,7 @@ keypair.json
 
 !package.json
 !tsconfig.json
+!app.json
 
 ####################################
 # Docker
