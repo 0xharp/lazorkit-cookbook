@@ -398,9 +398,19 @@ const signature = await signAndSendTransaction(
                         </View>
                         <View style={styles.cookbookNote}>
                             <Text style={styles.cookbookNoteText}>
-                                💡 This cookbook's WalletContext wrapper handles redirect URLs
-                                automatically.{'\n\n'}
-                                📖 See: docs/mobile/05-cookbook-patterns.md
+                                💡 This cookbook includes a WalletContext wrapper that simplifies
+                                state management across screens.{'\n\n'}
+                                📖 See:{' '}
+                                <Text
+                                    style={styles.link}
+                                    onPress={() =>
+                                        Linking.openURL(
+                                            'https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/05-cookbook-patterns.md'
+                                        )
+                                    }
+                                >
+                                    docs/mobile/05-cookbook-patterns.md
+                                </Text>
                             </Text>
                         </View>
                     </View>
@@ -679,5 +689,9 @@ const styles = StyleSheet.create({
         fontSize: fontSize.xs,
         color: 'rgba(134, 239, 172, 0.9)',
         lineHeight: 18,
+    },
+    link: {
+        color: '#a78bfa', // purple accent
+        textDecorationLine: 'underline',
     },
 });
