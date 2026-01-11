@@ -1,8 +1,7 @@
 import Link from 'next/link';
+import { EXPO_QR_URL } from '../../lib/constants'
 
 export default function MobilePage() {
-    const expoQrUrl = 'https://qr.expo.dev/eas-update?slug=exp&projectId=229c9ca8-de3e-495c-ae90-ddc19d189aab&groupId=e7881398-65f2-489a-b046-23c96323eb02&host=u.expo.dev';
-    const expoUpdateUrl = 'https://expo.dev/accounts/0xharp/projects/lazorkit-cookbook-mobile/updates/e7881398-65f2-489a-b046-23c96323eb02';
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
@@ -32,7 +31,7 @@ export default function MobilePage() {
                         {/* QR Code */}
                         <div className="bg-white p-4 rounded-xl">
                             <img
-                                src={expoQrUrl}
+                                src={EXPO_QR_URL}
                                 alt="Scan to open in Expo Go"
                                 width={200}
                                 height={200}
@@ -59,17 +58,6 @@ export default function MobilePage() {
                                     <span>Point your camera at the QR code above</span>
                                 </li>
                             </ol>
-
-                            <div className="mt-6">
-                                <a
-                                    href={expoUpdateUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-block px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl font-semibold transition-all"
-                                >
-                                    View on Expo Dashboard →
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>

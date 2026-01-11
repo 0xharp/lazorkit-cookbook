@@ -205,3 +205,5 @@ export function getGradientClasses(popular?: boolean): string {
     }
     return 'bg-white/10 hover:bg-white/20 text-white border border-white/20';
 }
+
+export const EXPO_QR_URL = 'https://qr.expo.dev/eas-update?slug=exp&projectId=229c9ca8-de3e-495c-ae90-ddc19d189aab&groupId=6a6272ac-792f-455c-86d3-8c1c3899c44c&host=u.expo.dev';

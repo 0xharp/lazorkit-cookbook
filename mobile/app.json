@@ -2,6 +2,7 @@
   "expo": {
     "name": "LazorKit Cookbook",
     "slug": "lazorkit-cookbook-mobile",
+    "privacy": "public",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/lazorkit-background.png",

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { EXPO_QR_URL } from '../lib/constants'
 
 export default function HomePage() {
     return (
@@ -38,7 +39,7 @@ export default function HomePage() {
                                 </div>
                                 <div className="hidden md:block bg-white p-2 rounded-lg">
                                     <img
-                                        src="https://qr.expo.dev/eas-update?slug=exp&projectId=229c9ca8-de3e-495c-ae90-ddc19d189aab&groupId=e7881398-65f2-489a-b046-23c96323eb02&host=u.expo.dev"
+                                        src={EXPO_QR_URL}
                                         alt="Scan to open in Expo Go"
                                         width={80}
                                         height={80}
