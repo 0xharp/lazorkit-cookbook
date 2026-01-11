@@ -90,7 +90,7 @@ mobile/
 
 ## SDK Reference
 
-See the [LazorKit React Native SDK documentation](https://docs.lazor.sh) for full API reference.
+See the [LazorKit React Native SDK documentation](https://docs.lazorkit.com/) for full API reference.
 
 ```typescript
 import { LazorKitProvider, useWallet } from '@lazorkit/wallet-mobile-adapter';

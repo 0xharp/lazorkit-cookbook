@@ -450,7 +450,6 @@ You can:
 
 ## Next Steps
 
-- [Getting Started](./01-getting-started.md) - Set up your environment
-- [Connect Wallet Example](./02-connect-wallet.md) - Basic connection flow
-- [Gasless Transfer Example](./03-gasless-transfer.md) - Send USDC without gas
-- [Raydium Swap Example](./04-raydium-swap.md) - External SDK integration
+- [Connect Wallet Example](./04-connect-wallet.md) - Basic connection flow
+- [Gasless Transfer Example](./05-gasless-transfer.md) - Send USDC without gas
+- [Raydium Swap Example](./06-raydium-swap.md) - External SDK integration

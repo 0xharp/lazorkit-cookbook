@@ -6,7 +6,7 @@ A collection of working examples demonstrating how LazorKit simplifies Solana de
 
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://lazorkit-cookbook.vercel.app/)
 [![Solana Devnet](https://img.shields.io/badge/Solana-Devnet-blueviolet)](https://explorer.solana.com/?cluster=devnet)
-[![LazorKit](https://img.shields.io/badge/LazorKit-v2.0.1-blue)](https://docs.lazor.sh/)
+[![LazorKit](https://img.shields.io/badge/LazorKit-v2.0.1-blue)](https://docs.lazorkit.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---

@@ -125,7 +125,7 @@ function WalletScreen() {
 
 ## Next Steps
 
-- [Connect Wallet Example](./02-connect-wallet.md)
-- [Gasless Transfer Example](./03-gasless-transfer.md)
-- [Raydium Swap Example](./04-raydium-swap.md)
-- [Cookbook Patterns](./05-cookbook-patterns.md) - WalletContext wrapper & utilities
+- [Cookbook Patterns](./03-cookbook-patterns.md) - WalletContext wrapper & utilities
+- [Connect Wallet Example](./04-connect-wallet.md)
+- [Gasless Transfer Example](./05-gasless-transfer.md)
+- [Raydium Swap Example](./06-raydium-swap.md)

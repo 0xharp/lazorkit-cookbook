@@ -50,20 +50,22 @@ This cookbook demonstrates how to:
 
 ## Mobile Documentation
 
-| Guide | Description |
-|-------|-------------|
-| [01 - Getting Started](./mobile/01-getting-started.md) | Expo setup, polyfills, deep linking |
-| [02 - Connect Wallet](./mobile/02-connect-wallet.md) | Passkey auth with deep links |
-| [03 - Gasless Transfer](./mobile/03-gasless-transfer.md) | USDC transfers on mobile |
-| [04 - Raydium Swap](./mobile/04-raydium-swap.md) | DEX swaps with Raydium API |
+| Guide                                                    | Description |
+|----------------------------------------------------------|-------------|
+| [01 - Getting Started](./mobile/01-getting-started.md)   | Expo setup, polyfills, deep linking |
+| [01 - Getting Started](./mobile/02-lazorkit-basics.md)   | What the LazorKit SDK provides natively |
+| [01 - Getting Started](./mobile/03-cookbook-patterns.md) | Reusable patterns  |
+| [02 - Connect Wallet](./mobile/04-connect-wallet.md)     | Passkey auth with deep links |
+| [03 - Gasless Transfer](./mobile/05-gasless-transfer.md) | USDC transfers on mobile |
+| [04 - Raydium Swap](./mobile/06-raydium-swap.md)         | DEX swaps with Raydium API |
 
 ### Mobile Examples
 
-| # | Example | Description |
-|---|---------|-------------|
-| 01 | [Connect Wallet](../mobile/app/examples/01-connect-wallet.tsx) | Passkey authentication with deep linking |
-| 02 | [Gasless Transfer](../mobile/app/examples/02-gasless-transfer.tsx) | USDC transfers without gas fees |
-| 03 | [Raydium Swap](../mobile/app/examples/03-raydium-swap.tsx) | DEX swaps powered by Raydium |
+| # | Example                                                                  | Description |
+|---|--------------------------------------------------------------------------|-------------|
+| 01 | [Connect Wallet](../mobile/app/examples/01-connect-wallet/index.tsx)     | Passkey authentication with deep linking |
+| 02 | [Gasless Transfer](../mobile/app/examples/02-gasless-transfer/index.tsx) | USDC transfers without gas fees |
+| 03 | [Raydium Swap](../mobile/app/examples/03-raydium-swap/index.tsx)         | DEX swaps powered by Raydium |
 
 ---
 
@@ -87,5 +89,5 @@ This cookbook demonstrates how to:
 
 ## Quick Links
 
-- [LazorKit SDK Docs](https://docs.lazor.sh)
+- [LazorKit SDK Docs](https://docs.lazorkit.com)
 - [GitHub Repository](https://github.com/0xharp/lazorkit-cookbook)
