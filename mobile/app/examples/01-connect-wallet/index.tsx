@@ -328,7 +328,8 @@ if (isConnected && wallet) {
                     <View style={styles.cookbookNote}>
                         <Text style={styles.cookbookNoteText}>
                             💡 This cookbook includes a WalletContext wrapper that simplifies
-                            state management across screens. See our mobile docs for details.
+                            state management across screens.{'\n\n'}
+                            📖 See: docs/mobile/05-cookbook-patterns.md
                         </Text>
                     </View>
                 </View>

@@ -567,7 +567,8 @@ await signAndSendTransaction(
                         <View style={styles.cookbookNote}>
                             <Text style={styles.cookbookNoteText}>
                                 💡 The cookbook's WalletContext and processInstructionsForLazorKit
-                                utility simplify external SDK integration. See our docs for details.
+                                utility simplify external SDK integration.{'\n\n'}
+                                📖 See: docs/mobile/05-cookbook-patterns.md
                             </Text>
                         </View>
                     </View>

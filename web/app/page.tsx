@@ -18,6 +18,38 @@ export default function HomePage() {
                     </p>
                 </div>
 
+                {/* Mobile App Section */}
+                <div className="max-w-4xl mx-auto mb-16">
+                    <Link href="/mobile">
+                        <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 rounded-2xl p-8 hover:bg-blue-500/30 transition-all cursor-pointer">
+                            <div className="flex flex-col md:flex-row items-center gap-6">
+                                <div className="text-6xl">📱</div>
+                                <div className="flex-1 text-center md:text-left">
+                                    <h2 className="text-2xl font-bold text-white mb-2">
+                                        Try the Mobile App
+                                    </h2>
+                                    <p className="text-gray-300 mb-3">
+                                        Test the LazorKit React Native SDK integration on your iOS or Android device.
+                                        Includes 3 mobile recipes with deep linking and gasless transactions.
+                                    </p>
+                                    <span className="inline-flex items-center gap-2 text-blue-400 font-semibold">
+                                        Scan QR Code to Test →
+                                    </span>
+                                </div>
+                                <div className="hidden md:block bg-white p-2 rounded-lg">
+                                    <img
+                                        src="https://qr.expo.dev/eas-update?slug=exp&projectId=229c9ca8-de3e-495c-ae90-ddc19d189aab&groupId=e7881398-65f2-489a-b046-23c96323eb02&host=u.expo.dev"
+                                        alt="Scan to open in Expo Go"
+                                        width={80}
+                                        height={80}
+                                        className="w-20 h-20"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+                </div>
+
                 {/* Recipe Cards */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
                     {/* Recipe 01 */}

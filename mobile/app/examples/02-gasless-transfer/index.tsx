@@ -399,7 +399,8 @@ const signature = await signAndSendTransaction(
                         <View style={styles.cookbookNote}>
                             <Text style={styles.cookbookNoteText}>
                                 💡 This cookbook's WalletContext wrapper handles redirect URLs
-                                automatically. Check our mobile docs for the simplified API.
+                                automatically.{'\n\n'}
+                                📖 See: docs/mobile/05-cookbook-patterns.md
                             </Text>
                         </View>
                     </View>

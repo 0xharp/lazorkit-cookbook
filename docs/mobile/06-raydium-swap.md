@@ -10,6 +10,43 @@ This example demonstrates:
 - Live price quotes with debouncing
 - Error handling for devnet pool limitations
 
+## Using the Cookbook's WalletContext
+
+With our `WalletContext` wrapper, the redirect URL is handled automatically:
+
+```typescript
+import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { processInstructionsForLazorKit } from '@/lib/lazorkit-utils';
+
+const { wallet, signAndSendTransaction } = useLazorkitWallet();
+
+// After processing the Raydium transaction...
+const instructions = processInstructionsForLazorKit(
+    legacyTx.instructions,
+    wallet.smartWallet
+);
+
+// Just pass the return path
+await signAndSendTransaction(
+    { instructions, transactionOptions: { computeUnitLimit: 600_000 } },
+    'examples/03-raydium-swap'
+);
+```
+
+## Using LazorKit SDK Directly
+
+```typescript
+import { useWallet } from '@lazorkit/wallet-mobile-adapter';
+import * as Linking from 'expo-linking';
+
+const { signAndSendTransaction } = useWallet();
+
+await signAndSendTransaction(
+    { instructions, transactionOptions: { computeUnitLimit: 600_000 } },
+    { redirectUrl: Linking.createURL('examples/03-raydium-swap') }
+);
+```
+
 ## Key Concepts
 
 ### Raydium API Integration
@@ -119,4 +156,4 @@ if (error.includes('SBF program panicked')) {
 ## Full Example
 
 See the complete implementation at:
-[`mobile/app/examples/03-raydium-swap.tsx`](../../mobile/app/examples/03-raydium-swap.tsx)
+[`mobile/app/examples/03-raydium-swap/index.tsx`](../../mobile/app/examples/03-raydium-swap/index.tsx)

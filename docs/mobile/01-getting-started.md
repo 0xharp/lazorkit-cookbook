@@ -128,3 +128,4 @@ function WalletScreen() {
 - [Connect Wallet Example](./02-connect-wallet.md)
 - [Gasless Transfer Example](./03-gasless-transfer.md)
 - [Raydium Swap Example](./04-raydium-swap.md)
+- [Cookbook Patterns](./05-cookbook-patterns.md) - WalletContext wrapper & utilities
