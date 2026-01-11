@@ -536,21 +536,38 @@ export default function RaydiumSwapScreen() {
                     {/* Code Example */}
                     <View style={styles.codeCard}>
                         <Text style={styles.sectionTitle}>Key Code</Text>
+                        <View style={styles.mobileHighlight}>
+                            <Text style={styles.mobileHighlightText}>
+                                📱 Mobile: Add redirectUrl option for deep link
+                            </Text>
+                        </View>
                         <View style={styles.codeBlock}>
                             <Text style={styles.code}>
-{`// Process Raydium tx for LazorKit
+{`import { useWallet } from '@lazorkit/wallet-mobile-adapter';
+import * as Linking from 'expo-linking';
+
+const { signAndSendTransaction } = useWallet();
+
+// Process Raydium tx for LazorKit
 const instructions = processInstructionsForLazorKit(
   legacyTx.instructions,
   wallet.smartWallet
 );
 
-// Send gasless swap
-await signAndSendTransaction({
-  instructions,
-  transactionOptions: {
-    computeUnitLimit: 600_000,
+// Send gasless swap with redirect
+await signAndSendTransaction(
+  {
+    instructions,
+    transactionOptions: { computeUnitLimit: 600_000 },
   },
-});`}
+  { redirectUrl: Linking.createURL('return/path') }
+);`}
+                            </Text>
+                        </View>
+                        <View style={styles.cookbookNote}>
+                            <Text style={styles.cookbookNoteText}>
+                                💡 The cookbook's WalletContext and processInstructionsForLazorKit
+                                utility simplify external SDK integration. See our docs for details.
                             </Text>
                         </View>
                     </View>
@@ -866,6 +883,33 @@ const styles = StyleSheet.create({
         fontSize: 11,
         color: colors.text.secondary,
         fontFamily: 'monospace',
+        lineHeight: 18,
+    },
+    mobileHighlight: {
+        backgroundColor: 'rgba(168, 85, 247, 0.15)',
+        borderWidth: 1,
+        borderColor: 'rgba(168, 85, 247, 0.3)',
+        borderRadius: borderRadius.sm,
+        padding: spacing.sm,
+        marginBottom: spacing.md,
+    },
+    mobileHighlightText: {
+        fontSize: fontSize.sm,
+        color: colors.accent.purple,
+        textAlign: 'center',
+        fontWeight: '600',
+    },
+    cookbookNote: {
+        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+        borderWidth: 1,
+        borderColor: 'rgba(34, 197, 94, 0.2)',
+        borderRadius: borderRadius.sm,
+        padding: spacing.sm,
+        marginTop: spacing.md,
+    },
+    cookbookNoteText: {
+        fontSize: fontSize.xs,
+        color: 'rgba(134, 239, 172, 0.9)',
         lineHeight: 18,
     },
 });

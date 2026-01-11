@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "LazorKit Cookbook",
+    "slug": "lazorkit-cookbook-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/lazorkit-background.png",
+    "scheme": "lazorkitcookbook",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/lazorkit-background.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a1a2e"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lazorkit.cookbook",
+      "splash": {
+        "image": "./assets/lazorkit-background.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#1a1a2e"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/lazorkit-background.png",
+        "backgroundColor": "#1a1a2e"
+      },
+      "splash": {
+        "image": "./assets/lazorkit-background.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#1a1a2e"
+      },
+      "package": "com.lazorkit.cookbook"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/favicon.ico"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

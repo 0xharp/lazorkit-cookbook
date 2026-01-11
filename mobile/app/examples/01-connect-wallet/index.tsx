@@ -292,6 +292,46 @@ export default function ConnectWalletScreen() {
                         </View>
                     </View>
                 </View>
+
+                {/* Code Example */}
+                <View style={styles.codeCard}>
+                    <Text style={styles.sectionTitle}>Code Example</Text>
+                    <View style={styles.mobileHighlight}>
+                        <Text style={styles.mobileHighlightText}>
+                            📱 Mobile: Uses deep linking for redirect
+                        </Text>
+                    </View>
+                    <View style={styles.codeBlock}>
+                        <Text style={styles.code}>
+{`import { useWallet } from '@lazorkit/wallet-mobile-adapter';
+import * as Linking from 'expo-linking';
+
+const { wallet, isConnected, connect } = useWallet();
+
+// Connect with deep link redirect
+await connect({
+  redirectUrl: Linking.createURL('your/return/path'),
+  onSuccess: (connectedWallet) => {
+    console.log('Connected:', connectedWallet.smartWallet);
+  },
+  onFail: (error) => {
+    console.error('Failed:', error.message);
+  },
+});
+
+// Access wallet address
+if (isConnected && wallet) {
+  console.log(wallet.smartWallet);
+}`}
+                        </Text>
+                    </View>
+                    <View style={styles.cookbookNote}>
+                        <Text style={styles.cookbookNoteText}>
+                            💡 This cookbook includes a WalletContext wrapper that simplifies
+                            state management across screens. See our mobile docs for details.
+                        </Text>
+                    </View>
+                </View>
             </ScrollView>
 
             {/* Footer */}
@@ -554,5 +594,56 @@ const styles = StyleSheet.create({
         fontSize: fontSize.sm,
         color: colors.text.muted,
         lineHeight: 20,
+    },
+
+    // Code Example
+    codeCard: {
+        ...commonStyles.glassCard,
+        padding: spacing.lg,
+        marginTop: spacing.md,
+    },
+    mobileHighlight: {
+        backgroundColor: 'rgba(168, 85, 247, 0.15)',
+        borderWidth: 1,
+        borderColor: 'rgba(168, 85, 247, 0.3)',
+        borderRadius: borderRadius.sm,
+        padding: spacing.sm,
+        marginBottom: spacing.md,
+    },
+    mobileHighlightText: {
+        fontSize: fontSize.sm,
+        color: colors.accent.purple,
+        textAlign: 'center',
+        fontWeight: '600',
+    },
+    codeBlock: {
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        borderRadius: borderRadius.sm,
+        padding: spacing.md,
+    },
+    code: {
+        fontSize: 11,
+        color: colors.text.secondary,
+        fontFamily: 'monospace',
+        lineHeight: 18,
+    },
+    codeNote: {
+        fontSize: fontSize.xs,
+        color: colors.text.muted,
+        marginTop: spacing.sm,
+        fontStyle: 'italic',
+    },
+    cookbookNote: {
+        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+        borderWidth: 1,
+        borderColor: 'rgba(34, 197, 94, 0.2)',
+        borderRadius: borderRadius.sm,
+        padding: spacing.sm,
+        marginTop: spacing.md,
+    },
+    cookbookNoteText: {
+        fontSize: fontSize.xs,
+        color: 'rgba(134, 239, 172, 0.9)',
+        lineHeight: 18,
     },
 });

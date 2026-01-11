@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import { Alert } from 'react-native';
 import { useWallet } from '@lazorkit/wallet-mobile-adapter';
-import { APP_SCHEME } from '@/lib/constants';
+import * as Linking from 'expo-linking';
 
 interface WalletContextValue {
     wallet: { smartWallet: string } | null;
@@ -53,10 +53,9 @@ export function WalletProvider({ children }: WalletProviderProps) {
         setConnecting(true);
         try {
             await connect({
-                redirectUrl: `${APP_SCHEME}${redirectPath}`,
+                redirectUrl: Linking.createURL(redirectPath),
                 onSuccess: (connectedWallet) => {
                     setConnecting(false);
-                    // Store wallet in shared context state
                     setLocalWallet({ smartWallet: connectedWallet.smartWallet });
                     console.log('Connected:', connectedWallet.smartWallet);
                 },
@@ -98,7 +97,7 @@ export function WalletProvider({ children }: WalletProviderProps) {
             redirectPath: string = ''
         ) => {
             return signAndSendTransaction(payload, {
-                redirectUrl: `${APP_SCHEME}${redirectPath}`,
+                redirectUrl: Linking.createURL(redirectPath),
             });
         },
         [signAndSendTransaction]
@@ -107,7 +106,7 @@ export function WalletProvider({ children }: WalletProviderProps) {
     const handleSignMessage = useCallback(
         async (message: string, redirectPath: string = '') => {
             return signMessage(message, {
-                redirectUrl: `${APP_SCHEME}${redirectPath}`,
+                redirectUrl: Linking.createURL(redirectPath),
             });
         },
         [signMessage]

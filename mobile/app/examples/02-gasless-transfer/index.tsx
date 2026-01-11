@@ -367,19 +367,39 @@ export default function GaslessTransferScreen() {
                     {/* Code Example */}
                     <View style={styles.codeCard}>
                         <Text style={styles.sectionTitle}>Code Example</Text>
+                        <View style={styles.mobileHighlight}>
+                            <Text style={styles.mobileHighlightText}>
+                                📱 Mobile: Include redirectUrl for deep link return
+                            </Text>
+                        </View>
                         <View style={styles.codeBlock}>
                             <Text style={styles.code}>
-{`const transferIx = createTransferInstruction(
+{`import { useWallet } from '@lazorkit/wallet-mobile-adapter';
+import * as Linking from 'expo-linking';
+
+const { signAndSendTransaction } = useWallet();
+
+const transferIx = createTransferInstruction(
   senderTokenAccount,
   recipientTokenAccount,
   senderPubkey,
   amount * 1_000_000,
 );
 
-// Send gasless - no SOL needed!
-const signature = await signAndSendTransaction({
-  instructions: [transferIx],
-});`}
+// Send gasless with deep link redirect
+const signature = await signAndSendTransaction(
+  {
+    instructions: [transferIx],
+    transactionOptions: { computeUnitLimit: 200_000 },
+  },
+  { redirectUrl: Linking.createURL('return/path') }
+);`}
+                            </Text>
+                        </View>
+                        <View style={styles.cookbookNote}>
+                            <Text style={styles.cookbookNoteText}>
+                                💡 This cookbook's WalletContext wrapper handles redirect URLs
+                                automatically. Check our mobile docs for the simplified API.
                             </Text>
                         </View>
                     </View>
@@ -630,6 +650,33 @@ const styles = StyleSheet.create({
         fontSize: 11,
         color: colors.text.secondary,
         fontFamily: 'monospace',
+        lineHeight: 18,
+    },
+    mobileHighlight: {
+        backgroundColor: 'rgba(168, 85, 247, 0.15)',
+        borderWidth: 1,
+        borderColor: 'rgba(168, 85, 247, 0.3)',
+        borderRadius: borderRadius.sm,
+        padding: spacing.sm,
+        marginBottom: spacing.md,
+    },
+    mobileHighlightText: {
+        fontSize: fontSize.sm,
+        color: colors.accent.purple,
+        textAlign: 'center',
+        fontWeight: '600',
+    },
+    cookbookNote: {
+        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+        borderWidth: 1,
+        borderColor: 'rgba(34, 197, 94, 0.2)',
+        borderRadius: borderRadius.sm,
+        padding: spacing.sm,
+        marginTop: spacing.md,
+    },
+    cookbookNoteText: {
+        fontSize: fontSize.xs,
+        color: 'rgba(134, 239, 172, 0.9)',
         lineHeight: 18,
     },
 });

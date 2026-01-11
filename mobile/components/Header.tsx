@@ -57,7 +57,7 @@ export function Header() {
     };
 
     return (
-        <View style={[styles.header, { paddingTop: insets.top + spacing.sm }]}>
+        <View pointerEvents="box-none" style={[styles.header, { paddingTop: insets.top + spacing.sm }]}>
             {/* Left - Back Button or Logo */}
             {isHomePage ? (
                 <TouchableOpacity
