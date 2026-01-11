@@ -178,7 +178,7 @@ const signature = await signAndSendTransaction(
                             💡 The cookbook includes a <strong>WalletContext</strong> wrapper that simplifies redirect handling across screens.
                         </p>
                         <a
-                            href="https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/05-cookbook-patterns.md"
+                            href="https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/03-cookbook-patterns.md"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-sm text-green-400 hover:text-green-300 underline"

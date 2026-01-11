@@ -334,11 +334,11 @@ if (isConnected && wallet) {
                                 style={styles.link}
                                 onPress={() =>
                                     Linking.openURL(
-                                        'https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/05-cookbook-patterns.md'
+                                        'https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/03-cookbook-patterns.md'
                                     )
                                 }
                             >
-                                docs/mobile/05-cookbook-patterns.md
+                                docs/mobile/03-cookbook-patterns.md
                             </Text>
                         </Text>
                     </View>
