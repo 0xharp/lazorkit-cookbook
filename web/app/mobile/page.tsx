@@ -51,11 +51,7 @@ export default function MobilePage() {
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <span className="bg-purple-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">2</span>
-                                    <span>Open Expo Go and tap <strong className="text-white">"Scan QR Code"</strong></span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="bg-purple-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">3</span>
-                                    <span>Point your camera at the QR code above</span>
+                                    <span>Scan the <strong className="text-white">QR code</strong> with <strong className="text-white">Expo Go (Android)</strong> or the <strong className="text-white">Camera app (iOS)</strong></span>
                                 </li>
                             </ol>
                         </div>
