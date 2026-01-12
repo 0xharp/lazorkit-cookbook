@@ -30,7 +30,7 @@ cd lazorkit-cookbook
 **2. Install dependencies**
 
 ```bash
-cd app
+cd web
 npm install
 ```
 

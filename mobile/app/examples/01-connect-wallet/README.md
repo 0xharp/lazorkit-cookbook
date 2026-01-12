@@ -4,7 +4,7 @@
 
 This recipe teaches you the fundamentals of LazorKit's passkey authentication on React Native/Expo. By the end, you'll understand how to create wallets using deep links, check balances, and provide a seamless mobile onboarding experience.
 
-> **Environment**: Expo 54 + React Native. For polyfill setup, see [`_layout.tsx`](../../_layout.tsx). For complete setup instructions, refer to the [Mobile Getting Started guide](/docs/mobile/01-getting-started.md).
+> **Environment**: Expo 54 + React Native. For polyfill setup, see [`_layout.tsx`](../../_layout.tsx). For complete setup instructions, refer to the [Mobile Getting Started guide](../../../../docs/mobile/01-getting-started.md). For patterns used in this cookbook, see [Cookbook Patterns](../../../../docs/mobile/03-cookbook-patterns.md).
 
 ---
 
