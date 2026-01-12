@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PublicKey } from '@solana/web3.js';
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 import {
     getConnection,
     getUsdcBalance,
@@ -30,7 +30,7 @@ import { Footer } from '@/components/Footer';
 import { Stack } from 'expo-router';
 
 export default function GaslessTransferScreen() {
-    const { wallet, isConnected, connect, signAndSendTransaction, connecting } = useLazorkitWallet();
+    const { wallet, isConnected, connect, signAndSendTransaction, connecting } = useLazorkitWalletConnect();
 
     const [recipient, setRecipient] = useState('');
     const [amount, setAmount] = useState('');
@@ -151,230 +151,230 @@ export default function GaslessTransferScreen() {
 
     return (
         <>
-        <Stack.Screen
-            options={{
-                title: 'Gasless USDC Transfer',
-            }}
-        />
-        <LinearGradient
-            colors={[colors.gradient.start, colors.gradient.middle, colors.gradient.end]}
-            style={styles.container}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-        >
-            <KeyboardAvoidingView
-                style={styles.keyboardView}
-                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                keyboardVerticalOffset={100}
+            <Stack.Screen
+                options={{
+                    title: 'Gasless USDC Transfer',
+                }}
+            />
+            <LinearGradient
+                colors={[colors.gradient.start, colors.gradient.middle, colors.gradient.end]}
+                style={styles.container}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
             >
-                <ScrollView
-                    style={styles.scrollView}
-                    contentContainerStyle={styles.content}
-                    keyboardShouldPersistTaps="handled"
-                    showsVerticalScrollIndicator={false}
+                <KeyboardAvoidingView
+                    style={styles.keyboardView}
+                    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                    keyboardVerticalOffset={100}
                 >
-                    {/* Header */}
-                    <View style={styles.header}>
-                        <Text style={styles.emoji}>⚡</Text>
-                        <Text style={styles.title}>Gasless USDC Transfer</Text>
-                        <Text style={styles.subtitle}>
-                            Send USDC without paying gas fees - LazorKit's paymaster covers it
-                        </Text>
-                    </View>
-
-                    {!isConnected ? (
-                        /* Not Connected State */
-                        <View style={styles.glassCard}>
-                            <Text style={styles.lockIcon}>💸</Text>
-                            <Text style={styles.connectTitle}>Connect to Start</Text>
-                            <Text style={styles.connectDescription}>
-                                Connect your wallet to send gasless USDC transfers
+                    <ScrollView
+                        style={styles.scrollView}
+                        contentContainerStyle={styles.content}
+                        keyboardShouldPersistTaps="handled"
+                        showsVerticalScrollIndicator={false}
+                    >
+                        {/* Header */}
+                        <View style={styles.header}>
+                            <Text style={styles.emoji}>⚡</Text>
+                            <Text style={styles.title}>Gasless USDC Transfer</Text>
+                            <Text style={styles.subtitle}>
+                                Send USDC without paying gas fees - LazorKit's paymaster covers it
                             </Text>
-
-                            <TouchableOpacity
-                                onPress={handleConnect}
-                                disabled={connecting}
-                                activeOpacity={0.8}
-                            >
-                                <LinearGradient
-                                    colors={[colors.button.primary.start, colors.button.primary.end]}
-                                    start={{ x: 0, y: 0 }}
-                                    end={{ x: 1, y: 0 }}
-                                    style={styles.connectButton}
-                                >
-                                    <Text style={styles.connectButtonText}>
-                                        {connecting ? 'Connecting...' : '🔑 Connect Wallet'}
-                                    </Text>
-                                </LinearGradient>
-                            </TouchableOpacity>
                         </View>
-                    ) : (
-                        /* Transfer Form */
-                        <View style={styles.formContainer}>
-                            {/* Balance Card */}
-                            <View style={styles.balanceCard}>
-                                <View style={styles.balanceHeader}>
-                                    <Text style={styles.balanceLabel}>Your USDC Balance</Text>
-                                    <TouchableOpacity onPress={fetchBalance} disabled={refreshing}>
-                                        <Text style={styles.refreshText}>
-                                            {refreshing ? '⏳' : '🔄'} Refresh
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <Text style={styles.balanceValue}>
-                                    {usdcBalance !== null ? `${usdcBalance.toFixed(2)} USDC` : '...'}
+
+                        {!isConnected ? (
+                            /* Not Connected State */
+                            <View style={styles.glassCard}>
+                                <Text style={styles.lockIcon}>💸</Text>
+                                <Text style={styles.connectTitle}>Connect to Start</Text>
+                                <Text style={styles.connectDescription}>
+                                    Connect your wallet to send gasless USDC transfers
                                 </Text>
-                                {usdcBalance === 0 && (
-                                    <TouchableOpacity
-                                        onPress={() => Linking.openURL('https://faucet.circle.com/')}
+
+                                <TouchableOpacity
+                                    onPress={handleConnect}
+                                    disabled={connecting}
+                                    activeOpacity={0.8}
+                                >
+                                    <LinearGradient
+                                        colors={[colors.button.primary.start, colors.button.primary.end]}
+                                        start={{ x: 0, y: 0 }}
+                                        end={{ x: 1, y: 0 }}
+                                        style={styles.connectButton}
                                     >
-                                        <Text style={styles.faucetLink}>
-                                            ⚠️ No USDC? Get some from Circle Faucet →
+                                        <Text style={styles.connectButtonText}>
+                                            {connecting ? 'Connecting...' : '🔑 Connect Wallet'}
+                                        </Text>
+                                    </LinearGradient>
+                                </TouchableOpacity>
+                            </View>
+                        ) : (
+                            /* Transfer Form */
+                            <View style={styles.formContainer}>
+                                {/* Balance Card */}
+                                <View style={styles.balanceCard}>
+                                    <View style={styles.balanceHeader}>
+                                        <Text style={styles.balanceLabel}>Your USDC Balance</Text>
+                                        <TouchableOpacity onPress={fetchBalance} disabled={refreshing}>
+                                            <Text style={styles.refreshText}>
+                                                {refreshing ? '⏳' : '🔄'} Refresh
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <Text style={styles.balanceValue}>
+                                        {usdcBalance !== null ? `${usdcBalance.toFixed(2)} USDC` : '...'}
+                                    </Text>
+                                    {usdcBalance === 0 && (
+                                        <TouchableOpacity
+                                            onPress={() => Linking.openURL('https://faucet.circle.com/')}
+                                        >
+                                            <Text style={styles.faucetLink}>
+                                                ⚠️ No USDC? Get some from Circle Faucet →
+                                            </Text>
+                                        </TouchableOpacity>
+                                    )}
+                                </View>
+
+                                {/* Transfer Form Card */}
+                                <View style={styles.formCard}>
+                                    <Text style={styles.formTitle}>Send USDC</Text>
+
+                                    <View style={styles.inputGroup}>
+                                        <Text style={styles.inputLabel}>Recipient Address</Text>
+                                        <TextInput
+                                            style={styles.input}
+                                            placeholder="Enter Solana address..."
+                                            placeholderTextColor={colors.text.placeholder}
+                                            value={recipient}
+                                            onChangeText={setRecipient}
+                                            autoCapitalize="none"
+                                            autoCorrect={false}
+                                        />
+                                    </View>
+
+                                    <View style={styles.inputGroup}>
+                                        <View style={styles.amountLabelRow}>
+                                            <Text style={styles.inputLabel}>Amount (USDC)</Text>
+                                            {usdcBalance !== null && usdcBalance > 0 && (
+                                                <TouchableOpacity onPress={handleUseMax}>
+                                                    <Text style={styles.maxButton}>
+                                                        Use Max ({usdcBalance.toFixed(2)})
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            )}
+                                        </View>
+                                        <TextInput
+                                            style={styles.input}
+                                            placeholder="0.00"
+                                            placeholderTextColor={colors.text.placeholder}
+                                            value={amount}
+                                            onChangeText={setAmount}
+                                            keyboardType="decimal-pad"
+                                        />
+                                    </View>
+
+                                    <TouchableOpacity
+                                        onPress={handleTransfer}
+                                        disabled={!canSend}
+                                        activeOpacity={0.8}
+                                    >
+                                        <LinearGradient
+                                            colors={
+                                                canSend
+                                                    ? [colors.button.success.start, colors.button.success.end]
+                                                    : ['#374151', '#374151']
+                                            }
+                                            start={{ x: 0, y: 0 }}
+                                            end={{ x: 1, y: 0 }}
+                                            style={[styles.sendButton, !canSend && styles.sendButtonDisabled]}
+                                        >
+                                            <Text style={styles.sendButtonText}>
+                                                {sending
+                                                    ? retryCount > 0
+                                                        ? `Retrying... (${retryCount}/3)`
+                                                        : 'Sending...'
+                                                    : 'Send USDC (Gasless!)'}
+                                            </Text>
+                                        </LinearGradient>
+                                    </TouchableOpacity>
+
+                                    <View style={styles.gaslessInfo}>
+                                        <Text style={styles.gaslessText}>
+                                            ✨ 100% Gasless - LazorKit's paymaster covers all fees
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                {/* Last Transaction */}
+                                {lastTxSignature && (
+                                    <TouchableOpacity
+                                        style={styles.txCard}
+                                        onPress={() => Linking.openURL(getExplorerUrl(lastTxSignature))}
+                                    >
+                                        <Text style={styles.txLabel}>Last Transaction:</Text>
+                                        <Text style={styles.txSignature}>
+                                            {lastTxSignature.slice(0, 20)}...{lastTxSignature.slice(-20)} ↗
                                         </Text>
                                     </TouchableOpacity>
                                 )}
                             </View>
+                        )}
 
-                            {/* Transfer Form Card */}
-                            <View style={styles.formCard}>
-                                <Text style={styles.formTitle}>Send USDC</Text>
+                        {/* How It Works */}
+                        <View style={styles.howItWorksCard}>
+                            <Text style={styles.sectionTitle}>How Gasless Works</Text>
 
-                                <View style={styles.inputGroup}>
-                                    <Text style={styles.inputLabel}>Recipient Address</Text>
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="Enter Solana address..."
-                                        placeholderTextColor={colors.text.placeholder}
-                                        value={recipient}
-                                        onChangeText={setRecipient}
-                                        autoCapitalize="none"
-                                        autoCorrect={false}
-                                    />
+                            <View style={styles.step}>
+                                <View style={styles.stepNumber}>
+                                    <Text style={styles.stepNumberText}>1</Text>
                                 </View>
-
-                                <View style={styles.inputGroup}>
-                                    <View style={styles.amountLabelRow}>
-                                        <Text style={styles.inputLabel}>Amount (USDC)</Text>
-                                        {usdcBalance !== null && usdcBalance > 0 && (
-                                            <TouchableOpacity onPress={handleUseMax}>
-                                                <Text style={styles.maxButton}>
-                                                    Use Max ({usdcBalance.toFixed(2)})
-                                                </Text>
-                                            </TouchableOpacity>
-                                        )}
-                                    </View>
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="0.00"
-                                        placeholderTextColor={colors.text.placeholder}
-                                        value={amount}
-                                        onChangeText={setAmount}
-                                        keyboardType="decimal-pad"
-                                    />
-                                </View>
-
-                                <TouchableOpacity
-                                    onPress={handleTransfer}
-                                    disabled={!canSend}
-                                    activeOpacity={0.8}
-                                >
-                                    <LinearGradient
-                                        colors={
-                                            canSend
-                                                ? [colors.button.success.start, colors.button.success.end]
-                                                : ['#374151', '#374151']
-                                        }
-                                        start={{ x: 0, y: 0 }}
-                                        end={{ x: 1, y: 0 }}
-                                        style={[styles.sendButton, !canSend && styles.sendButtonDisabled]}
-                                    >
-                                        <Text style={styles.sendButtonText}>
-                                            {sending
-                                                ? retryCount > 0
-                                                    ? `Retrying... (${retryCount}/3)`
-                                                    : 'Sending...'
-                                                : 'Send USDC (Gasless!)'}
-                                        </Text>
-                                    </LinearGradient>
-                                </TouchableOpacity>
-
-                                <View style={styles.gaslessInfo}>
-                                    <Text style={styles.gaslessText}>
-                                        ✨ 100% Gasless - LazorKit's paymaster covers all fees
+                                <View style={styles.stepContent}>
+                                    <Text style={styles.stepTitle}>Build Transaction</Text>
+                                    <Text style={styles.stepDescription}>
+                                        Create USDC transfer instructions including automatic
+                                        token account creation if needed.
                                     </Text>
                                 </View>
                             </View>
 
-                            {/* Last Transaction */}
-                            {lastTxSignature && (
-                                <TouchableOpacity
-                                    style={styles.txCard}
-                                    onPress={() => Linking.openURL(getExplorerUrl(lastTxSignature))}
-                                >
-                                    <Text style={styles.txLabel}>Last Transaction:</Text>
-                                    <Text style={styles.txSignature}>
-                                        {lastTxSignature.slice(0, 20)}...{lastTxSignature.slice(-20)} ↗
+                            <View style={styles.step}>
+                                <View style={styles.stepNumber}>
+                                    <Text style={styles.stepNumberText}>2</Text>
+                                </View>
+                                <View style={styles.stepContent}>
+                                    <Text style={styles.stepTitle}>Paymaster Sponsorship</Text>
+                                    <Text style={styles.stepDescription}>
+                                        LazorKit's paymaster sponsors the fees - users never need
+                                        SOL for gas.
                                     </Text>
-                                </TouchableOpacity>
-                            )}
-                        </View>
-                    )}
-
-                    {/* How It Works */}
-                    <View style={styles.howItWorksCard}>
-                        <Text style={styles.sectionTitle}>How Gasless Works</Text>
-
-                        <View style={styles.step}>
-                            <View style={styles.stepNumber}>
-                                <Text style={styles.stepNumberText}>1</Text>
+                                </View>
                             </View>
-                            <View style={styles.stepContent}>
-                                <Text style={styles.stepTitle}>Build Transaction</Text>
-                                <Text style={styles.stepDescription}>
-                                    Create USDC transfer instructions including automatic
-                                    token account creation if needed.
+
+                            <View style={styles.step}>
+                                <View style={styles.stepNumber}>
+                                    <Text style={styles.stepNumberText}>3</Text>
+                                </View>
+                                <View style={styles.stepContent}>
+                                    <Text style={styles.stepTitle}>Sign via Passkey</Text>
+                                    <Text style={styles.stepDescription}>
+                                        Sign with Face ID/Touch ID and the transaction is sent
+                                        to Solana.
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        {/* Code Example */}
+                        <View style={styles.codeCard}>
+                            <Text style={styles.sectionTitle}>Code Example</Text>
+                            <View style={styles.mobileHighlight}>
+                                <Text style={styles.mobileHighlightText}>
+                                    📱 Mobile: Include redirectUrl for deep link return
                                 </Text>
                             </View>
-                        </View>
-
-                        <View style={styles.step}>
-                            <View style={styles.stepNumber}>
-                                <Text style={styles.stepNumberText}>2</Text>
-                            </View>
-                            <View style={styles.stepContent}>
-                                <Text style={styles.stepTitle}>Paymaster Sponsorship</Text>
-                                <Text style={styles.stepDescription}>
-                                    LazorKit's paymaster sponsors the fees - users never need
-                                    SOL for gas.
-                                </Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.step}>
-                            <View style={styles.stepNumber}>
-                                <Text style={styles.stepNumberText}>3</Text>
-                            </View>
-                            <View style={styles.stepContent}>
-                                <Text style={styles.stepTitle}>Sign via Passkey</Text>
-                                <Text style={styles.stepDescription}>
-                                    Sign with Face ID/Touch ID and the transaction is sent
-                                    to Solana.
-                                </Text>
-                            </View>
-                        </View>
-                    </View>
-
-                    {/* Code Example */}
-                    <View style={styles.codeCard}>
-                        <Text style={styles.sectionTitle}>Code Example</Text>
-                        <View style={styles.mobileHighlight}>
-                            <Text style={styles.mobileHighlightText}>
-                                📱 Mobile: Include redirectUrl for deep link return
-                            </Text>
-                        </View>
-                        <View style={styles.codeBlock}>
-                            <Text style={styles.code}>
-{`import { useWallet } from '@lazorkit/wallet-mobile-adapter';
+                            <View style={styles.codeBlock}>
+                                <Text style={styles.code}>
+                                    {`import { useWallet } from '@lazorkit/wallet-mobile-adapter';
 import * as Linking from 'expo-linking';
 
 const { signAndSendTransaction } = useWallet();
@@ -394,32 +394,32 @@ const signature = await signAndSendTransaction(
   },
   { redirectUrl: Linking.createURL('return/path') }
 );`}
-                            </Text>
-                        </View>
-                        <View style={styles.cookbookNote}>
-                            <Text style={styles.cookbookNoteText}>
-                                💡 This cookbook includes a WalletContext wrapper that simplifies
-                                state management across screens.{'\n\n'}
-                                📖 See:{' '}
-                                <Text
-                                    style={styles.link}
-                                    onPress={() =>
-                                        Linking.openURL(
-                                            'https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/03-cookbook-patterns.md'
-                                        )
-                                    }
-                                >
-                                    docs/mobile/03-cookbook-patterns.md
                                 </Text>
-                            </Text>
+                            </View>
+                            <View style={styles.cookbookNote}>
+                                <Text style={styles.cookbookNoteText}>
+                                    💡 This cookbook includes a WalletContext wrapper that simplifies
+                                    state management across screens.{'\n\n'}
+                                    📖 See:{' '}
+                                    <Text
+                                        style={styles.link}
+                                        onPress={() =>
+                                            Linking.openURL(
+                                                'https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/03-cookbook-patterns.md'
+                                            )
+                                        }
+                                    >
+                                        docs/mobile/03-cookbook-patterns.md
+                                    </Text>
+                                </Text>
+                            </View>
                         </View>
-                    </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
+                    </ScrollView>
+                </KeyboardAvoidingView>
 
-            {/* Footer */}
-            <Footer />
-        </LinearGradient>
+                {/* Footer */}
+                <Footer />
+            </LinearGradient>
         </>
     );
 }

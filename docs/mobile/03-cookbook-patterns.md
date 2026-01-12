@@ -17,7 +17,7 @@ Your React Native App
 ┌───────────────────────────────────────────┐
 │  Cookbook Patterns (what we built)        │
 │  - WalletContext (shared state wrapper)   │
-│  - useLazorkitWallet (convenience hook)   │
+│  - useLazorkitWalletConnect (convenience hook)   │
 │  - processInstructionsForLazorKit         │
 │  - useBalances                            │
 └───────────────────────────────────────────┘
@@ -161,15 +161,15 @@ export function useWalletContext() {
 | Manual error handling | Consistent Alert-based errors |
 | No `connecting` state | Built-in `connecting` boolean |
 
-### Usage with useLazorkitWallet Hook
+### Usage with useLazorkitWalletConnect Hook
 
 For convenience, we also provide a simple hook wrapper:
 
 ```typescript
-// hooks/useLazorkitWallet.ts
+// hooks/useLazorkitWalletConnect.ts
 import { useWalletContext } from '@/contexts/WalletContext';
 
-export function useLazorkitWallet() {
+export function useLazorkitWalletConnect() {
     return useWalletContext();
 }
 ```
@@ -177,10 +177,10 @@ export function useLazorkitWallet() {
 ### In Your Components
 
 ```typescript
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 
 function MyScreen() {
-    const { wallet, isConnected, connect, connecting, signAndSendTransaction } = useLazorkitWallet();
+    const { wallet, isConnected, connect, connecting, signAndSendTransaction } = useLazorkitWalletConnect();
 
     const handleConnect = () => {
         // Just pass the return path - context handles the rest
@@ -290,11 +290,11 @@ export function processInstructionsForLazorKit(
 
 ```typescript
 import { processInstructionsForLazorKit } from '@/lib/lazorkit-utils';
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 import { Transaction } from '@solana/web3.js';
 
 function SwapScreen() {
-    const { wallet, signAndSendTransaction } = useLazorkitWallet();
+    const { wallet, signAndSendTransaction } = useLazorkitWalletConnect();
 
     const handleSwap = async () => {
         // 1. Get transaction from Raydium API
@@ -374,7 +374,7 @@ export function useBalances(walletAddress: string | undefined) {
 ### Usage
 
 ```typescript
-const { wallet, isConnected } = useLazorkitWallet();
+const { wallet, isConnected } = useLazorkitWalletConnect();
 const { solBalance, usdcBalance, loading, fetchBalances } = useBalances(
     isConnected ? wallet?.smartWallet : null
 );
@@ -425,7 +425,7 @@ export default function RootLayout() {
 
 | Pattern | Web | Mobile |
 |---------|-----|--------|
-| Wallet wrapper hook | `useLazorkitWalletConnect` | `useLazorkitWallet` (via WalletContext) |
+| Wallet wrapper hook | `useLazorkitWalletConnect` | `useLazorkitWalletConnect` (via WalletContext) |
 | Connection | `connect()` (popup) | `connect(redirectPath)` (deep link) |
 | Transaction signing | `signAndSendTransaction(payload)` | `signAndSendTransaction(payload, redirectPath)` |
 | External SDK integration | `processInstructionsForLazorKit` | Same utility |
@@ -439,7 +439,7 @@ The main difference is **redirect URL handling**. Our `WalletContext` wrapper ab
 
 All mobile utilities are in:
 - `/mobile/contexts/WalletContext.tsx` - Shared wallet state
-- `/mobile/hooks/useLazorkitWallet.ts` - Convenience hook
+- `/mobile/hooks/useLazorkitWalletConnect.ts` - Convenience hook
 - `/mobile/hooks/useBalances.ts` - Balance management
 - `/mobile/lib/lazorkit-utils.ts` - External SDK integration
 

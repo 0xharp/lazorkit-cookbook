@@ -79,7 +79,7 @@ import {
     Platform,
 } from 'react-native';
 import { PublicKey } from '@solana/web3.js';
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 import { useBalances } from '@/hooks/useBalances';
 import {
     getConnection,
@@ -98,7 +98,7 @@ Use the centralized hooks for wallet connection and balance management:
 
 ```typescript
 export default function GaslessTransferScreen() {
-    const { wallet, isConnected, connect, signAndSendTransaction, connecting } = useLazorkitWallet();
+    const { wallet, isConnected, connect, signAndSendTransaction, connecting } = useLazorkitWalletConnect();
 
     // Balance management
     const { usdcBalance, loading, fetchBalances } = useBalances(
@@ -351,7 +351,7 @@ The complete implementation uses centralized hooks and utility functions for cle
 
 | Hook | Description |
 |------|-------------|
-| `useLazorkitWallet()` | Mobile wallet connection with deep link flow |
+| `useLazorkitWalletConnect()` | Mobile wallet connection with deep link flow |
 | `useBalances()` | Automatic SOL/USDC balance management |
 
 **Utility Functions:**
@@ -366,7 +366,7 @@ The complete implementation uses centralized hooks and utility functions for cle
 **Key Pattern - Gasless Transfer:**
 
 ```typescript
-const { signAndSendTransaction } = useLazorkitWallet();
+const { signAndSendTransaction } = useLazorkitWalletConnect();
 
 // Build instructions (handles ATA creation automatically)
 const instructions = await buildUsdcTransferInstructions(

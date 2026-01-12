@@ -15,7 +15,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import axios from 'axios';
 import { RAYDIUM_DEV_SWAP_HOST, RAYDIUM_DEV_BASE_HOST, RAYDIUM_DEV_PRIORITY_FEE, COMPUTE_UNITS } from '@/lib/constants';
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 import {
     getConnection,
     getSolBalance,
@@ -45,7 +45,7 @@ const TOKENS = {
 type TokenSymbol = 'SOL' | 'USDC';
 
 export default function RaydiumSwapScreen() {
-    const { wallet, isConnected, connect, signAndSendTransaction, connecting } = useLazorkitWallet();
+    const { wallet, isConnected, connect, signAndSendTransaction, connecting } = useLazorkitWalletConnect();
 
     const [inputToken, setInputToken] = useState<TokenSymbol>('SOL');
     const [outputToken, setOutputToken] = useState<TokenSymbol>('USDC');
@@ -294,256 +294,256 @@ export default function RaydiumSwapScreen() {
 
     return (
         <>
-        <Stack.Screen
-            options={{
-                title: 'Gasless Raydium Token Swaps',
-            }}
-        />
-        <LinearGradient
-            colors={[colors.gradient.start, colors.gradient.middle, colors.gradient.end]}
-            style={styles.container}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-        >
-            <KeyboardAvoidingView
-                style={styles.keyboardView}
-                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                keyboardVerticalOffset={100}
+            <Stack.Screen
+                options={{
+                    title: 'Gasless Raydium Token Swaps',
+                }}
+            />
+            <LinearGradient
+                colors={[colors.gradient.start, colors.gradient.middle, colors.gradient.end]}
+                style={styles.container}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
             >
-                <ScrollView
-                    style={styles.scrollView}
-                    contentContainerStyle={styles.content}
-                    keyboardShouldPersistTaps="handled"
-                    showsVerticalScrollIndicator={false}
+                <KeyboardAvoidingView
+                    style={styles.keyboardView}
+                    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                    keyboardVerticalOffset={100}
                 >
-                    {/* Header */}
-                    <View style={styles.header}>
-                        <Text style={styles.emoji}>🔄</Text>
-                        <Text style={styles.title}>Gasless Token Swaps with Raydium</Text>
-                        <Text style={styles.subtitle}>
-                            Swap tokens on Raydium DEX without paying gas fees
-                        </Text>
-                    </View>
-
-                    {/* Devnet Warning */}
-                    <View style={styles.warningCard}>
-                        <Text style={styles.warningTitle}>⚠️ Devnet Limitations</Text>
-                        <Text style={styles.warningText}>
-                            Supporting SOL ↔ USDC pair. Some swap directions may fail due to pool
-                            limitations. Try swapping in the other direction if needed.
-                        </Text>
-                    </View>
-
-                    {!isConnected ? (
-                        /* Not Connected State */
-                        <View style={styles.glassCard}>
-                            <Text style={styles.lockIcon}>🔄</Text>
-                            <Text style={styles.connectTitle}>Connect to Start</Text>
-                            <Text style={styles.connectDescription}>
-                                Connect your wallet to swap tokens gaslessly
+                    <ScrollView
+                        style={styles.scrollView}
+                        contentContainerStyle={styles.content}
+                        keyboardShouldPersistTaps="handled"
+                        showsVerticalScrollIndicator={false}
+                    >
+                        {/* Header */}
+                        <View style={styles.header}>
+                            <Text style={styles.emoji}>🔄</Text>
+                            <Text style={styles.title}>Gasless Token Swaps with Raydium</Text>
+                            <Text style={styles.subtitle}>
+                                Swap tokens on Raydium DEX without paying gas fees
                             </Text>
-
-                            <TouchableOpacity
-                                onPress={handleConnect}
-                                disabled={connecting}
-                                activeOpacity={0.8}
-                            >
-                                <LinearGradient
-                                    colors={[colors.button.primary.start, colors.button.primary.end]}
-                                    start={{ x: 0, y: 0 }}
-                                    end={{ x: 1, y: 0 }}
-                                    style={styles.connectButton}
-                                >
-                                    <Text style={styles.connectButtonText}>
-                                        {connecting ? 'Connecting...' : '🔑 Connect Wallet'}
-                                    </Text>
-                                </LinearGradient>
-                            </TouchableOpacity>
                         </View>
-                    ) : (
-                        /* Swap Interface */
-                        <View style={styles.swapContainer}>
-                            {/* Balances Card */}
-                            <View style={styles.balancesCard}>
-                                <View style={styles.balancesHeader}>
-                                    <Text style={styles.balancesTitle}>Your Balances</Text>
-                                    <TouchableOpacity onPress={fetchBalances} disabled={refreshing}>
-                                        <Text style={styles.refreshText}>
-                                            {refreshing ? '⏳' : '🔄'} Refresh
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={styles.balancesRow}>
-                                    <View style={styles.balanceItem}>
-                                        <Text style={styles.balanceLabel}>SOL</Text>
-                                        <Text style={styles.balanceValue}>{balances.SOL.toFixed(4)}</Text>
-                                    </View>
-                                    <View style={styles.balanceItem}>
-                                        <Text style={styles.balanceLabel}>USDC</Text>
-                                        <Text style={styles.balanceValue}>{balances.USDC.toFixed(2)}</Text>
-                                    </View>
-                                </View>
-                            </View>
 
-                            {/* Swap Card */}
-                            <View style={styles.swapCard}>
-                                {/* Input Token */}
-                                <View style={styles.tokenSection}>
-                                    <Text style={styles.tokenLabel}>You Pay</Text>
-                                    <View style={styles.tokenInputRow}>
-                                        <TextInput
-                                            style={styles.tokenInput}
-                                            placeholder="0.0"
-                                            placeholderTextColor={colors.text.placeholder}
-                                            value={inputAmount}
-                                            onChangeText={setInputAmount}
-                                            keyboardType="decimal-pad"
-                                        />
-                                        <View style={styles.tokenSelector}>
-                                            <TouchableOpacity
-                                                style={[
-                                                    styles.tokenButton,
-                                                    inputToken === 'SOL' && styles.tokenButtonActive,
-                                                ]}
-                                                onPress={() => {
-                                                    if (inputToken !== 'SOL') {
-                                                        setInputToken('SOL');
-                                                        setOutputToken('USDC');
-                                                        setInputAmount('');
-                                                        setOutputAmount('');
-                                                    }
-                                                }}
-                                            >
-                                                <Text style={styles.tokenButtonText}>SOL</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                style={[
-                                                    styles.tokenButton,
-                                                    inputToken === 'USDC' && styles.tokenButtonActive,
-                                                ]}
-                                                onPress={() => {
-                                                    if (inputToken !== 'USDC') {
-                                                        setInputToken('USDC');
-                                                        setOutputToken('SOL');
-                                                        setInputAmount('');
-                                                        setOutputAmount('');
-                                                    }
-                                                }}
-                                            >
-                                                <Text style={styles.tokenButtonText}>USDC</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                </View>
+                        {/* Devnet Warning */}
+                        <View style={styles.warningCard}>
+                            <Text style={styles.warningTitle}>⚠️ Devnet Limitations</Text>
+                            <Text style={styles.warningText}>
+                                Supporting SOL ↔ USDC pair. Some swap directions may fail due to pool
+                                limitations. Try swapping in the other direction if needed.
+                            </Text>
+                        </View>
 
-                                {/* Flip Button */}
-                                <View style={styles.flipContainer}>
-                                    <TouchableOpacity style={styles.flipButton} onPress={handleFlipTokens}>
-                                        <Text style={styles.flipText}>⇅</Text>
-                                    </TouchableOpacity>
-                                </View>
+                        {!isConnected ? (
+                            /* Not Connected State */
+                            <View style={styles.glassCard}>
+                                <Text style={styles.lockIcon}>🔄</Text>
+                                <Text style={styles.connectTitle}>Connect to Start</Text>
+                                <Text style={styles.connectDescription}>
+                                    Connect your wallet to swap tokens gaslessly
+                                </Text>
 
-                                {/* Output Token */}
-                                <View style={styles.tokenSection}>
-                                    <Text style={styles.tokenLabel}>You Receive</Text>
-                                    <View style={styles.tokenInputRow}>
-                                        <Text style={styles.outputValue}>{outputAmount || '0.0'}</Text>
-                                        <View style={styles.outputTokenBadge}>
-                                            <Text style={styles.outputTokenText}>{outputToken}</Text>
-                                        </View>
-                                    </View>
-                                </View>
-
-                                {/* Quote Error */}
-                                {quoteError && (
-                                    <View style={styles.errorCard}>
-                                        <Text style={styles.errorText}>{quoteError}</Text>
-                                    </View>
-                                )}
-
-                                {/* Swap Button */}
                                 <TouchableOpacity
-                                    onPress={handleSwap}
-                                    disabled={!canSwap}
+                                    onPress={handleConnect}
+                                    disabled={connecting}
                                     activeOpacity={0.8}
                                 >
                                     <LinearGradient
-                                        colors={
-                                            canSwap
-                                                ? [colors.button.success.start, colors.button.success.end]
-                                                : ['#374151', '#374151']
-                                        }
+                                        colors={[colors.button.primary.start, colors.button.primary.end]}
                                         start={{ x: 0, y: 0 }}
                                         end={{ x: 1, y: 0 }}
-                                        style={[styles.swapButton, !canSwap && styles.swapButtonDisabled]}
+                                        style={styles.connectButton}
                                     >
-                                        <Text style={styles.swapButtonText}>
-                                            {swapping ? 'Swapping...' : 'Swap (Gasless!)'}
+                                        <Text style={styles.connectButtonText}>
+                                            {connecting ? 'Connecting...' : '🔑 Connect Wallet'}
                                         </Text>
                                     </LinearGradient>
                                 </TouchableOpacity>
+                            </View>
+                        ) : (
+                            /* Swap Interface */
+                            <View style={styles.swapContainer}>
+                                {/* Balances Card */}
+                                <View style={styles.balancesCard}>
+                                    <View style={styles.balancesHeader}>
+                                        <Text style={styles.balancesTitle}>Your Balances</Text>
+                                        <TouchableOpacity onPress={fetchBalances} disabled={refreshing}>
+                                            <Text style={styles.refreshText}>
+                                                {refreshing ? '⏳' : '🔄'} Refresh
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.balancesRow}>
+                                        <View style={styles.balanceItem}>
+                                            <Text style={styles.balanceLabel}>SOL</Text>
+                                            <Text style={styles.balanceValue}>{balances.SOL.toFixed(4)}</Text>
+                                        </View>
+                                        <View style={styles.balanceItem}>
+                                            <Text style={styles.balanceLabel}>USDC</Text>
+                                            <Text style={styles.balanceValue}>{balances.USDC.toFixed(2)}</Text>
+                                        </View>
+                                    </View>
+                                </View>
 
-                                <Text style={styles.poweredBy}>
-                                    ✨ No gas fees • Powered by LazorKit + Raydium
+                                {/* Swap Card */}
+                                <View style={styles.swapCard}>
+                                    {/* Input Token */}
+                                    <View style={styles.tokenSection}>
+                                        <Text style={styles.tokenLabel}>You Pay</Text>
+                                        <View style={styles.tokenInputRow}>
+                                            <TextInput
+                                                style={styles.tokenInput}
+                                                placeholder="0.0"
+                                                placeholderTextColor={colors.text.placeholder}
+                                                value={inputAmount}
+                                                onChangeText={setInputAmount}
+                                                keyboardType="decimal-pad"
+                                            />
+                                            <View style={styles.tokenSelector}>
+                                                <TouchableOpacity
+                                                    style={[
+                                                        styles.tokenButton,
+                                                        inputToken === 'SOL' && styles.tokenButtonActive,
+                                                    ]}
+                                                    onPress={() => {
+                                                        if (inputToken !== 'SOL') {
+                                                            setInputToken('SOL');
+                                                            setOutputToken('USDC');
+                                                            setInputAmount('');
+                                                            setOutputAmount('');
+                                                        }
+                                                    }}
+                                                >
+                                                    <Text style={styles.tokenButtonText}>SOL</Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    style={[
+                                                        styles.tokenButton,
+                                                        inputToken === 'USDC' && styles.tokenButtonActive,
+                                                    ]}
+                                                    onPress={() => {
+                                                        if (inputToken !== 'USDC') {
+                                                            setInputToken('USDC');
+                                                            setOutputToken('SOL');
+                                                            setInputAmount('');
+                                                            setOutputAmount('');
+                                                        }
+                                                    }}
+                                                >
+                                                    <Text style={styles.tokenButtonText}>USDC</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </View>
+
+                                    {/* Flip Button */}
+                                    <View style={styles.flipContainer}>
+                                        <TouchableOpacity style={styles.flipButton} onPress={handleFlipTokens}>
+                                            <Text style={styles.flipText}>⇅</Text>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    {/* Output Token */}
+                                    <View style={styles.tokenSection}>
+                                        <Text style={styles.tokenLabel}>You Receive</Text>
+                                        <View style={styles.tokenInputRow}>
+                                            <Text style={styles.outputValue}>{outputAmount || '0.0'}</Text>
+                                            <View style={styles.outputTokenBadge}>
+                                                <Text style={styles.outputTokenText}>{outputToken}</Text>
+                                            </View>
+                                        </View>
+                                    </View>
+
+                                    {/* Quote Error */}
+                                    {quoteError && (
+                                        <View style={styles.errorCard}>
+                                            <Text style={styles.errorText}>{quoteError}</Text>
+                                        </View>
+                                    )}
+
+                                    {/* Swap Button */}
+                                    <TouchableOpacity
+                                        onPress={handleSwap}
+                                        disabled={!canSwap}
+                                        activeOpacity={0.8}
+                                    >
+                                        <LinearGradient
+                                            colors={
+                                                canSwap
+                                                    ? [colors.button.success.start, colors.button.success.end]
+                                                    : ['#374151', '#374151']
+                                            }
+                                            start={{ x: 0, y: 0 }}
+                                            end={{ x: 1, y: 0 }}
+                                            style={[styles.swapButton, !canSwap && styles.swapButtonDisabled]}
+                                        >
+                                            <Text style={styles.swapButtonText}>
+                                                {swapping ? 'Swapping...' : 'Swap (Gasless!)'}
+                                            </Text>
+                                        </LinearGradient>
+                                    </TouchableOpacity>
+
+                                    <Text style={styles.poweredBy}>
+                                        ✨ No gas fees • Powered by LazorKit + Raydium
+                                    </Text>
+                                </View>
+                            </View>
+                        )}
+
+                        {/* How It Works */}
+                        <View style={styles.howItWorksCard}>
+                            <Text style={styles.sectionTitle}>Integration Pattern</Text>
+
+                            <View style={styles.step}>
+                                <View style={styles.stepNumber}>
+                                    <Text style={styles.stepNumberText}>1</Text>
+                                </View>
+                                <View style={styles.stepContent}>
+                                    <Text style={styles.stepTitle}>Request LEGACY Transaction</Text>
+                                    <Text style={styles.stepDescription}>
+                                        Request txVersion: 'LEGACY' from Raydium API for simpler
+                                        instruction handling.
+                                    </Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.step}>
+                                <View style={styles.stepNumber}>
+                                    <Text style={styles.stepNumberText}>2</Text>
+                                </View>
+                                <View style={styles.stepContent}>
+                                    <Text style={styles.stepTitle}>Process for LazorKit</Text>
+                                    <Text style={styles.stepDescription}>
+                                        Filter ComputeBudget instructions and add smart wallet to all
+                                        instruction accounts.
+                                    </Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.step}>
+                                <View style={styles.stepNumber}>
+                                    <Text style={styles.stepNumberText}>3</Text>
+                                </View>
+                                <View style={styles.stepContent}>
+                                    <Text style={styles.stepTitle}>Send via Paymaster</Text>
+                                    <Text style={styles.stepDescription}>
+                                        LazorKit's paymaster sponsors gas fees, user signs with passkey.
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        {/* Code Example */}
+                        <View style={styles.codeCard}>
+                            <Text style={styles.sectionTitle}>Key Code</Text>
+                            <View style={styles.mobileHighlight}>
+                                <Text style={styles.mobileHighlightText}>
+                                    📱 Mobile: Add redirectUrl option for deep link
                                 </Text>
                             </View>
-                        </View>
-                    )}
-
-                    {/* How It Works */}
-                    <View style={styles.howItWorksCard}>
-                        <Text style={styles.sectionTitle}>Integration Pattern</Text>
-
-                        <View style={styles.step}>
-                            <View style={styles.stepNumber}>
-                                <Text style={styles.stepNumberText}>1</Text>
-                            </View>
-                            <View style={styles.stepContent}>
-                                <Text style={styles.stepTitle}>Request LEGACY Transaction</Text>
-                                <Text style={styles.stepDescription}>
-                                    Request txVersion: 'LEGACY' from Raydium API for simpler
-                                    instruction handling.
-                                </Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.step}>
-                            <View style={styles.stepNumber}>
-                                <Text style={styles.stepNumberText}>2</Text>
-                            </View>
-                            <View style={styles.stepContent}>
-                                <Text style={styles.stepTitle}>Process for LazorKit</Text>
-                                <Text style={styles.stepDescription}>
-                                    Filter ComputeBudget instructions and add smart wallet to all
-                                    instruction accounts.
-                                </Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.step}>
-                            <View style={styles.stepNumber}>
-                                <Text style={styles.stepNumberText}>3</Text>
-                            </View>
-                            <View style={styles.stepContent}>
-                                <Text style={styles.stepTitle}>Send via Paymaster</Text>
-                                <Text style={styles.stepDescription}>
-                                    LazorKit's paymaster sponsors gas fees, user signs with passkey.
-                                </Text>
-                            </View>
-                        </View>
-                    </View>
-
-                    {/* Code Example */}
-                    <View style={styles.codeCard}>
-                        <Text style={styles.sectionTitle}>Key Code</Text>
-                        <View style={styles.mobileHighlight}>
-                            <Text style={styles.mobileHighlightText}>
-                                📱 Mobile: Add redirectUrl option for deep link
-                            </Text>
-                        </View>
-                        <View style={styles.codeBlock}>
-                            <Text style={styles.code}>
-{`import { useWallet } from '@lazorkit/wallet-mobile-adapter';
+                            <View style={styles.codeBlock}>
+                                <Text style={styles.code}>
+                                    {`import { useWallet } from '@lazorkit/wallet-mobile-adapter';
 import * as Linking from 'expo-linking';
 
 const { signAndSendTransaction } = useWallet();
@@ -562,32 +562,32 @@ await signAndSendTransaction(
   },
   { redirectUrl: Linking.createURL('return/path') }
 );`}
-                            </Text>
-                        </View>
-                        <View style={styles.cookbookNote}>
-                            <Text style={styles.cookbookNoteText}>
-                                💡 This cookbook includes a WalletContext wrapper that simplifies
-                                state management across screens.{'\n\n'}
-                                📖 See:{' '}
-                                <Text
-                                    style={styles.link}
-                                    onPress={() =>
-                                        Linking.openURL(
-                                            'https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/03-cookbook-patterns.md'
-                                        )
-                                    }
-                                >
-                                    docs/mobile/03-cookbook-patterns.md
                                 </Text>
-                            </Text>
+                            </View>
+                            <View style={styles.cookbookNote}>
+                                <Text style={styles.cookbookNoteText}>
+                                    💡 This cookbook includes a WalletContext wrapper that simplifies
+                                    state management across screens.{'\n\n'}
+                                    📖 See:{' '}
+                                    <Text
+                                        style={styles.link}
+                                        onPress={() =>
+                                            Linking.openURL(
+                                                'https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/03-cookbook-patterns.md'
+                                            )
+                                        }
+                                    >
+                                        docs/mobile/03-cookbook-patterns.md
+                                    </Text>
+                                </Text>
+                            </View>
                         </View>
-                    </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
+                    </ScrollView>
+                </KeyboardAvoidingView>
 
-            {/* Footer */}
-            <Footer />
-        </LinearGradient>
+                {/* Footer */}
+                <Footer />
+            </LinearGradient>
         </>
     );
 }

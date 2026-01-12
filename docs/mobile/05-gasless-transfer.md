@@ -15,11 +15,11 @@ This example demonstrates:
 With our `WalletContext` wrapper, you don't need to manually construct redirect URLs:
 
 ```typescript
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 import { buildUsdcTransferInstructions } from '@/lib/solana-utils';
 
 function TransferScreen() {
-    const { wallet, signAndSendTransaction } = useLazorkitWallet();
+    const { wallet, signAndSendTransaction } = useLazorkitWalletConnect();
 
     const handleTransfer = async () => {
         const instructions = await buildUsdcTransferInstructions(

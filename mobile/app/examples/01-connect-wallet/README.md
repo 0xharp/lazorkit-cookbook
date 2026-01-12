@@ -98,14 +98,14 @@ export function LazorkitProvider({ children }: { children: ReactNode }) {
 Create a custom hook to manage wallet connection with deep links:
 
 ```typescript
-// hooks/useLazorkitWallet.ts
+// hooks/useLazorkitWalletConnect.ts
 import { useEffect, useCallback } from 'react';
 import { useWallet } from '@lazorkit/wallet-mobile-adapter';
 import * as Linking from 'expo-linking';
 
 const APP_SCHEME = 'lazorkitcookbook';
 
-export function useLazorkitWallet() {
+export function useLazorkitWalletConnect() {
   const { wallet, isConnected, connect: sdkConnect, disconnect, signAndSendTransaction } = useWallet();
 
   // Handle deep link returns from LazorKit portal
@@ -143,10 +143,10 @@ export function useLazorkitWallet() {
 Use the custom hook to trigger authentication:
 
 ```typescript
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 
 export default function WalletScreen() {
-  const { wallet, isConnected, connect, connecting } = useLazorkitWallet();
+  const { wallet, isConnected, connect, connecting } = useLazorkitWalletConnect();
 
   const handleConnect = () => {
     // Pass the return path for deep link redirect
@@ -207,7 +207,7 @@ Use the `useBalances` hook to automatically fetch and manage SOL and USDC balanc
 import { useBalances } from '@/hooks/useBalances';
 
 export default function WalletScreen() {
-  const { wallet, isConnected } = useLazorkitWallet();
+  const { wallet, isConnected } = useLazorkitWalletConnect();
 
   // Automatically fetches balances when wallet connects
   const { solBalance, usdcBalance, loading, fetchBalances } = useBalances(
@@ -296,7 +296,7 @@ The complete implementation uses the centralized hooks and utilities for clean, 
 
 | Hook | Description |
 |------|-------------|
-| `useLazorkitWallet()` | Handles wallet connection with deep link flow |
+| `useLazorkitWalletConnect()` | Handles wallet connection with deep link flow |
 | `useBalances()` | Fetches and manages SOL/USDC balances automatically |
 
 **Utility Functions:**
@@ -309,11 +309,11 @@ The complete implementation uses the centralized hooks and utilities for clean, 
 **Key Pattern - Mobile Wallet Connection:**
 
 ```typescript
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 import { useBalances } from '@/hooks/useBalances';
 
 export default function WalletScreen() {
-  const { wallet, isConnected, connect } = useLazorkitWallet();
+  const { wallet, isConnected, connect } = useLazorkitWalletConnect();
 
   const { solBalance, usdcBalance, fetchBalances } = useBalances(
     isConnected ? wallet?.smartWallet : null

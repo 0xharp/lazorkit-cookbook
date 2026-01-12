@@ -15,10 +15,10 @@ This example demonstrates:
 With our `WalletContext` wrapper, the redirect URL is handled automatically:
 
 ```typescript
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 import { processInstructionsForLazorKit } from '@/lib/lazorkit-utils';
 
-const { wallet, signAndSendTransaction } = useLazorkitWallet();
+const { wallet, signAndSendTransaction } = useLazorkitWalletConnect();
 
 // After processing the Raydium transaction...
 const instructions = processInstructionsForLazorKit(

@@ -76,7 +76,7 @@ This cookbook demonstrates how to:
 │                      Your dApp                               │
 ├─────────────────────────────────────────────────────────────┤
 │  COOKBOOK PATTERNS (copy these!)                            │
-│  ├─ Hooks: useLazorkitWallet, useBalances                   │
+│  ├─ Hooks: useLazorkitWalletConnect, useBalances                   │
 │  └─ Utils: processInstructionsForLazorKit                   │
 ├─────────────────────────────────────────────────────────────┤
 │  LazorKit SDK                                               │
@@ -86,6 +86,8 @@ This cookbook demonstrates how to:
 │                      Solana                                  │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+> **Note on Code Sharing:** The web and mobile directories contain similar utility files (`solana-utils.ts`, `lazorkit-utils.ts`). This duplication is intentional - each platform is fully self-contained for easy copy-pasting into your project.
 
 ## Quick Links
 
