@@ -21,6 +21,6 @@
 
 | # | Example | Description |
 |---|---------|-------------|
-| 01 | [Connect Wallet](../mobile/app/examples/01-connect-wallet.tsx) | Passkey authentication with deep linking |
-| 02 | [Gasless Transfer](../mobile/app/examples/02-gasless-transfer.tsx) | USDC transfers without gas fees |
-| 03 | [Raydium Swap](../mobile/app/examples/03-raydium-swap.tsx) | DEX swaps powered by Raydium |
+| 01 | [Connect Wallet](../mobile/app/examples/01-connect-wallet) | Passkey authentication with deep linking |
+| 02 | [Gasless Transfer](../mobile/app/examples/02-gasless-transfer) | USDC transfers without gas fees |
+| 03 | [Raydium Swap](../mobile/app/examples/03-raydium-swap) | DEX swaps powered by Raydium |

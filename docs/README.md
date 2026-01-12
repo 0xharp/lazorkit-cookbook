@@ -53,19 +53,19 @@ This cookbook demonstrates how to:
 | Guide                                                    | Description |
 |----------------------------------------------------------|-------------|
 | [01 - Getting Started](./mobile/01-getting-started.md)   | Expo setup, polyfills, deep linking |
-| [01 - Getting Started](./mobile/02-lazorkit-basics.md)   | What the LazorKit SDK provides natively |
-| [01 - Getting Started](./mobile/03-cookbook-patterns.md) | Reusable patterns  |
-| [02 - Connect Wallet](./mobile/04-connect-wallet.md)     | Passkey auth with deep links |
-| [03 - Gasless Transfer](./mobile/05-gasless-transfer.md) | USDC transfers on mobile |
-| [04 - Raydium Swap](./mobile/06-raydium-swap.md)         | DEX swaps with Raydium API |
+| [02 - LazorKit Basics](./mobile/02-lazorkit-basics.md)   | What the LazorKit SDK provides natively |
+| [03 - Cookbook Patterns](./mobile/03-cookbook-patterns.md) | Reusable patterns  |
+| [04 - Connect Wallet](./mobile/04-connect-wallet.md)     | Passkey auth with deep links |
+| [05 - Gasless Transfer](./mobile/05-gasless-transfer.md) | USDC transfers on mobile |
+| [06 - Raydium Swap](./mobile/06-raydium-swap.md)         | DEX swaps with Raydium API |
 
 ### Mobile Examples
 
-| # | Example                                                                  | Description |
-|---|--------------------------------------------------------------------------|-------------|
-| 01 | [Connect Wallet](../mobile/app/examples/01-connect-wallet/index.tsx)     | Passkey authentication with deep linking |
-| 02 | [Gasless Transfer](../mobile/app/examples/02-gasless-transfer/index.tsx) | USDC transfers without gas fees |
-| 03 | [Raydium Swap](../mobile/app/examples/03-raydium-swap/index.tsx)         | DEX swaps powered by Raydium |
+| # | Example                                                            | Description |
+|---|-------------------------------------------------------------------|-------------|
+| 01 | [Connect Wallet](../mobile/app/examples/01-connect-wallet)        | Passkey authentication with deep linking |
+| 02 | [Gasless Transfer](../mobile/app/examples/02-gasless-transfer)    | USDC transfers without gas fees |
+| 03 | [Raydium Swap](../mobile/app/examples/03-raydium-swap)            | DEX swaps powered by Raydium |
 
 ---
 

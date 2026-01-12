@@ -48,9 +48,9 @@ A collection of working examples demonstrating how LazorKit simplifies Solana de
 
 | # | Example | Description | Docs |
 |---|---------|-------------|------|
-| 01 | [Connect Wallet](mobile/app/examples/01-connect-wallet.tsx) | Passkey auth with deep linking | [Mobile Docs](docs/mobile/02-connect-wallet.md) |
-| 02 | [Gasless Transfer](mobile/app/examples/02-gasless-transfer.tsx) | USDC transfers without gas fees | [Mobile Docs](docs/mobile/03-gasless-transfer.md) |
-| 03 | [Raydium Swap](mobile/app/examples/03-raydium-swap.tsx) | DEX swaps powered by Raydium | [Mobile Docs](docs/mobile/04-raydium-swap.md) |
+| 01 | [Connect Wallet](mobile/app/examples/01-connect-wallet) | Passkey auth with deep linking | [Mobile Docs](docs/mobile/04-connect-wallet.md) |
+| 02 | [Gasless Transfer](mobile/app/examples/02-gasless-transfer) | USDC transfers without gas fees | [Mobile Docs](docs/mobile/05-gasless-transfer.md) |
+| 03 | [Raydium Swap](mobile/app/examples/03-raydium-swap) | DEX swaps powered by Raydium | [Mobile Docs](docs/mobile/06-raydium-swap.md) |
 
 ---
 
@@ -80,11 +80,15 @@ Scan the QR code with Expo Go or run on simulator.
 
 ## Documentation
 
-| Platform | Docs |
-|----------|------|
-| Web | [docs/web/](docs/web/) |
-| Mobile | [docs/mobile/](docs/mobile/) |
-| Overview | [docs/README.md](docs/README.md) |
+This cookbook has **three layers of documentation**:
+
+| Layer | Location | Purpose |
+|-------|----------|---------|
+| **Tutorials** | [`/docs/web/`](docs/web/) & [`/docs/mobile/`](docs/mobile/) | Conceptual guides: LazorKit SDK basics, cookbook patterns, integration strategies |
+| **Example Recipes** | Each example folder | Step-by-step walkthroughs with complete code (e.g., [`web/app/examples/01-passkey-wallet-basics/README.md`](web/app/examples/01-passkey-wallet-basics/README.md)) |
+| **Quick Reference** | [`/examples/`](examples/) | Index linking to all examples across web and mobile |
+
+**Start here:** [docs/README.md](docs/README.md)
 
 ---
 
@@ -93,17 +97,17 @@ Scan the QR code with Expo Go or run on simulator.
 ```
 lazorkit-cookbook/
 ├── web/                    # Next.js web app
-│   ├── app/examples/       # 8 web examples
+│   ├── app/examples/       # 8 web examples (each with detailed README)
 │   ├── hooks/              # Custom React hooks
 │   └── lib/                # Utilities
 ├── mobile/                 # Expo mobile app
-│   ├── app/examples/       # 3 mobile examples
+│   ├── app/examples/       # 3 mobile examples (each with detailed README)
 │   ├── hooks/              # Mobile hooks
 │   └── lib/                # Shared utilities
-├── docs/                   # Documentation
-│   ├── web/                # Web tutorials
-│   └── mobile/             # Mobile tutorials
-├── examples/               # Quick reference
+├── docs/                   # Tutorial documentation
+│   ├── web/                # Web conceptual guides & patterns
+│   └── mobile/             # Mobile conceptual guides & patterns
+├── examples/               # Quick reference index
 └── program/                # Anchor subscription program
 ```
 
