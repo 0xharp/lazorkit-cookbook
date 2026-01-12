@@ -80,7 +80,7 @@ import {
 import { PublicKey, Transaction } from '@solana/web3.js';
 import axios from 'axios';
 import { DEV_API_URLS } from '@raydium-io/raydium-sdk-v2';
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 import { useBalances } from '@/hooks/useBalances';
 import { getConnection, getAssociatedTokenAddressSync } from '@/lib/solana-utils';
 import { processInstructionsForLazorKit } from '@/lib/lazorkit-utils';
@@ -113,7 +113,7 @@ const TOKENS = {
 
 ```typescript
 export default function RaydiumSwapScreen() {
-    const { wallet, isConnected, connect, signAndSendTransaction, connecting } = useLazorkitWallet();
+    const { wallet, isConnected, connect, signAndSendTransaction, connecting } = useLazorkitWalletConnect();
 
     const [inputToken, setInputToken] = useState<'SOL' | 'USDC'>('SOL');
     const [outputToken, setOutputToken] = useState<'SOL' | 'USDC'>('USDC');
@@ -430,7 +430,7 @@ The complete implementation uses centralized hooks and the shared utility functi
 
 | Hook | Description |
 |------|-------------|
-| `useLazorkitWallet()` | Mobile wallet connection with deep link flow |
+| `useLazorkitWalletConnect()` | Mobile wallet connection with deep link flow |
 | `useBalances()` | Automatic SOL/USDC balance management |
 
 **Utility Functions:**

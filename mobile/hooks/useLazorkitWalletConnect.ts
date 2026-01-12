@@ -12,6 +12,6 @@ import { useWalletContext } from '@/contexts/WalletContext';
  * - Alert-based error display
  * - Deep link redirect handling
  */
-export function useLazorkitWallet() {
+export function useLazorkitWalletConnect() {
     return useWalletContext();
 }

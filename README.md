@@ -111,7 +111,7 @@ lazorkit-cookbook/
 └── program/                # Anchor subscription program
 ```
 
----
+> **Note on Code Sharing:** The `/web/lib` and `/mobile/lib` directories contain similar utilities (e.g., `solana-utils.ts`, `lazorkit-utils.ts`). This is intentional - each platform is self-contained so you can copy the code directly into your project without dependencies on a shared package.
 
 ## Live Demo
 

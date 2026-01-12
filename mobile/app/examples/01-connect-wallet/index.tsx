@@ -12,7 +12,7 @@ import {
 import * as Clipboard from 'expo-clipboard';
 import { LinearGradient } from 'expo-linear-gradient';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 import { useBalances } from '@/hooks/useBalances';
 import { getConnection, shortenAddress } from '@/lib/solana-utils';
 import { colors, spacing, borderRadius, fontSize, commonStyles } from '@/lib/theme';
@@ -20,7 +20,7 @@ import { Footer } from '@/components/Footer'
 import { Stack } from 'expo-router';
 
 export default function ConnectWalletScreen() {
-    const { wallet, isConnected, connect, disconnect, connecting } = useLazorkitWallet();
+    const { wallet, isConnected, connect, disconnect, connecting } = useLazorkitWalletConnect();
     const { solBalance, usdcBalance, loading, fetchBalances } = useBalances(
         isConnected ? wallet?.smartWallet : null
     );
@@ -82,228 +82,228 @@ export default function ConnectWalletScreen() {
                     title: 'Connect Wallet',
                 }}
             />
-        <LinearGradient
-            colors={[colors.gradient.start, colors.gradient.middle, colors.gradient.end]}
-            style={styles.container}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-        >
-            <ScrollView
-                style={styles.scrollView}
-                contentContainerStyle={styles.content}
-                showsVerticalScrollIndicator={false}
-                refreshControl={
-                    isConnected ? (
-                        <RefreshControl
-                            refreshing={loading}
-                            onRefresh={fetchBalances}
-                            tintColor={colors.accent.purple}
-                        />
-                    ) : undefined
-                }
+            <LinearGradient
+                colors={[colors.gradient.start, colors.gradient.middle, colors.gradient.end]}
+                style={styles.container}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
             >
-                {/* Header */}
-                <View style={styles.header}>
-                    <Text style={styles.emoji}>👛</Text>
-                    <Text style={styles.title}>Passkey Wallet Basics</Text>
-                    <Text style={styles.subtitle}>
-                        Create a wallet using passkey authentication with deep linking
-                    </Text>
-                </View>
-
-                {!isConnected ? (
-                    /* Not Connected State */
-                    <View style={styles.connectContainer}>
-                        <View style={styles.glassCard}>
-                            <Text style={styles.lockIcon}>🔐</Text>
-                            <Text style={styles.connectTitle}>Create Your Wallet</Text>
-                            <Text style={styles.connectDescription}>
-                                Tap the button below to create a wallet using Face ID or Touch ID.
-                                No seed phrases needed!
-                            </Text>
-
-                            <TouchableOpacity
-                                onPress={handleConnect}
-                                disabled={connecting}
-                                activeOpacity={0.8}
-                            >
-                                <LinearGradient
-                                    colors={[colors.button.primary.start, colors.button.primary.end]}
-                                    start={{ x: 0, y: 0 }}
-                                    end={{ x: 1, y: 0 }}
-                                    style={styles.connectButton}
-                                >
-                                    <Text style={styles.connectButtonText}>
-                                        {connecting ? 'Creating Wallet...' : '🔑 Create Wallet with Passkey'}
-                                    </Text>
-                                </LinearGradient>
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style={styles.tipCard}>
-                            <Text style={styles.tipText}>
-                                💡 This will open the LazorKit portal for passkey authentication.
-                                After signing, you'll be redirected back to this app.
-                            </Text>
-                        </View>
-                    </View>
-                ) : (
-                    /* Connected State */
-                    <View style={styles.connectedContainer}>
-                        {/* Wallet Info Card */}
-                        <View style={styles.walletCard}>
-                            <View style={styles.statusRow}>
-                                <View style={styles.statusDot} />
-                                <Text style={styles.statusText}>Connected</Text>
-                            </View>
-
-                            <Text style={styles.addressLabel}>Wallet Address</Text>
-                            <TouchableOpacity
-                                onPress={handleCopyAddress}
-                                style={styles.addressContainer}
-                            >
-                                <Text style={styles.address}>
-                                    {shortenAddress(wallet?.smartWallet || '', 8)}
-                                </Text>
-                                <Text style={styles.copyHint}>Tap to copy full address</Text>
-                            </TouchableOpacity>
-
-                            {/* Balances */}
-                            <View style={styles.balancesRow}>
-                                <View style={styles.balanceItem}>
-                                    <Text style={styles.balanceLabel}>SOL</Text>
-                                    <Text style={styles.balanceValue}>
-                                        {solBalance !== null ? solBalance.toFixed(4) : '...'}
-                                    </Text>
-                                </View>
-                                <View style={styles.balanceItem}>
-                                    <Text style={styles.balanceLabel}>USDC</Text>
-                                    <Text style={styles.balanceValue}>
-                                        {usdcBalance !== null ? usdcBalance.toFixed(2) : '...'}
-                                    </Text>
-                                </View>
-                            </View>
-                        </View>
-
-                        {/* Actions */}
-                        <View style={styles.actionsCard}>
-                            <TouchableOpacity
-                                onPress={handleAirdrop}
-                                disabled={airdropping}
-                                style={styles.actionButton}
-                            >
-                                <LinearGradient
-                                    colors={['rgba(59, 130, 246, 0.2)', 'rgba(59, 130, 246, 0.1)']}
-                                    style={styles.actionButtonGradient}
-                                >
-                                    <Text style={styles.actionButtonText}>
-                                        {airdropping ? '⏳ Requesting...' : '💧 Request 1 SOL Airdrop'}
-                                    </Text>
-                                </LinearGradient>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                onPress={() => handleOpenFaucet('usdc')}
-                                style={styles.actionButton}
-                            >
-                                <LinearGradient
-                                    colors={['rgba(34, 197, 94, 0.2)', 'rgba(34, 197, 94, 0.1)']}
-                                    style={styles.actionButtonGradient}
-                                >
-                                    <Text style={styles.actionButtonText}>
-                                        💵 Get USDC (Circle Faucet)
-                                    </Text>
-                                </LinearGradient>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                onPress={handleViewExplorer}
-                                style={styles.actionButton}
-                            >
-                                <View style={styles.actionButtonOutline}>
-                                    <Text style={styles.actionButtonText}>
-                                        🔍 View on Explorer
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                onPress={disconnect}
-                                style={styles.actionButton}
-                            >
-                                <View style={styles.disconnectButtonStyle}>
-                                    <Text style={styles.disconnectText}>
-                                        🔌 Disconnect
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-
-                        {/* Info */}
-                        <View style={styles.infoCard}>
-                            <Text style={styles.infoText}>
-                                💡 Your wallet is secured by your device's biometrics.
-                                No seed phrase needed!
-                            </Text>
-                        </View>
-                    </View>
-                )}
-
-                {/* How It Works */}
-                <View style={styles.howItWorksCard}>
-                    <Text style={styles.sectionTitle}>How It Works</Text>
-
-                    <View style={styles.step}>
-                        <View style={styles.stepNumber}>
-                            <Text style={styles.stepNumberText}>1</Text>
-                        </View>
-                        <View style={styles.stepContent}>
-                            <Text style={styles.stepTitle}>Passkey Authentication</Text>
-                            <Text style={styles.stepDescription}>
-                                LazorKit uses WebAuthn (Face ID/Touch ID) to secure your wallet.
-                                Your private keys never leave your device.
-                            </Text>
-                        </View>
-                    </View>
-
-                    <View style={styles.step}>
-                        <View style={styles.stepNumber}>
-                            <Text style={styles.stepNumberText}>2</Text>
-                        </View>
-                        <View style={styles.stepContent}>
-                            <Text style={styles.stepTitle}>Deep Link Redirect</Text>
-                            <Text style={styles.stepDescription}>
-                                On mobile, authentication happens via the LazorKit portal.
-                                After signing, you're redirected back to the app.
-                            </Text>
-                        </View>
-                    </View>
-
-                    <View style={styles.step}>
-                        <View style={styles.stepNumber}>
-                            <Text style={styles.stepNumberText}>3</Text>
-                        </View>
-                        <View style={styles.stepContent}>
-                            <Text style={styles.stepTitle}>Smart Wallet</Text>
-                            <Text style={styles.stepDescription}>
-                                A smart wallet address is created on Solana that can receive
-                                tokens and interact with any program.
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-
-                {/* Code Example */}
-                <View style={styles.codeCard}>
-                    <Text style={styles.sectionTitle}>Code Example</Text>
-                    <View style={styles.mobileHighlight}>
-                        <Text style={styles.mobileHighlightText}>
-                            📱 Mobile: Uses deep linking for redirect
+                <ScrollView
+                    style={styles.scrollView}
+                    contentContainerStyle={styles.content}
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        isConnected ? (
+                            <RefreshControl
+                                refreshing={loading}
+                                onRefresh={fetchBalances}
+                                tintColor={colors.accent.purple}
+                            />
+                        ) : undefined
+                    }
+                >
+                    {/* Header */}
+                    <View style={styles.header}>
+                        <Text style={styles.emoji}>👛</Text>
+                        <Text style={styles.title}>Passkey Wallet Basics</Text>
+                        <Text style={styles.subtitle}>
+                            Create a wallet using passkey authentication with deep linking
                         </Text>
                     </View>
-                    <View style={styles.codeBlock}>
-                        <Text style={styles.code}>
-{`import { useWallet } from '@lazorkit/wallet-mobile-adapter';
+
+                    {!isConnected ? (
+                        /* Not Connected State */
+                        <View style={styles.connectContainer}>
+                            <View style={styles.glassCard}>
+                                <Text style={styles.lockIcon}>🔐</Text>
+                                <Text style={styles.connectTitle}>Create Your Wallet</Text>
+                                <Text style={styles.connectDescription}>
+                                    Tap the button below to create a wallet using Face ID or Touch ID.
+                                    No seed phrases needed!
+                                </Text>
+
+                                <TouchableOpacity
+                                    onPress={handleConnect}
+                                    disabled={connecting}
+                                    activeOpacity={0.8}
+                                >
+                                    <LinearGradient
+                                        colors={[colors.button.primary.start, colors.button.primary.end]}
+                                        start={{ x: 0, y: 0 }}
+                                        end={{ x: 1, y: 0 }}
+                                        style={styles.connectButton}
+                                    >
+                                        <Text style={styles.connectButtonText}>
+                                            {connecting ? 'Creating Wallet...' : '🔑 Create Wallet with Passkey'}
+                                        </Text>
+                                    </LinearGradient>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={styles.tipCard}>
+                                <Text style={styles.tipText}>
+                                    💡 This will open the LazorKit portal for passkey authentication.
+                                    After signing, you'll be redirected back to this app.
+                                </Text>
+                            </View>
+                        </View>
+                    ) : (
+                        /* Connected State */
+                        <View style={styles.connectedContainer}>
+                            {/* Wallet Info Card */}
+                            <View style={styles.walletCard}>
+                                <View style={styles.statusRow}>
+                                    <View style={styles.statusDot} />
+                                    <Text style={styles.statusText}>Connected</Text>
+                                </View>
+
+                                <Text style={styles.addressLabel}>Wallet Address</Text>
+                                <TouchableOpacity
+                                    onPress={handleCopyAddress}
+                                    style={styles.addressContainer}
+                                >
+                                    <Text style={styles.address}>
+                                        {shortenAddress(wallet?.smartWallet || '', 8)}
+                                    </Text>
+                                    <Text style={styles.copyHint}>Tap to copy full address</Text>
+                                </TouchableOpacity>
+
+                                {/* Balances */}
+                                <View style={styles.balancesRow}>
+                                    <View style={styles.balanceItem}>
+                                        <Text style={styles.balanceLabel}>SOL</Text>
+                                        <Text style={styles.balanceValue}>
+                                            {solBalance !== null ? solBalance.toFixed(4) : '...'}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.balanceItem}>
+                                        <Text style={styles.balanceLabel}>USDC</Text>
+                                        <Text style={styles.balanceValue}>
+                                            {usdcBalance !== null ? usdcBalance.toFixed(2) : '...'}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+
+                            {/* Actions */}
+                            <View style={styles.actionsCard}>
+                                <TouchableOpacity
+                                    onPress={handleAirdrop}
+                                    disabled={airdropping}
+                                    style={styles.actionButton}
+                                >
+                                    <LinearGradient
+                                        colors={['rgba(59, 130, 246, 0.2)', 'rgba(59, 130, 246, 0.1)']}
+                                        style={styles.actionButtonGradient}
+                                    >
+                                        <Text style={styles.actionButtonText}>
+                                            {airdropping ? '⏳ Requesting...' : '💧 Request 1 SOL Airdrop'}
+                                        </Text>
+                                    </LinearGradient>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    onPress={() => handleOpenFaucet('usdc')}
+                                    style={styles.actionButton}
+                                >
+                                    <LinearGradient
+                                        colors={['rgba(34, 197, 94, 0.2)', 'rgba(34, 197, 94, 0.1)']}
+                                        style={styles.actionButtonGradient}
+                                    >
+                                        <Text style={styles.actionButtonText}>
+                                            💵 Get USDC (Circle Faucet)
+                                        </Text>
+                                    </LinearGradient>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    onPress={handleViewExplorer}
+                                    style={styles.actionButton}
+                                >
+                                    <View style={styles.actionButtonOutline}>
+                                        <Text style={styles.actionButtonText}>
+                                            🔍 View on Explorer
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    onPress={disconnect}
+                                    style={styles.actionButton}
+                                >
+                                    <View style={styles.disconnectButtonStyle}>
+                                        <Text style={styles.disconnectText}>
+                                            🔌 Disconnect
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+
+                            {/* Info */}
+                            <View style={styles.infoCard}>
+                                <Text style={styles.infoText}>
+                                    💡 Your wallet is secured by your device's biometrics.
+                                    No seed phrase needed!
+                                </Text>
+                            </View>
+                        </View>
+                    )}
+
+                    {/* How It Works */}
+                    <View style={styles.howItWorksCard}>
+                        <Text style={styles.sectionTitle}>How It Works</Text>
+
+                        <View style={styles.step}>
+                            <View style={styles.stepNumber}>
+                                <Text style={styles.stepNumberText}>1</Text>
+                            </View>
+                            <View style={styles.stepContent}>
+                                <Text style={styles.stepTitle}>Passkey Authentication</Text>
+                                <Text style={styles.stepDescription}>
+                                    LazorKit uses WebAuthn (Face ID/Touch ID) to secure your wallet.
+                                    Your private keys never leave your device.
+                                </Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.step}>
+                            <View style={styles.stepNumber}>
+                                <Text style={styles.stepNumberText}>2</Text>
+                            </View>
+                            <View style={styles.stepContent}>
+                                <Text style={styles.stepTitle}>Deep Link Redirect</Text>
+                                <Text style={styles.stepDescription}>
+                                    On mobile, authentication happens via the LazorKit portal.
+                                    After signing, you're redirected back to the app.
+                                </Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.step}>
+                            <View style={styles.stepNumber}>
+                                <Text style={styles.stepNumberText}>3</Text>
+                            </View>
+                            <View style={styles.stepContent}>
+                                <Text style={styles.stepTitle}>Smart Wallet</Text>
+                                <Text style={styles.stepDescription}>
+                                    A smart wallet address is created on Solana that can receive
+                                    tokens and interact with any program.
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    {/* Code Example */}
+                    <View style={styles.codeCard}>
+                        <Text style={styles.sectionTitle}>Code Example</Text>
+                        <View style={styles.mobileHighlight}>
+                            <Text style={styles.mobileHighlightText}>
+                                📱 Mobile: Uses deep linking for redirect
+                            </Text>
+                        </View>
+                        <View style={styles.codeBlock}>
+                            <Text style={styles.code}>
+                                {`import { useWallet } from '@lazorkit/wallet-mobile-adapter';
 import * as Linking from 'expo-linking';
 
 const { wallet, isConnected, connect } = useWallet();
@@ -323,32 +323,32 @@ await connect({
 if (isConnected && wallet) {
   console.log(wallet.smartWallet);
 }`}
-                        </Text>
-                    </View>
-                    <View style={styles.cookbookNote}>
-                        <Text style={styles.cookbookNoteText}>
-                            💡 This cookbook includes a WalletContext wrapper that simplifies
-                            state management across screens.{'\n\n'}
-                            📖 See:{' '}
-                            <Text
-                                style={styles.link}
-                                onPress={() =>
-                                    Linking.openURL(
-                                        'https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/03-cookbook-patterns.md'
-                                    )
-                                }
-                            >
-                                docs/mobile/03-cookbook-patterns.md
                             </Text>
-                        </Text>
+                        </View>
+                        <View style={styles.cookbookNote}>
+                            <Text style={styles.cookbookNoteText}>
+                                💡 This cookbook includes a WalletContext wrapper that simplifies
+                                state management across screens.{'\n\n'}
+                                📖 See:{' '}
+                                <Text
+                                    style={styles.link}
+                                    onPress={() =>
+                                        Linking.openURL(
+                                            'https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/03-cookbook-patterns.md'
+                                        )
+                                    }
+                                >
+                                    docs/mobile/03-cookbook-patterns.md
+                                </Text>
+                            </Text>
+                        </View>
+
                     </View>
+                </ScrollView>
 
-                </View>
-            </ScrollView>
-
-            {/* Footer */}
-            <Footer />
-        </LinearGradient>
+                {/* Footer */}
+                <Footer />
+            </LinearGradient>
         </>
     );
 }

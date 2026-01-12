@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Clipboard from 'expo-clipboard';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter, usePathname } from 'expo-router';
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 import { useBalances } from '@/hooks/useBalances';
 import { shortenAddress } from '@/lib/solana-utils';
 import { colors, spacing, borderRadius, fontSize } from '@/lib/theme';
@@ -23,7 +23,7 @@ export function Header() {
     const router = useRouter();
     const pathname = usePathname();
     const isHomePage = pathname === '/' || pathname === '';
-    const { wallet, isConnected, connect, disconnect, connecting } = useLazorkitWallet();
+    const { wallet, isConnected, connect, disconnect, connecting } = useLazorkitWalletConnect();
     const [showDropdown, setShowDropdown] = useState(false);
 
     const { solBalance, usdcBalance, loading, fetchBalances, reset } = useBalances(

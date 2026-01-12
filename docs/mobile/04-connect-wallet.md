@@ -15,10 +15,10 @@ This example shows how to:
 This cookbook provides a `WalletContext` wrapper that simplifies the LazorKit SDK API. Instead of manually constructing redirect URLs, you just pass a path:
 
 ```typescript
-import { useLazorkitWallet } from '@/hooks/useLazorkitWallet';
+import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
 
 function ConnectScreen() {
-    const { wallet, isConnected, connect, disconnect, connecting } = useLazorkitWallet();
+    const { wallet, isConnected, connect, disconnect, connecting } = useLazorkitWalletConnect();
 
     const handleConnect = () => {
         // Just pass the return path - WalletContext handles redirectUrl
