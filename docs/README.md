@@ -73,17 +73,17 @@ This cookbook demonstrates how to:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      Your dApp                               │
+│                      Your dApp                              │
 ├─────────────────────────────────────────────────────────────┤
 │  COOKBOOK PATTERNS (copy these!)                            │
-│  ├─ Hooks: useLazorkitWalletConnect, useBalances                   │
+│  ├─ Hooks: useLazorkitWalletConnect, useBalances            │
 │  └─ Utils: processInstructionsForLazorKit                   │
 ├─────────────────────────────────────────────────────────────┤
 │  LazorKit SDK                                               │
 │  ├─ Web: @lazorkit/wallet                                   │
 │  └─ Mobile: @lazorkit/wallet-mobile-adapter                 │
 ├─────────────────────────────────────────────────────────────┤
-│                      Solana                                  │
+│                      Solana                                 │
 └─────────────────────────────────────────────────────────────┘
 ```
 

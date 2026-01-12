@@ -17,7 +17,7 @@ Your React Native App
 ┌───────────────────────────────────────────┐
 │  Cookbook Patterns (what we built)        │
 │  - WalletContext (shared state wrapper)   │
-│  - useLazorkitWalletConnect (convenience hook)   │
+│  - useLazorkitWalletConnect (convenience) │
 │  - processInstructionsForLazorKit         │
 │  - useBalances                            │
 └───────────────────────────────────────────┘
