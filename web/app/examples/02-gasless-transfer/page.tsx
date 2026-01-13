@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useBalances } from '@/hooks/useBalances';
 import { useTransferForm } from '@/hooks/useTransferForm';
 import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
+import { useThemeClasses } from '@/hooks/useThemeClasses';
 import {
   getConnection,
   formatTransactionError,
@@ -17,6 +18,7 @@ import {
 
 export default function Recipe02Page() {
   const { wallet, isConnected, connect, connecting, signAndSendTransaction } = useLazorkitWalletConnect();
+  const theme = useThemeClasses();
   const {
     recipient, setRecipient,
     amount, setAmount,
@@ -58,7 +60,6 @@ export default function Recipe02Page() {
           const connection = getConnection();
           const senderPubkey = new PublicKey(wallet.smartWallet);
 
-          // Build transfer instructions using shared utility
           const instructions = await buildUsdcTransferInstructions(
             connection,
             senderPubkey,
@@ -101,24 +102,21 @@ export default function Recipe02Page() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 overflow-x-hidden">
+    <div className={`min-h-screen ${theme.bgPage} overflow-x-hidden`}>
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="mb-8">
-          <Link 
-            href="/"
-            className="text-purple-400 hover:text-purple-300 mb-4 inline-block"
-          >
+          <Link href="/" className={`${theme.textAccent} hover:opacity-80 mb-4 inline-block`}>
             ← Back to Home
           </Link>
           <div className="flex items-start gap-3 mb-2">
             <span className="text-4xl">⚡</span>
             <div className="flex-1 min-w-0">
-              <h1 className="text-3xl md:text-4xl font-bold text-white break-words">
+              <h1 className={`text-3xl md:text-4xl font-bold ${theme.textPrimary} break-words`}>
                 Recipe 02: Gasless USDC Transfer
               </h1>
             </div>
           </div>
-          <p className="text-gray-400 text-sm md:text-base">
+          <p className={`${theme.textMuted} text-sm md:text-base`}>
             Send USDC without paying gas fees using LazorKit's paymaster
           </p>
         </div>
@@ -127,29 +125,29 @@ export default function Recipe02Page() {
           {/* Left Panel */}
           <div className="space-y-6 w-full min-w-0">
             {/* The Game Changer Section */}
-            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-2xl p-6">
-              <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+            <div className={`${theme.statusSuccess} rounded-2xl p-6`}>
+              <h2 className={`text-2xl font-bold ${theme.textPrimary} mb-4 flex items-center gap-2`}>
                 <span>🎯</span> The Game Changer: Gasless Transactions
               </h2>
-              
-              <div className="space-y-4 text-sm text-gray-300">
-                <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
-                  <p className="font-semibold text-red-300 mb-2">Traditional Solana apps require users to:</p>
-                  <ol className="list-decimal list-inside space-y-1 text-red-200">
+
+              <div className={`space-y-4 text-sm ${theme.textSecondary}`}>
+                <div className={`${theme.statusError} rounded-lg p-4`}>
+                  <p className="font-semibold mb-2">Traditional Solana apps require users to:</p>
+                  <ol className="list-decimal list-inside space-y-1">
                     <li>Buy SOL on an exchange</li>
                     <li>Transfer SOL to their wallet</li>
                     <li>Keep enough SOL for gas fees</li>
                     <li>Hope they don't run out mid-transaction</li>
                   </ol>
-                  <p className="mt-3 text-yellow-300 font-semibold">
+                  <p className="mt-3 font-semibold">
                     ⚠️ This creates significant onboarding friction. Many users drop off here.
                   </p>
                 </div>
 
-                <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
-                  <p className="font-semibold text-green-300 mb-2">With LazorKit's Paymaster:</p>
-                  <div className="bg-gray-900 rounded p-3 mb-3">
-                    <code className="text-xs text-green-300">
+                <div className={`${theme.statusSuccess} rounded-lg p-4`}>
+                  <p className="font-semibold mb-2">With LazorKit's Paymaster:</p>
+                  <div className={`${theme.codeBlock} rounded p-3 mb-3`}>
+                    <code className="text-xs">
                       {`// User only needs USDC
 // LazorKit pays the gas
 const signature = await signAndSendTransaction({
@@ -158,67 +156,49 @@ const signature = await signAndSendTransaction({
 // ✨ Transaction complete - user paid $0 in gas`}
                     </code>
                   </div>
-                  <ul className="space-y-2 text-green-200">
-                    <li className="flex items-start gap-2">
-                      <span>✓</span>
-                      <span>Users never touch SOL</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span>✓</span>
-                      <span>Can use stablecoins immediately</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span>✓</span>
-                      <span>Perfect for payments, commerce, tipping</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span>✓</span>
-                      <span>Significantly reduced onboarding friction</span>
-                    </li>
+                  <ul className="space-y-2">
+                    {['Users never touch SOL', 'Can use stablecoins immediately', 'Perfect for payments, commerce, tipping', 'Significantly reduced onboarding friction'].map((item, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span>✓</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
 
-                <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
-                  <p className="font-semibold text-blue-300 mb-2">Under the Hood:</p>
-                  <p className="text-blue-200 text-xs leading-relaxed">
-                    LazorKit's paymaster service detects your transaction needs gas, adds their signature to cover the fee, submits the transaction atomically, and the user only signs once while paying nothing. This level of abstraction simplifies the developer experience significantly.
+                <div className={`${theme.bgCardAlt} rounded-lg p-4`}>
+                  <p className="font-semibold mb-2">Under the Hood:</p>
+                  <p className="text-xs leading-relaxed">
+                    LazorKit's paymaster service detects your transaction needs gas, adds their signature to cover the fee, submits the transaction atomically, and the user only signs once while paying nothing.
                   </p>
                 </div>
               </div>
             </div>
 
             {/* What You'll Learn */}
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-              <h2 className="text-xl font-bold text-white mb-4">What You'll Learn</h2>
-              <ul className="space-y-3 text-sm text-gray-300">
-                <li className="flex items-start gap-3">
-                  <span className="text-green-400 mt-1 flex-shrink-0">✓</span>
-                  <span>Send USDC tokens without paying SOL for gas</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-green-400 mt-1 flex-shrink-0">✓</span>
-                  <span>How LazorKit's paymaster covers transaction fees</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-green-400 mt-1 flex-shrink-0">✓</span>
-                  <span>Create token accounts automatically if needed</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-green-400 mt-1 flex-shrink-0">✓</span>
-                  <span>Build and sign SPL token transfer instructions</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-green-400 mt-1 flex-shrink-0">✓</span>
-                  <span>True Web2-like UX - users never worry about gas</span>
-                </li>
+            <div className={`${theme.bgCard} rounded-2xl p-6`}>
+              <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>What You'll Learn</h2>
+              <ul className={`space-y-3 text-sm ${theme.textSecondary}`}>
+                {[
+                  'Send USDC tokens without paying SOL for gas',
+                  "How LazorKit's paymaster covers transaction fees",
+                  'Create token accounts automatically if needed',
+                  'Build and sign SPL token transfer instructions',
+                  "True Web2-like UX - users never worry about gas"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="text-green-500 mt-1 flex-shrink-0">✓</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
             </div>
 
             {/* Code Example */}
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 overflow-hidden">
-              <h2 className="text-xl font-bold text-white mb-4">Code Example</h2>
-              <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                <pre className="text-xs text-gray-300">
+            <div className={`${theme.bgCard} rounded-2xl p-6 overflow-hidden`}>
+              <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>Code Example</h2>
+              <div className={`${theme.codeBlock} rounded-lg p-4 overflow-x-auto`}>
+                <pre className="text-xs">
                   <code>{`const { signAndSendTransaction } = useWallet();
 
 // Build transfer instruction
@@ -237,7 +217,7 @@ const signature = await signAndSendTransaction({
 // No SOL needed! Paymaster covers the fee ✨`}</code>
                 </pre>
               </div>
-              <p className="text-xs text-gray-400 mt-3">
+              <p className={`text-xs ${theme.textMuted} mt-3`}>
                 LazorKit handles all the complexity. Just build your instructions and send!
               </p>
             </div>
@@ -245,22 +225,22 @@ const signature = await signAndSendTransaction({
 
           {/* Right Panel - Interactive Demo */}
           <div className="space-y-6 w-full min-w-0">
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 lg:sticky lg:top-8">
-              <h2 className="text-xl font-bold text-white mb-6">Try It Yourself</h2>
+            <div className={`${theme.bgCard} rounded-2xl p-6 lg:sticky lg:top-8`}>
+              <h2 className={`text-xl font-bold ${theme.textPrimary} mb-6`}>Try It Yourself</h2>
 
               {!isConnected ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-6">💸</div>
-                  <h3 className="text-xl font-semibold text-white mb-4">
+                  <h3 className={`text-xl font-semibold ${theme.textPrimary} mb-4`}>
                     Connect Your Wallet
                   </h3>
-                  <p className="text-sm text-gray-400 mb-6">
+                  <p className={`text-sm ${theme.textMuted} mb-6`}>
                     Connect with Face ID to start sending gasless USDC transfers
                   </p>
                   <button
                     onClick={connect}
                     disabled={connecting}
-                    className="w-full px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl font-semibold transition-all shadow-lg shadow-purple-500/50 disabled:opacity-50"
+                    className={`w-full ${theme.btnPrimary}`}
                   >
                     {connecting ? 'Connecting...' : '🔑 Connect Wallet'}
                   </button>
@@ -268,23 +248,23 @@ const signature = await signAndSendTransaction({
               ) : (
                 <div className="space-y-6">
                   {/* Balance Display */}
-                  <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
+                  <div className={`${theme.statusSuccess} rounded-xl p-4`}>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-gray-400">Your USDC Balance</span>
+                      <span className={`text-sm ${theme.textMuted}`}>Your USDC Balance</span>
                       <button
                         onClick={fetchBalance}
                         disabled={refreshing}
-                        className="text-xs text-purple-400 hover:text-purple-300 disabled:opacity-50 flex items-center gap-1"
+                        className={`text-xs ${theme.textAccent} hover:opacity-80 disabled:opacity-50 flex items-center gap-1`}
                       >
                         <span className={refreshing ? 'animate-spin' : ''}>🔄</span>
                         {refreshing ? 'Refreshing...' : 'Refresh'}
                       </button>
                     </div>
-                    <div className="text-3xl font-bold text-white">
+                    <div className={`text-3xl font-bold ${theme.textPrimary}`}>
                       {usdcBalance !== null ? `${usdcBalance.toFixed(2)} USDC` : 'Loading...'}
                     </div>
                     {usdcBalance === 0 && (
-                      <p className="text-xs text-yellow-400 mt-2">
+                      <p className="text-xs text-yellow-600 mt-2">
                         ⚠️ No USDC? Get some from{' '}
                         <a href="https://faucet.circle.com/" target="_blank" className="underline">
                           Circle Faucet
@@ -296,7 +276,7 @@ const signature = await signAndSendTransaction({
                   {/* Transfer Form */}
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm text-gray-400 mb-2">
+                      <label className={`block text-sm ${theme.textMuted} mb-2`}>
                         Recipient Address
                       </label>
                       <input
@@ -304,12 +284,12 @@ const signature = await signAndSendTransaction({
                         value={recipient}
                         onChange={(e) => setRecipient(e.target.value)}
                         placeholder="Enter Solana address..."
-                        className="w-full px-4 py-3 bg-black/30 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm font-mono"
+                        className={`w-full px-4 py-3 ${theme.bgInput} rounded-lg ${theme.textPrimary} placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm font-mono`}
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm text-gray-400 mb-2">
+                      <label className={`block text-sm ${theme.textMuted} mb-2`}>
                         Amount (USDC)
                       </label>
                       <input
@@ -319,12 +299,12 @@ const signature = await signAndSendTransaction({
                         placeholder="0.00"
                         step="0.01"
                         min="0"
-                        className="w-full px-4 py-3 bg-black/30 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                        className={`w-full px-4 py-3 ${theme.bgInput} rounded-lg ${theme.textPrimary} placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm`}
                       />
                       {usdcBalance !== null && usdcBalance > 0 && (
                         <button
                           onClick={() => setAmount(usdcBalance.toString())}
-                          className="text-xs text-purple-400 hover:text-purple-300 mt-1"
+                          className={`text-xs ${theme.textAccent} hover:opacity-80 mt-1`}
                         >
                           Use Max ({usdcBalance.toFixed(2)})
                         </button>
@@ -345,14 +325,12 @@ const signature = await signAndSendTransaction({
                   </div>
 
                   {/* Gasless Info */}
-                  <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+                  <div className={`${theme.statusWarning} rounded-lg p-4`}>
                     <div className="flex items-start gap-2">
                       <span className="text-xl">✨</span>
                       <div>
-                        <p className="text-sm text-yellow-200 font-semibold mb-1">
-                          100% Gasless
-                        </p>
-                        <p className="text-xs text-yellow-200">
+                        <p className="text-sm font-semibold mb-1">100% Gasless</p>
+                        <p className="text-xs">
                           LazorKit's paymaster covers all transaction fees. You don't need any SOL!
                         </p>
                       </div>
@@ -361,13 +339,12 @@ const signature = await signAndSendTransaction({
 
                   {/* Last Transaction */}
                   {lastTxSignature && (
-                    <div className="bg-white/5 border border-white/10 rounded-lg p-4">
-                      <p className="text-xs text-gray-400 mb-2">Last Transaction:</p>
-                      
+                    <div className={`${theme.bgInput} rounded-lg p-4`}>
+                      <p className={`text-xs ${theme.textMuted} mb-2`}>Last Transaction:</p>
                       <a href={`https://explorer.solana.com/tx/${lastTxSignature}?cluster=devnet`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs text-purple-400 hover:text-purple-300 break-all"
+                        className={`text-xs ${theme.textAccent} hover:opacity-80 break-all`}
                       >
                         {lastTxSignature.slice(0, 20)}...{lastTxSignature.slice(-20)} ↗
                       </a>
@@ -379,14 +356,14 @@ const signature = await signAndSendTransaction({
 
             {/* Next Steps */}
             {isConnected && (
-              <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-2xl p-6">
-                <h3 className="text-xl font-bold text-white mb-3">🎉 Awesome!</h3>
-                <p className="text-sm text-gray-300 mb-4">
+              <div className={`${theme.bgCta} rounded-2xl p-6`}>
+                <h3 className={`text-xl font-bold ${theme.textPrimary} mb-3`}>🎉 Awesome!</h3>
+                <p className={`text-sm ${theme.textSecondary} mb-4`}>
                   You've mastered gasless transactions! Ready for the advanced recipe?
                 </p>
-                <Link 
+                <Link
                   href="/examples/03-subscription-service"
-                  className="inline-block w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-semibold transition-all text-center text-sm"
+                  className={`inline-block w-full ${theme.btnPrimary} text-center text-sm`}
                 >
                   Next: Recipe 03 - Subscription Service →
                 </Link>

@@ -14,10 +14,12 @@ import {
     getGradientClasses, formatInterval
 } from '@/lib/constants';
 import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
+import { useThemeClasses } from '@/hooks/useThemeClasses';
 import { getConnection } from '@/lib/solana-utils';
 
 export default function SubscribePage() {
     const { isConnected, wallet, connect, connecting, signAndSendTransaction } = useLazorkitWalletConnect();
+    const theme = useThemeClasses();
     const router = useRouter();
     const [subscribing, setSubscribing] = useState(false);
     const [checking, setChecking] = useState(true);
@@ -125,16 +127,16 @@ export default function SubscribePage() {
 
     if (checking) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 overflow-x-hidden">
+            <div className={`min-h-screen overflow-x-hidden ${theme.bgPage}`}>
                 <div className="container mx-auto px-4 py-8 max-w-7xl">
-                    <Link 
+                    <Link
                         href="/examples/03-subscription-service"
-                        className="text-purple-400 hover:text-purple-300 mb-4 inline-block"
+                        className={`${theme.textAccent} hover:opacity-80 mb-4 inline-block`}
                     >
                         ← Back to Recipe 03
                     </Link>
                     <div className="flex items-center justify-center py-20">
-                        <div className="text-white text-lg">Loading...</div>
+                        <div className={`${theme.textPrimary} text-lg`}>Loading...</div>
                     </div>
                 </div>
             </div>
@@ -143,25 +145,25 @@ export default function SubscribePage() {
 
     if (!isConnected) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 overflow-x-hidden">
+            <div className={`min-h-screen overflow-x-hidden ${theme.bgPage}`}>
                 <div className="container mx-auto px-4 py-8 max-w-7xl">
-                    <Link 
+                    <Link
                         href="/examples/03-subscription-service"
-                        className="text-purple-400 hover:text-purple-300 mb-4 inline-block"
+                        className={`${theme.textAccent} hover:opacity-80 mb-4 inline-block`}
                     >
                         ← Back to Recipe 03
                     </Link>
-                    
+
                     <div className="flex flex-col items-center justify-center py-20">
                         <div className="text-6xl mb-6">🔐</div>
-                        <h2 className="text-3xl font-bold text-white mb-4">Connect Your Wallet</h2>
-                        <p className="text-gray-400 mb-8 text-center max-w-md">
+                        <h2 className={`text-3xl font-bold ${theme.textPrimary} mb-4`}>Connect Your Wallet</h2>
+                        <p className={`${theme.textMuted} mb-8 text-center max-w-md`}>
                             Connect with Face ID to subscribe to a plan and start your subscription
                         </p>
                         <button
                             onClick={connect}
                             disabled={connecting}
-                            className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl font-semibold transition-all shadow-lg shadow-purple-500/50 disabled:opacity-50"
+                            className={theme.btnPrimary}
                         >
                             {connecting ? 'Connecting...' : '🔑 Connect Wallet'}
                         </button>
@@ -172,30 +174,30 @@ export default function SubscribePage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 overflow-x-hidden">
+        <div className={`min-h-screen overflow-x-hidden ${theme.bgPage}`}>
             <div className="container mx-auto px-4 py-8 max-w-7xl">
-                <Link 
+                <Link
                     href="/examples/03-subscription-service"
-                    className="text-purple-400 hover:text-purple-300 mb-4 inline-block"
+                    className={`${theme.textAccent} hover:opacity-80 mb-4 inline-block`}
                 >
                     ← Back to Recipe 03
                 </Link>
 
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Choose Your Plan</h1>
-                    <p className="text-lg md:text-xl text-gray-300">Simple, transparent pricing. Cancel anytime.</p>
+                    <h1 className={`text-4xl md:text-5xl font-bold ${theme.textPrimary} mb-4`}>Choose Your Plan</h1>
+                    <p className={`text-lg md:text-xl ${theme.textSecondary}`}>Simple, transparent pricing. Cancel anytime.</p>
                 </div>
 
                 {/* Fee Information Banner */}
                 <div className="max-w-4xl mx-auto mb-8">
-                    <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-5 backdrop-blur-lg">
+                    <div className={`${theme.infoBlue} rounded-xl p-5 backdrop-blur-lg`}>
                         <div className="flex items-start gap-3">
                             <div className="text-2xl flex-shrink-0">ℹ️</div>
                             <div className="flex-1 min-w-0">
-                                <h3 className="text-base md:text-lg font-bold text-blue-300 mb-2">
+                                <h3 className={`text-base md:text-lg font-bold ${theme.infoBlueTitle} mb-2`}>
                                     How Payments Work
                                 </h3>
-                                <div className="space-y-2 text-blue-200 text-sm">
+                                <div className={`space-y-2 ${theme.infoBlueText} text-sm`}>
                                     <p className="break-words">
                                         <strong>One-time setup:</strong> ~{SUBSCRIPTION_CONSTANTS.SETUP_FEE_SOL} SOL to create your subscription account which gets refunded post subscription cancellation. In production we would be planning to deploy a paymaster to cover this subscription account rent also, or would work with LazorKit team to see if an enhancement is possible in the current Paymaster.
                                     </p>
@@ -211,13 +213,13 @@ export default function SubscribePage() {
                                 </div>
                                 <button
                                     onClick={() => setShowFeeInfo(!showFeeInfo)}
-                                    className="mt-3 text-blue-400 hover:text-blue-300 text-xs underline"
+                                    className={`mt-3 ${theme.infoBlueTitle} hover:opacity-80 text-xs underline`}
                                 >
                                     {showFeeInfo ? 'Hide' : 'Learn more'} about fees
                                 </button>
 
                                 {showFeeInfo && (
-                                    <div className="mt-4 pt-4 border-t border-blue-500/20 text-xs text-blue-300 space-y-2">
+                                    <div className={`mt-4 pt-4 border-t ${theme.border} text-xs ${theme.infoBlueText} space-y-2`}>
                                         <p><strong>Why the setup fee?</strong></p>
                                         <p className="break-words">
                                             Solana requires rent (~{SUBSCRIPTION_CONSTANTS.SETUP_FEE_SOL} SOL) for creating accounts.
@@ -230,7 +232,7 @@ export default function SubscribePage() {
                                             <li>All gas fees: $0 (paid by paymaster)</li>
                                             <li>Net lifetime cost: Just the subscription fees</li>
                                         </ul>
-                                        <p className="pt-2 text-blue-400 break-words">
+                                        <p className={`pt-2 ${theme.infoBlueTitle} break-words`}>
                                             <strong>Prepaid model:</strong> We charge your first month upfront, then automatically every 30 days.
                                         </p>
                                     </div>
@@ -242,8 +244,8 @@ export default function SubscribePage() {
 
                 {/* Expiry Selection */}
                 <div className="max-w-4xl mx-auto mb-8">
-                    <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-5">
-                        <h3 className="text-lg font-bold text-white mb-3">
+                    <div className={`${theme.bgCard} rounded-xl p-5`}>
+                        <h3 className={`text-lg font-bold ${theme.textPrimary} mb-3`}>
                             Select Subscription Duration
                         </h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -251,17 +253,16 @@ export default function SubscribePage() {
                                 <button
                                     key={option.value}
                                     onClick={() => setSelectedExpiry(option.value)}
-                                    className={`px-4 py-3 rounded-lg font-semibold transition-all ${
-                                        selectedExpiry === option.value
-                                            ? 'bg-purple-500 text-white border-2 border-purple-400'
-                                            : 'bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10'
-                                    }`}
+                                    className={`px-4 py-3 rounded-lg font-semibold transition-all ${selectedExpiry === option.value
+                                        ? theme.btnPrimary
+                                        : `${theme.bgCardAlt} ${theme.textSecondary} ${theme.borderSubtle} hover:opacity-80`
+                                        }`}
                                 >
                                     {option.label}
                                 </button>
                             ))}
                         </div>
-                        <p className="text-xs text-gray-400 mt-3">
+                        <p className={`text-xs ${theme.textMuted} mt-3`}>
                             {selectedExpiry === 0
                                 ? '✓ Subscription continues until you cancel'
                                 : `✓ Subscription will auto-cancel after ${selectedExpiry} months`
@@ -273,19 +274,19 @@ export default function SubscribePage() {
                 {/* Existing Subscription Banner */}
                 {hasSubscription && (
                     <div className="max-w-4xl mx-auto mb-8">
-                        <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-xl p-6 backdrop-blur-lg">
+                        <div className={`${theme.infoYellow} rounded-xl p-6 backdrop-blur-lg`}>
                             <div className="flex items-start gap-4">
                                 <div className="text-3xl flex-shrink-0">⚠️</div>
                                 <div className="flex-1 min-w-0">
-                                    <h3 className="text-lg md:text-xl font-bold text-yellow-400 mb-2">
+                                    <h3 className={`text-lg md:text-xl font-bold ${theme.infoYellowTitle} mb-2`}>
                                         You Already Have an Active Subscription
                                     </h3>
-                                    <p className="text-yellow-200 mb-4 text-sm md:text-base">
+                                    <p className={`${theme.infoYellowText} mb-4 text-sm md:text-base`}>
                                         Please cancel your existing subscription before creating a new one.
                                     </p>
                                     <Link
                                         href="/examples/03-subscription-service/dashboard"
-                                        className="inline-block px-6 py-2 rounded-lg bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-500/50 text-yellow-300 font-semibold transition-all text-sm"
+                                        className={`inline-block px-6 py-2 rounded-lg ${theme.infoYellow} ${theme.infoYellowTitle} font-semibold transition-all text-sm hover:opacity-80`}
                                     >
                                         Go to Dashboard →
                                     </Link>
@@ -300,13 +301,12 @@ export default function SubscribePage() {
                     {plans.map((plan) => (
                         <div
                             key={plan.id}
-                            className={`bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 md:p-8 transition-all ${
-                                hasSubscription
-                                    ? 'opacity-50 pointer-events-none'
-                                    : plan.popular
-                                        ? 'border-purple-500/50 md:scale-105'
-                                        : 'hover:border-white/30'
-                            }`}
+                            className={`${theme.bgCard} rounded-2xl p-6 md:p-8 transition-all ${hasSubscription
+                                ? 'opacity-60 pointer-events-none'
+                                : plan.popular
+                                    ? `border-2 ${theme.isLazorkit ? 'border-[#7857FF] shadow-[0px_4px_20px_rgba(120,87,255,0.15)]' : 'border-purple-500/50'} md:scale-105 z-10`
+                                    : `border ${theme.border} hover:opacity-90`
+                                }`}
                         >
                             <div className="text-center mb-6">
                                 {plan.badge && (
@@ -314,23 +314,21 @@ export default function SubscribePage() {
                                         {plan.badge}
                                     </div>
                                 )}
-                                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{plan.displayName}</h2>
+                                <h2 className={`text-2xl md:text-3xl font-bold ${theme.textPrimary} mb-2`}>{plan.displayName}</h2>
                                 {plan.description && (
-                                    <p className="text-gray-400 text-xs md:text-sm mb-4">{plan.description}</p>
+                                    <p className={`${theme.textMuted} text-xs md:text-sm mb-4`}>{plan.description}</p>
                                 )}
                                 <div className="flex items-baseline justify-center gap-2">
-                                    <span className="text-4xl md:text-5xl font-bold text-white">{plan.priceDisplay}</span>
-                                    <span className="text-gray-400 text-sm">USDC / {plan.intervalDisplay}</span>
+                                    <span className={`text-4xl md:text-5xl font-bold ${theme.textPrimary}`}>{plan.priceDisplay}</span>
+                                    <span className={`${theme.textMuted} text-sm`}>USDC / {plan.intervalDisplay}</span>
                                 </div>
                             </div>
 
                             <div className="space-y-3 mb-8">
                                 {plan.features.map((feature, index) => (
                                     <div key={index} className="flex items-start gap-3">
-                                        <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                            <span className="text-green-400 text-xs">✓</span>
-                                        </div>
-                                        <span className="text-gray-300 text-xs md:text-sm break-words">{feature}</span>
+                                        <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
+                                        <span className={`${theme.textSecondary} text-xs md:text-sm break-words`}>{feature}</span>
                                     </div>
                                 ))}
                             </div>
@@ -338,7 +336,14 @@ export default function SubscribePage() {
                             <button
                                 onClick={() => handleSubscribe(plan)}
                                 disabled={subscribing || hasSubscription}
-                                className={`w-full px-4 md:px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base ${getGradientClasses(plan.popular)}`}
+                                className={`w-full px-4 md:px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg disabled:cursor-not-allowed text-sm md:text-base ${hasSubscription
+                                    ? 'bg-gray-400 text-gray-700'
+                                    : plan.popular
+                                        ? theme.btnPrimary
+                                        : theme.isLazorkit
+                                            ? 'bg-white border border-[#7857FF]/30 text-[#674BF7] hover:bg-[#F5F3FF] shadow-sm'
+                                            : 'bg-white/10 hover:bg-white/20 border border-white/20 text-white'
+                                    }`}
                             >
                                 {subscribing && selectedPlanId === plan.id
                                     ? 'Creating...'
@@ -347,7 +352,7 @@ export default function SubscribePage() {
                                         : `Subscribe to ${plan.name}`}
                             </button>
 
-                            <p className="text-center text-gray-500 text-xs mt-4">
+                            <p className={`text-center ${theme.textMuted} text-xs mt-4`}>
                                 Charged immediately, then every {formatInterval(plan.interval)}
                             </p>
                         </div>

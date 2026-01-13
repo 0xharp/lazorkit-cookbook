@@ -13,6 +13,7 @@ import {
     formatInterval
 } from '@/lib/constants';
 import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
+import { useThemeClasses } from '@/hooks/useThemeClasses';
 import { getConnection } from '@/lib/solana-utils';
 
 interface SubscriptionData {
@@ -33,6 +34,7 @@ interface SubscriptionData {
 
 export default function DashboardPage() {
     const { isConnected, wallet, connect, connecting, signAndSendTransaction } = useLazorkitWalletConnect();
+    const theme = useThemeClasses();
     const router = useRouter();
     const [hasSubscription, setHasSubscription] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -271,39 +273,39 @@ export default function DashboardPage() {
 
     const getPlanDisplay = () => {
         if (!subscriptionData) return null;
-        
+
         const plan = getPlanById(
             subscriptionData.amountPerPeriod === 0.1 ? 'basic' :
-            subscriptionData.amountPerPeriod === 0.2 ? 'pro' :
-            subscriptionData.amountPerPeriod === 0.3 ? 'enterprise' :
-                'test'
+                subscriptionData.amountPerPeriod === 0.2 ? 'pro' :
+                    subscriptionData.amountPerPeriod === 0.3 ? 'enterprise' :
+                        'test'
         );
-        
+
         return plan?.displayName || 'Subscription';
     };
 
     const getNextChargeDate = () => {
         if (!subscriptionData) return '';
-        
+
         const nextCharge = new Date((subscriptionData.lastChargeTimestamp + subscriptionData.intervalSeconds) * 1000);
         const now = new Date();
         const isDue = nextCharge <= now;
-        
+
         return isDue ? 'Due Now' : nextCharge.toLocaleDateString();
     };
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 overflow-x-hidden">
+            <div className={`min-h-screen overflow-x-hidden ${theme.bgPage}`}>
                 <div className="container mx-auto px-4 py-8 max-w-7xl">
-                    <Link 
+                    <Link
                         href="/examples/03-subscription-service"
-                        className="text-purple-400 hover:text-purple-300 mb-4 inline-block"
+                        className={`${theme.textAccent} hover:opacity-80 mb-4 inline-block`}
                     >
                         ← Back to Recipe 03
                     </Link>
                     <div className="flex items-center justify-center py-20">
-                        <div className="text-white text-lg">Loading...</div>
+                        <div className={`${theme.textPrimary} text-lg`}>Loading...</div>
                     </div>
                 </div>
             </div>
@@ -312,25 +314,25 @@ export default function DashboardPage() {
 
     if (!isConnected) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 overflow-x-hidden">
+            <div className={`min-h-screen overflow-x-hidden ${theme.bgPage}`}>
                 <div className="container mx-auto px-4 py-8 max-w-7xl">
-                    <Link 
+                    <Link
                         href="/examples/03-subscription-service"
-                        className="text-purple-400 hover:text-purple-300 mb-4 inline-block"
+                        className={`${theme.textAccent} hover:opacity-80 mb-4 inline-block`}
                     >
                         ← Back to Recipe 03
                     </Link>
-                    
+
                     <div className="flex flex-col items-center justify-center py-20">
                         <div className="text-6xl mb-6">🔐</div>
-                        <h2 className="text-3xl font-bold text-white mb-4">Connect Your Wallet</h2>
-                        <p className="text-gray-400 mb-8 text-center max-w-md">
+                        <h2 className={`text-3xl font-bold ${theme.textPrimary} mb-4`}>Connect Your Wallet</h2>
+                        <p className={`${theme.textMuted} mb-8 text-center max-w-md`}>
                             Connect with Face ID to view your subscription dashboard
                         </p>
                         <button
                             onClick={connect}
                             disabled={connecting}
-                            className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl font-semibold transition-all shadow-lg shadow-purple-500/50 disabled:opacity-50"
+                            className={theme.btnPrimary}
                         >
                             {connecting ? 'Connecting...' : '🔑 Connect Wallet'}
                         </button>
@@ -342,24 +344,24 @@ export default function DashboardPage() {
 
     if (!hasSubscription) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 overflow-x-hidden">
+            <div className={`min-h-screen overflow-x-hidden ${theme.bgPage}`}>
                 <div className="container mx-auto px-4 py-8 max-w-7xl">
-                    <Link 
+                    <Link
                         href="/examples/03-subscription-service"
-                        className="text-purple-400 hover:text-purple-300 mb-4 inline-block"
+                        className={`${theme.textAccent} hover:opacity-80 mb-4 inline-block`}
                     >
                         ← Back to Recipe 03
                     </Link>
-                    
+
                     <div className="max-w-2xl mx-auto text-center py-20">
                         <div className="text-6xl mb-6">📭</div>
-                        <h2 className="text-3xl font-bold text-white mb-4">No Active Subscription</h2>
-                        <p className="text-gray-400 mb-8">
+                        <h2 className={`text-3xl font-bold ${theme.textPrimary} mb-4`}>No Active Subscription</h2>
+                        <p className={`${theme.textMuted} mb-8`}>
                             You don't have an active subscription yet. Choose a plan to get started!
                         </p>
                         <Link
                             href="/examples/03-subscription-service/subscribe"
-                            className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl font-semibold transition-all shadow-lg shadow-purple-500/50"
+                            className={`${theme.btnPrimary} text-center`}
                         >
                             View Plans →
                         </Link>
@@ -370,79 +372,79 @@ export default function DashboardPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 overflow-x-hidden">
+        <div className={`min-h-screen overflow-x-hidden ${theme.bgPage}`}>
             <div className="container mx-auto px-4 py-8 max-w-7xl">
                 <div className="flex items-center justify-between mb-8">
-                    <Link 
+                    <Link
                         href="/examples/03-subscription-service"
-                        className="text-purple-400 hover:text-purple-300"
+                        className={`${theme.textAccent} hover:opacity-80`}
                     >
                         ← Back to Recipe 03
                     </Link>
                     <button
                         onClick={checkSubscription}
                         disabled={refreshing}
-                        className="text-purple-400 hover:text-purple-300 text-sm flex items-center gap-2 disabled:opacity-50"
+                        className={`${theme.textAccent} hover:opacity-80 text-sm flex items-center gap-2 disabled:opacity-50`}
                     >
                         <span className={refreshing ? 'animate-spin' : ''}>🔄</span>
                         {refreshing ? 'Refreshing...' : 'Refresh'}
                     </button>
                 </div>
 
-                <h1 className="text-3xl md:text-4xl font-bold text-white mb-8">Subscription Dashboard</h1>
+                <h1 className={`text-3xl md:text-4xl font-bold ${theme.textPrimary} mb-8`}>Subscription Dashboard</h1>
 
                 <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
                     {/* Left Column */}
                     <div className="space-y-6">
                         {/* Current Plan */}
-                        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                            <h2 className="text-xl font-bold text-white mb-4">Current Plan</h2>
+                        <div className={`${theme.bgCard} rounded-2xl p-6`}>
+                            <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>Current Plan</h2>
                             <div className="space-y-3">
                                 <div>
-                                    <span className="text-gray-400 text-sm">Plan</span>
-                                    <div className="text-2xl font-bold text-white">{getPlanDisplay()}</div>
+                                    <span className={`${theme.textMuted} text-sm`}>Plan</span>
+                                    <div className={`text-2xl font-bold ${theme.textPrimary}`}>{getPlanDisplay()}</div>
                                 </div>
                                 <div>
-                                    <span className="text-gray-400 text-sm">Price</span>
-                                    <div className="text-xl font-semibold text-white">
+                                    <span className={`${theme.textMuted} text-sm`}>Price</span>
+                                    <div className={`text-xl font-semibold ${theme.textPrimary}`}>
                                         {subscriptionData?.amountPerPeriod} USDC / {formatInterval(subscriptionData?.intervalSeconds || 0)}
                                     </div>
                                 </div>
                                 <div>
-                                    <span className="text-gray-400 text-sm">Status</span>
+                                    <span className={`${theme.textMuted} text-sm`}>Status</span>
                                     <div className="flex items-center gap-2">
-                                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                                        <span className="text-green-400 font-semibold">Active</span>
+                                        <div className="w-2 h-2 rounded-full animate-pulse bg-green-500"></div>
+                                        <span className="text-green-600 dark:text-green-400 font-semibold">Active</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Payment Info */}
-                        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                            <h2 className="text-xl font-bold text-white mb-4">Payment Information</h2>
+                        <div className={`${theme.bgCard} rounded-2xl p-6`}>
+                            <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>Payment Information</h2>
                             <div className="space-y-3 text-sm">
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400">Last Charged</span>
-                                    <span className="text-white">
+                                    <span className={theme.textMuted}>Last Charged</span>
+                                    <span className={theme.textPrimary}>
                                         {new Date((subscriptionData?.lastChargeTimestamp || 0) * 1000).toLocaleDateString()}
                                     </span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400">Next Charge</span>
-                                    <span className="text-white">
+                                    <span className={theme.textMuted}>Next Charge</span>
+                                    <span className={theme.textPrimary}>
                                         {getNextChargeDate()}
                                     </span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400">Total Charged</span>
-                                    <span className="text-white font-semibold">
+                                    <span className={theme.textMuted}>Total Charged</span>
+                                    <span className={`${theme.textPrimary} font-semibold`}>
                                         {subscriptionData?.totalCharged} USDC
                                     </span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400">Expires at</span>
-                                    <span className="text-white">
+                                    <span className={theme.textMuted}>Expires at</span>
+                                    <span className={theme.textPrimary}>
                                         {subscriptionData?.expiresAt
                                             ? new Date(subscriptionData.expiresAt * 1000).toLocaleDateString()
                                             : 'Perpetual'}
@@ -455,7 +457,7 @@ export default function DashboardPage() {
                         <button
                             onClick={handleCancel}
                             disabled={cancelling}
-                            className="w-full px-6 py-3 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 text-red-300 rounded-xl font-semibold transition-all disabled:opacity-50"
+                            className={`w-full px-6 py-3 ${theme.statusError} rounded-xl font-semibold transition-all disabled:opacity-50 hover:opacity-80`}
                         >
                             {cancelling ? 'Canceling...' : '🗑️ Cancel Subscription'}
                         </button>
@@ -463,13 +465,13 @@ export default function DashboardPage() {
 
                     {/* Right Column - Admin Controls */}
                     <div className="space-y-6">
-                        <div className="bg-purple-500/10 border border-purple-500/30 rounded-2xl p-6">
-                            <h2 className="text-xl font-bold text-white mb-4">⚡ Admin Controls</h2>
-                            
+                        <div className={`${theme.bgCardAlt} rounded-2xl p-6`}>
+                            <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>⚡ Admin Controls</h2>
+
                             <div className="space-y-4">
                                 {/* Cooldown Timer */}
                                 {cooldownRemaining > 0 && (
-                                    <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+                                    <div className={`${theme.infoYellow} rounded-lg p-4`}>
                                         <div className="flex items-center gap-3">
                                             <div className="relative w-12 h-12 flex-shrink-0">
                                                 <svg className="w-12 h-12 transform -rotate-90">
@@ -480,7 +482,7 @@ export default function DashboardPage() {
                                                         stroke="currentColor"
                                                         strokeWidth="4"
                                                         fill="none"
-                                                        className="text-yellow-500/20"
+                                                        className="opacity-20"
                                                     />
                                                     <circle
                                                         cx="24"
@@ -491,20 +493,20 @@ export default function DashboardPage() {
                                                         fill="none"
                                                         strokeDasharray={`${2 * Math.PI * 20}`}
                                                         strokeDashoffset={`${2 * Math.PI * 20 * (cooldownRemaining / 60)}`}
-                                                        className="text-yellow-400 transition-all duration-1000"
+                                                        className="transition-all duration-1000"
                                                     />
                                                 </svg>
                                                 <div className="absolute inset-0 flex items-center justify-center">
-                                                    <span className="text-yellow-400 text-xs font-bold">
+                                                    <span className={`${theme.infoYellowTitle} text-xs font-bold`}>
                                                         {cooldownRemaining}s
                                                     </span>
                                                 </div>
                                             </div>
                                             <div className="flex-1 min-w-0">
-                                                <div className="text-yellow-400 font-semibold text-sm">
+                                                <div className={`${theme.infoYellowTitle} font-semibold text-sm`}>
                                                     ⏰ Cooldown Active
                                                 </div>
-                                                <div className="text-yellow-300 text-xs mt-1 break-words">
+                                                <div className={`${theme.infoYellowText} text-xs mt-1 break-words`}>
                                                     Wait {cooldownRemaining} seconds before triggering again
                                                 </div>
                                             </div>
@@ -515,11 +517,10 @@ export default function DashboardPage() {
                                 <button
                                     onClick={handleProcessPayment}
                                     disabled={processing || cooldownRemaining > 0}
-                                    className={`w-full px-6 py-4 rounded-xl font-bold transition-all shadow-lg flex items-center justify-center gap-2 text-sm md:text-base ${
-                                        processing || cooldownRemaining > 0
-                                            ? 'bg-gray-700/50 text-gray-500 cursor-not-allowed'
-                                            : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-purple-500/50'
-                                    }`}
+                                    className={`w-full px-6 py-4 rounded-xl font-bold transition-all shadow-lg flex items-center justify-center gap-2 text-sm md:text-base ${processing || cooldownRemaining > 0
+                                        ? `${theme.bgCard} ${theme.textMuted} cursor-not-allowed`
+                                        : `${theme.btnPrimary} shadow-lg shadow-indigo-500/20`
+                                        }`}
                                 >
                                     {processing ? (
                                         <>
@@ -541,42 +542,42 @@ export default function DashboardPage() {
 
                                 {/* Info Boxes */}
                                 <div className="space-y-3 text-xs">
-                                    <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
+                                    <div className={`${theme.infoBlue} rounded-lg p-3`}>
                                         <div className="flex gap-2">
                                             <span className="text-lg flex-shrink-0">💡</span>
                                             <div className="flex-1 min-w-0">
-                                                <div className="text-blue-400 font-semibold mb-1">
+                                                <div className={`${theme.infoBlueTitle} font-semibold mb-1`}>
                                                     How It Works
                                                 </div>
-                                                <div className="text-blue-300 break-words">
+                                                <div className={`${theme.infoBlueText} break-words`}>
                                                     Scans all subscriptions and charges those due for payment.
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-3">
+                                    <div className={`${theme.infoPurple} rounded-lg p-3`}>
                                         <div className="flex gap-2">
                                             <span className="text-lg flex-shrink-0">🤖</span>
                                             <div className="flex-1 min-w-0">
-                                                <div className="text-purple-400 font-semibold mb-1">
+                                                <div className={`${theme.infoPurpleTitle} font-semibold mb-1`}>
                                                     No User Signature
                                                 </div>
-                                                <div className="text-purple-300 break-words">
+                                                <div className={`${theme.infoPurpleText} break-words`}>
                                                     Charges use delegated tokens - fully automatic!
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3">
+                                    <div className={`${theme.infoYellow} rounded-lg p-3`}>
                                         <div className="flex gap-2">
                                             <span className="text-lg flex-shrink-0">⚠️</span>
                                             <div className="flex-1 min-w-0">
-                                                <div className="text-yellow-400 font-semibold mb-1">
+                                                <div className={`${theme.infoYellowTitle} font-semibold mb-1`}>
                                                     Rate Limited
                                                 </div>
-                                                <div className="text-yellow-300 break-words">
+                                                <div className={`${theme.infoYellowText} break-words`}>
                                                     60s cooldown for demo safety.
                                                 </div>
                                             </div>
