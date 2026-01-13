@@ -22,7 +22,7 @@ export default function Header() {
         loading,
         fetchBalances,
         reset: resetBalances
-    } = useBalances(wallet?.adapter);
+    } = useBalances(isConnected ? wallet?.smartWallet : null)
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -38,8 +38,8 @@ export default function Header() {
         }
     }, [showDropdown]);
 
-    const handleDisconnect = async () => {
-        await disconnect();
+    const handleDisconnect = () => {
+        disconnect();
         setShowDropdown(false);
         resetBalances();
     };
