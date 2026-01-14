@@ -206,4 +206,4 @@ export function getGradientClasses(popular?: boolean): string {
     return 'bg-purple-100 dark:bg-white/10 hover:bg-purple-200 dark:hover:bg-white/20 text-purple-700 dark:text-white border border-purple-300 dark:border-white/20';
 }
 
-export const EXPO_QR_URL = 'https://qr.expo.dev/eas-update?slug=exp&projectId=229c9ca8-de3e-495c-ae90-ddc19d189aab&groupId=1c8c508c-cfaf-4e6f-ae30-955bd8027c87&host=u.expo.dev';
+export const EXPO_QR_URL = 'https://qr.expo.dev/eas-update?slug=exp&projectId=229c9ca8-de3e-495c-ae90-ddc19d189aab&groupId=e4d10dee-5a25-4dd4-b027-0c453386aa52&host=u.expo.dev';
