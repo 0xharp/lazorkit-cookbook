@@ -5,12 +5,12 @@
     "privacy": "public",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/lazorkit-background.png",
+    "icon": "./assets/LazorKitLogoLight.png",
     "scheme": "lazorkitcookbook",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/lazorkit-background.png",
+      "image": "./assets/LazorKitLogoLight.png",
       "resizeMode": "contain",
       "backgroundColor": "#1a1a2e"
     },
@@ -18,18 +18,18 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.lazorkit.cookbook",
       "splash": {
-        "image": "./assets/lazorkit-background.png",
+        "image": "./assets/LazorKitLogoLight.png",
         "resizeMode": "contain",
         "backgroundColor": "#1a1a2e"
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/lazorkit-background.png",
+        "foregroundImage": "./assets/LazorKitLogoLight.png",
         "backgroundColor": "#1a1a2e"
       },
       "splash": {
-        "image": "./assets/lazorkit-background.png",
+        "image": "./assets/LazorKitLogoLight.png",
         "resizeMode": "contain",
         "backgroundColor": "#1a1a2e"
       },

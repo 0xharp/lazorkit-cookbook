@@ -26,15 +26,15 @@ export function WalletStatus({ address, solBalance, usdcBalance, onDisconnect }:
                 <Text style={styles.copyHint}>Tap to copy</Text>
             </TouchableOpacity>
 
-            {(solBalance !== null || usdcBalance !== null) && (
+            {(solBalance !== undefined && solBalance !== null || usdcBalance !== undefined && usdcBalance !== null) && (
                 <View style={styles.balances}>
-                    {solBalance !== null && (
+                    {solBalance !== undefined && solBalance !== null && (
                         <View style={styles.balanceItem}>
                             <Text style={styles.balanceLabel}>SOL</Text>
                             <Text style={styles.balanceValue}>{solBalance.toFixed(4)}</Text>
                         </View>
                     )}
-                    {usdcBalance !== null && (
+                    {usdcBalance !== undefined && usdcBalance !== null && (
                         <View style={styles.balanceItem}>
                             <Text style={styles.balanceLabel}>USDC</Text>
                             <Text style={styles.balanceValue}>{usdcBalance.toFixed(2)}</Text>

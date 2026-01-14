@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import {
     View,
     Text,
-    StyleSheet,
     ScrollView,
     TextInput,
     TouchableOpacity,
     Alert,
     KeyboardAvoidingView,
     Platform,
-    Keyboard, Linking,
+    Keyboard,
+    Linking,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PublicKey, Transaction } from '@solana/web3.js';
@@ -23,7 +23,8 @@ import {
     getAssociatedTokenAddressSync,
 } from '@/lib/solana-utils';
 import { processInstructionsForLazorKit } from '@/lib/lazorkit-utils';
-import { colors, spacing, borderRadius, fontSize, commonStyles } from '@/lib/theme';
+import { useThemeStyles } from '@/hooks/useThemeStyles';
+import { spacing, fontSize } from '@/lib/theme';
 import { Footer } from '@/components/Footer';
 import { Stack } from 'expo-router';
 
@@ -45,6 +46,9 @@ const TOKENS = {
 type TokenSymbol = 'SOL' | 'USDC';
 
 export default function RaydiumSwapScreen() {
+    const theme = useThemeStyles();
+    const { colors } = theme;
+
     const { wallet, isConnected, connect, signAndSendTransaction, connecting } = useLazorkitWalletConnect();
 
     const [inputToken, setInputToken] = useState<TokenSymbol>('SOL');
@@ -250,6 +254,7 @@ export default function RaydiumSwapScreen() {
                     instructions,
                     transactionOptions: {
                         computeUnitLimit: COMPUTE_UNITS.SWAP,
+                        clusterSimulation: 'devnet',
                     },
                 },
                 'examples/03-raydium-swap'
@@ -294,41 +299,39 @@ export default function RaydiumSwapScreen() {
 
     return (
         <>
-            <Stack.Screen
-                options={{
-                    title: 'Gasless Raydium Token Swaps',
-                }}
-            />
+            <Stack.Screen options={{ title: 'Gasless Raydium Token Swaps' }} />
             <LinearGradient
                 colors={[colors.gradient.start, colors.gradient.middle, colors.gradient.end]}
-                style={styles.container}
+                style={theme.container}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
                 <KeyboardAvoidingView
-                    style={styles.keyboardView}
+                    style={theme.container}
                     behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                     keyboardVerticalOffset={100}
                 >
                     <ScrollView
-                        style={styles.scrollView}
-                        contentContainerStyle={styles.content}
+                        style={theme.container}
+                        contentContainerStyle={theme.scrollContent}
                         keyboardShouldPersistTaps="handled"
                         showsVerticalScrollIndicator={false}
                     >
                         {/* Header */}
-                        <View style={styles.header}>
-                            <Text style={styles.emoji}>🔄</Text>
-                            <Text style={styles.title}>Gasless Token Swaps with Raydium</Text>
-                            <Text style={styles.subtitle}>
+                        <View style={{ marginBottom: spacing.md }}>
+                            <Text style={theme.emoji}>🔄</Text>
+                            <Text style={theme.title}>Gasless Token Swaps with Raydium</Text>
+                            <Text style={theme.subtitle}>
                                 Swap tokens on Raydium DEX without paying gas fees
                             </Text>
                         </View>
 
                         {/* Devnet Warning */}
-                        <View style={styles.warningCard}>
-                            <Text style={styles.warningTitle}>⚠️ Devnet Limitations</Text>
-                            <Text style={styles.warningText}>
+                        <View style={[theme.cardWarning, { marginBottom: spacing.lg }]}>
+                            <Text style={[theme.textWarning, { fontWeight: '600', marginBottom: spacing.xs }]}>
+                                ⚠️ Devnet Limitations
+                            </Text>
+                            <Text style={[theme.textWarning, { fontSize: fontSize.sm }]}>
                                 Supporting SOL ↔ USDC pair. Some swap directions may fail due to pool
                                 limitations. Try swapping in the other direction if needed.
                             </Text>
@@ -336,10 +339,10 @@ export default function RaydiumSwapScreen() {
 
                         {!isConnected ? (
                             /* Not Connected State */
-                            <View style={styles.glassCard}>
-                                <Text style={styles.lockIcon}>🔄</Text>
-                                <Text style={styles.connectTitle}>Connect to Start</Text>
-                                <Text style={styles.connectDescription}>
+                            <View style={[theme.card, { alignItems: 'center' }]}>
+                                <Text style={{ fontSize: 64, marginBottom: spacing.lg }}>🔄</Text>
+                                <Text style={theme.sectionTitle}>Connect to Start</Text>
+                                <Text style={[theme.textMuted, { textAlign: 'center', marginBottom: spacing.lg }]}>
                                     Connect your wallet to swap tokens gaslessly
                                 </Text>
 
@@ -347,14 +350,15 @@ export default function RaydiumSwapScreen() {
                                     onPress={handleConnect}
                                     disabled={connecting}
                                     activeOpacity={0.8}
+                                    style={{ width: '100%' }}
                                 >
                                     <LinearGradient
                                         colors={[colors.button.primary.start, colors.button.primary.end]}
                                         start={{ x: 0, y: 0 }}
                                         end={{ x: 1, y: 0 }}
-                                        style={styles.connectButton}
+                                        style={theme.btnPrimary}
                                     >
-                                        <Text style={styles.connectButtonText}>
+                                        <Text style={theme.btnPrimaryText}>
                                             {connecting ? 'Connecting...' : '🔑 Connect Wallet'}
                                         </Text>
                                     </LinearGradient>
@@ -362,48 +366,52 @@ export default function RaydiumSwapScreen() {
                             </View>
                         ) : (
                             /* Swap Interface */
-                            <View style={styles.swapContainer}>
+                            <View style={theme.section}>
                                 {/* Balances Card */}
-                                <View style={styles.balancesCard}>
-                                    <View style={styles.balancesHeader}>
-                                        <Text style={styles.balancesTitle}>Your Balances</Text>
+                                <View style={theme.balanceCard}>
+                                    <View style={theme.rowBetween}>
+                                        <Text style={[theme.balanceLabel, { fontWeight: '600' }]}>Your Balances</Text>
                                         <TouchableOpacity onPress={fetchBalances} disabled={refreshing}>
-                                            <Text style={styles.refreshText}>
+                                            <Text style={theme.refreshText}>
                                                 {refreshing ? '⏳' : '🔄'} Refresh
                                             </Text>
                                         </TouchableOpacity>
                                     </View>
-                                    <View style={styles.balancesRow}>
-                                        <View style={styles.balanceItem}>
-                                            <Text style={styles.balanceLabel}>SOL</Text>
-                                            <Text style={styles.balanceValue}>{balances.SOL.toFixed(4)}</Text>
+                                    <View style={theme.balanceRow}>
+                                        <View style={{ alignItems: 'center' }}>
+                                            <Text style={theme.balanceLabel}>SOL</Text>
+                                            <Text style={[theme.textPrimary, { fontSize: fontSize.lg, fontWeight: '600' }]}>
+                                                {balances.SOL.toFixed(4)}
+                                            </Text>
                                         </View>
-                                        <View style={styles.balanceItem}>
-                                            <Text style={styles.balanceLabel}>USDC</Text>
-                                            <Text style={styles.balanceValue}>{balances.USDC.toFixed(2)}</Text>
+                                        <View style={{ alignItems: 'center' }}>
+                                            <Text style={theme.balanceLabel}>USDC</Text>
+                                            <Text style={[theme.textPrimary, { fontSize: fontSize.lg, fontWeight: '600' }]}>
+                                                {balances.USDC.toFixed(2)}
+                                            </Text>
                                         </View>
                                     </View>
                                 </View>
 
                                 {/* Swap Card */}
-                                <View style={styles.swapCard}>
+                                <View style={theme.card}>
                                     {/* Input Token */}
-                                    <View style={styles.tokenSection}>
-                                        <Text style={styles.tokenLabel}>You Pay</Text>
-                                        <View style={styles.tokenInputRow}>
+                                    <View style={theme.tokenSection}>
+                                        <Text style={theme.tokenLabel}>You Pay</Text>
+                                        <View style={theme.tokenInputRow}>
                                             <TextInput
-                                                style={styles.tokenInput}
+                                                style={theme.tokenInput}
                                                 placeholder="0.0"
                                                 placeholderTextColor={colors.text.placeholder}
                                                 value={inputAmount}
                                                 onChangeText={setInputAmount}
                                                 keyboardType="decimal-pad"
                                             />
-                                            <View style={styles.tokenSelector}>
+                                            <View style={{ flexDirection: 'row', gap: spacing.xs }}>
                                                 <TouchableOpacity
                                                     style={[
-                                                        styles.tokenButton,
-                                                        inputToken === 'SOL' && styles.tokenButtonActive,
+                                                        theme.tokenButton,
+                                                        inputToken === 'SOL' && theme.tokenButtonActive,
                                                     ]}
                                                     onPress={() => {
                                                         if (inputToken !== 'SOL') {
@@ -414,12 +422,15 @@ export default function RaydiumSwapScreen() {
                                                         }
                                                     }}
                                                 >
-                                                    <Text style={styles.tokenButtonText}>SOL</Text>
+                                                    <Text style={[
+                                                        theme.tokenButtonText,
+                                                        inputToken === 'SOL' && theme.tokenButtonTextActive,
+                                                    ]}>SOL</Text>
                                                 </TouchableOpacity>
                                                 <TouchableOpacity
                                                     style={[
-                                                        styles.tokenButton,
-                                                        inputToken === 'USDC' && styles.tokenButtonActive,
+                                                        theme.tokenButton,
+                                                        inputToken === 'USDC' && theme.tokenButtonActive,
                                                     ]}
                                                     onPress={() => {
                                                         if (inputToken !== 'USDC') {
@@ -430,34 +441,37 @@ export default function RaydiumSwapScreen() {
                                                         }
                                                     }}
                                                 >
-                                                    <Text style={styles.tokenButtonText}>USDC</Text>
+                                                    <Text style={[
+                                                        theme.tokenButtonText,
+                                                        inputToken === 'USDC' && theme.tokenButtonTextActive,
+                                                    ]}>USDC</Text>
                                                 </TouchableOpacity>
                                             </View>
                                         </View>
                                     </View>
 
                                     {/* Flip Button */}
-                                    <View style={styles.flipContainer}>
-                                        <TouchableOpacity style={styles.flipButton} onPress={handleFlipTokens}>
-                                            <Text style={styles.flipText}>⇅</Text>
+                                    <View style={{ alignItems: 'center', marginVertical: spacing.sm }}>
+                                        <TouchableOpacity style={theme.flipButton} onPress={handleFlipTokens}>
+                                            <Text style={theme.flipText}>⇅</Text>
                                         </TouchableOpacity>
                                     </View>
 
                                     {/* Output Token */}
-                                    <View style={styles.tokenSection}>
-                                        <Text style={styles.tokenLabel}>You Receive</Text>
-                                        <View style={styles.tokenInputRow}>
-                                            <Text style={styles.outputValue}>{outputAmount || '0.0'}</Text>
-                                            <View style={styles.outputTokenBadge}>
-                                                <Text style={styles.outputTokenText}>{outputToken}</Text>
+                                    <View style={theme.tokenSection}>
+                                        <Text style={theme.tokenLabel}>You Receive</Text>
+                                        <View style={theme.tokenInputRow}>
+                                            <Text style={theme.outputValue}>{outputAmount || '0.0'}</Text>
+                                            <View style={theme.outputBadge}>
+                                                <Text style={[theme.tokenButtonText, theme.tokenButtonTextActive]}>{outputToken}</Text>
                                             </View>
                                         </View>
                                     </View>
 
                                     {/* Quote Error */}
                                     {quoteError && (
-                                        <View style={styles.errorCard}>
-                                            <Text style={styles.errorText}>{quoteError}</Text>
+                                        <View style={[theme.cardError, { marginTop: spacing.md }]}>
+                                            <Text style={theme.textError}>{quoteError}</Text>
                                         </View>
                                     )}
 
@@ -466,24 +480,25 @@ export default function RaydiumSwapScreen() {
                                         onPress={handleSwap}
                                         disabled={!canSwap}
                                         activeOpacity={0.8}
+                                        style={{ marginTop: spacing.md }}
                                     >
                                         <LinearGradient
                                             colors={
                                                 canSwap
                                                     ? [colors.button.success.start, colors.button.success.end]
-                                                    : ['#374151', '#374151']
+                                                    : [colors.button.disabled, colors.button.disabled]
                                             }
                                             start={{ x: 0, y: 0 }}
                                             end={{ x: 1, y: 0 }}
-                                            style={[styles.swapButton, !canSwap && styles.swapButtonDisabled]}
+                                            style={[theme.btnSuccess, !canSwap && theme.btnDisabled]}
                                         >
-                                            <Text style={styles.swapButtonText}>
+                                            <Text style={theme.btnSuccessText}>
                                                 {swapping ? 'Swapping...' : 'Swap (Gasless!)'}
                                             </Text>
                                         </LinearGradient>
                                     </TouchableOpacity>
 
-                                    <Text style={styles.poweredBy}>
+                                    <Text style={[theme.textMuted, { textAlign: 'center', marginTop: spacing.md, fontSize: fontSize.sm }]}>
                                         ✨ No gas fees • Powered by LazorKit + Raydium
                                     </Text>
                                 </View>
@@ -491,42 +506,42 @@ export default function RaydiumSwapScreen() {
                         )}
 
                         {/* How It Works */}
-                        <View style={styles.howItWorksCard}>
-                            <Text style={styles.sectionTitle}>Integration Pattern</Text>
+                        <View style={[theme.card, { marginTop: spacing.lg }]}>
+                            <Text style={theme.sectionTitle}>Integration Pattern</Text>
 
-                            <View style={styles.step}>
-                                <View style={styles.stepNumber}>
-                                    <Text style={styles.stepNumberText}>1</Text>
+                            <View style={theme.stepRow}>
+                                <View style={theme.stepNumber}>
+                                    <Text style={theme.stepNumberText}>1</Text>
                                 </View>
-                                <View style={styles.stepContent}>
-                                    <Text style={styles.stepTitle}>Request LEGACY Transaction</Text>
-                                    <Text style={styles.stepDescription}>
+                                <View style={theme.stepContent}>
+                                    <Text style={theme.stepTitle}>Request LEGACY Transaction</Text>
+                                    <Text style={theme.stepDescription}>
                                         Request txVersion: 'LEGACY' from Raydium API for simpler
                                         instruction handling.
                                     </Text>
                                 </View>
                             </View>
 
-                            <View style={styles.step}>
-                                <View style={styles.stepNumber}>
-                                    <Text style={styles.stepNumberText}>2</Text>
+                            <View style={theme.stepRow}>
+                                <View style={theme.stepNumber}>
+                                    <Text style={theme.stepNumberText}>2</Text>
                                 </View>
-                                <View style={styles.stepContent}>
-                                    <Text style={styles.stepTitle}>Process for LazorKit</Text>
-                                    <Text style={styles.stepDescription}>
+                                <View style={theme.stepContent}>
+                                    <Text style={theme.stepTitle}>Process for LazorKit</Text>
+                                    <Text style={theme.stepDescription}>
                                         Filter ComputeBudget instructions and add smart wallet to all
                                         instruction accounts.
                                     </Text>
                                 </View>
                             </View>
 
-                            <View style={styles.step}>
-                                <View style={styles.stepNumber}>
-                                    <Text style={styles.stepNumberText}>3</Text>
+                            <View style={[theme.stepRow, { marginBottom: 0 }]}>
+                                <View style={theme.stepNumber}>
+                                    <Text style={theme.stepNumberText}>3</Text>
                                 </View>
-                                <View style={styles.stepContent}>
-                                    <Text style={styles.stepTitle}>Send via Paymaster</Text>
-                                    <Text style={styles.stepDescription}>
+                                <View style={theme.stepContent}>
+                                    <Text style={theme.stepTitle}>Send via Paymaster</Text>
+                                    <Text style={theme.stepDescription}>
                                         LazorKit's paymaster sponsors gas fees, user signs with passkey.
                                     </Text>
                                 </View>
@@ -534,15 +549,15 @@ export default function RaydiumSwapScreen() {
                         </View>
 
                         {/* Code Example */}
-                        <View style={styles.codeCard}>
-                            <Text style={styles.sectionTitle}>Key Code</Text>
-                            <View style={styles.mobileHighlight}>
-                                <Text style={styles.mobileHighlightText}>
+                        <View style={[theme.codeCard, { marginTop: spacing.md }]}>
+                            <Text style={[theme.sectionTitle, { padding: spacing.md, paddingBottom: 0 }]}>Key Code</Text>
+                            <View style={theme.codeHighlight}>
+                                <Text style={theme.codeHighlightText}>
                                     📱 Mobile: Add redirectUrl option for deep link
                                 </Text>
                             </View>
-                            <View style={styles.codeBlock}>
-                                <Text style={styles.code}>
+                            <View style={theme.codeBlock}>
+                                <Text style={theme.codeText}>
                                     {`import { useWallet } from '@lazorkit/wallet-mobile-adapter';
 import * as Linking from 'expo-linking';
 
@@ -564,13 +579,13 @@ await signAndSendTransaction(
 );`}
                                 </Text>
                             </View>
-                            <View style={styles.cookbookNote}>
-                                <Text style={styles.cookbookNoteText}>
+                            <View style={theme.codeNote}>
+                                <Text style={theme.codeNoteText}>
                                     💡 This cookbook includes a WalletContext wrapper that simplifies
                                     state management across screens.{'\n\n'}
                                     📖 See:{' '}
                                     <Text
-                                        style={styles.link}
+                                        style={theme.link}
                                         onPress={() =>
                                             Linking.openURL(
                                                 'https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/03-cookbook-patterns.md'
@@ -591,340 +606,3 @@ await signAndSendTransaction(
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    keyboardView: {
-        flex: 1,
-    },
-    scrollView: {
-        flex: 1,
-    },
-    content: {
-        padding: spacing.lg,
-        paddingBottom: spacing.xxl,
-    },
-
-    // Header
-    header: {
-        marginBottom: spacing.md,
-    },
-    emoji: {
-        fontSize: 48,
-        marginBottom: spacing.sm,
-    },
-    title: {
-        fontSize: fontSize['2xl'],
-        fontWeight: 'bold',
-        color: colors.text.primary,
-        marginBottom: spacing.xs,
-    },
-    subtitle: {
-        fontSize: fontSize.base,
-        color: colors.text.muted,
-    },
-
-    // Warning
-    warningCard: {
-        backgroundColor: colors.status.warningBg,
-        borderWidth: 1,
-        borderColor: colors.status.warningBorder,
-        borderRadius: borderRadius.md,
-        padding: spacing.md,
-        marginBottom: spacing.lg,
-    },
-    warningTitle: {
-        fontSize: fontSize.base,
-        fontWeight: '600',
-        color: colors.status.warning,
-        marginBottom: spacing.xs,
-    },
-    warningText: {
-        fontSize: fontSize.sm,
-        color: colors.status.warning,
-        lineHeight: 20,
-    },
-
-    // Connect State
-    glassCard: {
-        ...commonStyles.glassCard,
-        padding: spacing.xl,
-        alignItems: 'center',
-    },
-    lockIcon: {
-        fontSize: 64,
-        marginBottom: spacing.lg,
-    },
-    connectTitle: {
-        fontSize: fontSize.xl,
-        fontWeight: '600',
-        color: colors.text.primary,
-        marginBottom: spacing.sm,
-    },
-    connectDescription: {
-        fontSize: fontSize.base,
-        color: colors.text.muted,
-        textAlign: 'center',
-        marginBottom: spacing.lg,
-    },
-    connectButton: {
-        paddingVertical: spacing.md,
-        paddingHorizontal: spacing.xl,
-        borderRadius: borderRadius.md,
-        ...commonStyles.shadow,
-    },
-    connectButtonText: {
-        fontSize: fontSize.base,
-        fontWeight: '600',
-        color: colors.text.primary,
-    },
-
-    // Swap Interface
-    swapContainer: {
-        gap: spacing.md,
-    },
-    balancesCard: {
-        backgroundColor: colors.status.successBg,
-        borderWidth: 1,
-        borderColor: colors.status.successBorder,
-        borderRadius: borderRadius.lg,
-        padding: spacing.md,
-    },
-    balancesHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: spacing.sm,
-    },
-    balancesTitle: {
-        fontSize: fontSize.sm,
-        fontWeight: '600',
-        color: 'rgba(134, 239, 172, 0.8)',
-    },
-    refreshText: {
-        fontSize: fontSize.xs,
-        color: colors.accent.purple,
-    },
-    balancesRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-    },
-    balanceItem: {
-        alignItems: 'center',
-    },
-    balanceLabel: {
-        fontSize: fontSize.xs,
-        color: 'rgba(134, 239, 172, 0.8)',
-        marginBottom: spacing.xs,
-    },
-    balanceValue: {
-        fontSize: fontSize.lg,
-        fontWeight: '600',
-        color: colors.text.primary,
-    },
-    swapCard: {
-        ...commonStyles.glassCard,
-        padding: spacing.lg,
-    },
-    tokenSection: {
-        backgroundColor: colors.background.input,
-        borderRadius: borderRadius.md,
-        padding: spacing.md,
-    },
-    tokenLabel: {
-        fontSize: fontSize.sm,
-        color: colors.text.muted,
-        marginBottom: spacing.sm,
-    },
-    tokenInputRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: spacing.sm,
-    },
-    tokenInput: {
-        flex: 1,
-        fontSize: fontSize['2xl'],
-        fontWeight: '600',
-        color: colors.text.primary,
-        padding: 0,
-    },
-    tokenSelector: {
-        flexDirection: 'row',
-        gap: spacing.xs,
-    },
-    tokenButton: {
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.sm,
-        borderRadius: borderRadius.sm,
-        backgroundColor: '#374151',
-    },
-    tokenButtonActive: {
-        backgroundColor: colors.accent.purpleDark,
-    },
-    tokenButtonText: {
-        color: colors.text.primary,
-        fontWeight: '600',
-        fontSize: fontSize.sm,
-    },
-    outputValue: {
-        flex: 1,
-        fontSize: fontSize['2xl'],
-        fontWeight: '600',
-        color: colors.text.primary,
-    },
-    outputTokenBadge: {
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.sm,
-        borderRadius: borderRadius.sm,
-        backgroundColor: colors.accent.purpleDark,
-    },
-    outputTokenText: {
-        color: colors.text.primary,
-        fontWeight: '600',
-        fontSize: fontSize.sm,
-    },
-    flipContainer: {
-        alignItems: 'center',
-        marginVertical: spacing.sm,
-    },
-    flipButton: {
-        backgroundColor: colors.background.card,
-        padding: spacing.sm,
-        borderRadius: borderRadius.md,
-        borderWidth: 1,
-        borderColor: colors.border.default,
-    },
-    flipText: {
-        fontSize: 24,
-        color: colors.text.primary,
-    },
-    errorCard: {
-        backgroundColor: colors.status.errorBg,
-        borderWidth: 1,
-        borderColor: colors.status.errorBorder,
-        borderRadius: borderRadius.sm,
-        padding: spacing.sm,
-        marginTop: spacing.sm,
-    },
-    errorText: {
-        fontSize: fontSize.sm,
-        color: colors.status.error,
-    },
-    swapButton: {
-        paddingVertical: spacing.md,
-        borderRadius: borderRadius.md,
-        marginTop: spacing.md,
-        ...commonStyles.shadow,
-    },
-    swapButtonDisabled: {
-        opacity: 0.5,
-    },
-    swapButtonText: {
-        fontSize: fontSize.base,
-        fontWeight: 'bold',
-        color: colors.text.primary,
-        textAlign: 'center',
-    },
-    poweredBy: {
-        fontSize: fontSize.xs,
-        color: colors.text.muted,
-        textAlign: 'center',
-        marginTop: spacing.md,
-    },
-
-    // How It Works
-    howItWorksCard: {
-        ...commonStyles.glassCard,
-        padding: spacing.lg,
-        marginTop: spacing.lg,
-    },
-    sectionTitle: {
-        fontSize: fontSize.lg,
-        fontWeight: 'bold',
-        color: colors.text.primary,
-        marginBottom: spacing.md,
-    },
-    step: {
-        flexDirection: 'row',
-        marginBottom: spacing.md,
-    },
-    stepNumber: {
-        width: 28,
-        height: 28,
-        borderRadius: 14,
-        backgroundColor: colors.accent.purpleDark,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: spacing.sm,
-    },
-    stepNumberText: {
-        fontSize: fontSize.sm,
-        fontWeight: 'bold',
-        color: colors.text.primary,
-    },
-    stepContent: {
-        flex: 1,
-    },
-    stepTitle: {
-        fontSize: fontSize.base,
-        fontWeight: '600',
-        color: colors.text.primary,
-        marginBottom: spacing.xs,
-    },
-    stepDescription: {
-        fontSize: fontSize.sm,
-        color: colors.text.muted,
-        lineHeight: 20,
-    },
-
-    // Code
-    codeCard: {
-        ...commonStyles.glassCard,
-        padding: spacing.lg,
-        marginTop: spacing.md,
-    },
-    codeBlock: {
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        borderRadius: borderRadius.sm,
-        padding: spacing.md,
-    },
-    code: {
-        fontSize: 11,
-        color: colors.text.secondary,
-        fontFamily: 'monospace',
-        lineHeight: 18,
-    },
-    mobileHighlight: {
-        backgroundColor: 'rgba(168, 85, 247, 0.15)',
-        borderWidth: 1,
-        borderColor: 'rgba(168, 85, 247, 0.3)',
-        borderRadius: borderRadius.sm,
-        padding: spacing.sm,
-        marginBottom: spacing.md,
-    },
-    mobileHighlightText: {
-        fontSize: fontSize.sm,
-        color: colors.accent.purple,
-        textAlign: 'center',
-        fontWeight: '600',
-    },
-    cookbookNote: {
-        backgroundColor: 'rgba(34, 197, 94, 0.1)',
-        borderWidth: 1,
-        borderColor: 'rgba(34, 197, 94, 0.2)',
-        borderRadius: borderRadius.sm,
-        padding: spacing.sm,
-        marginTop: spacing.md,
-    },
-    cookbookNoteText: {
-        fontSize: fontSize.xs,
-        color: 'rgba(134, 239, 172, 0.9)',
-        lineHeight: 18,
-    },
-    link: {
-        color: '#a78bfa', // purple accent
-        textDecorationLine: 'underline',
-    },
-});

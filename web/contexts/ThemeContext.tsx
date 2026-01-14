@@ -19,7 +19,7 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-    const [theme, setTheme] = useState<Theme>('dark');
+    const [theme, setTheme] = useState<Theme>('lazorkit');
     const [mounted, setMounted] = useState(false);
 
     // Load theme from localStorage on mount
@@ -62,9 +62,9 @@ export function useTheme(): ThemeContextValue {
     // Return default dark theme during SSR pre-rendering when context is not available
     if (!context) {
         return {
-            theme: 'dark',
+            theme: 'lazorkit',
             toggleTheme: () => { },
-            isLazorkit: false,
+            isLazorkit: true,
         };
     }
     return context;
