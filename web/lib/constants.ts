@@ -181,29 +181,29 @@ export function calculateExpiryTimestamp(months: number): number | undefined {
 }
 
 /**
- * Get badge color classes for Tailwind
+ * Get badge color classes for Tailwind (works in both light and dark modes)
  */
 export function getBadgeColorClasses(color?: PlanFeatures['badgeColor']): string {
     switch (color) {
         case 'purple':
-            return 'bg-purple-500/20 border-purple-500/50 text-purple-300';
+            return 'bg-[#F5F3FF] dark:bg-purple-500/20 border border-[#7857FF]/20 dark:border-purple-500/50 text-[#7857FF] dark:text-purple-300';
         case 'emerald':
-            return 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300';
+            return 'bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-500/50 text-emerald-700 dark:text-emerald-300';
         case 'blue':
-            return 'bg-blue-500/20 border-blue-500/50 text-blue-300';
+            return 'bg-blue-100 dark:bg-blue-500/20 border border-blue-300 dark:border-blue-500/50 text-blue-700 dark:text-blue-300';
         default:
-            return 'bg-purple-500/20 border-purple-500/50 text-purple-300';
+            return 'bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-500/50 text-purple-700 dark:text-purple-300';
     }
 }
 
 /**
- * Get gradient classes for popular plans
+ * Get gradient classes for popular plans (works in both light and dark modes)
  */
 export function getGradientClasses(popular?: boolean): string {
     if (popular) {
         return 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-purple-500/50';
     }
-    return 'bg-white/10 hover:bg-white/20 text-white border border-white/20';
+    return 'bg-purple-100 dark:bg-white/10 hover:bg-purple-200 dark:hover:bg-white/20 text-purple-700 dark:text-white border border-purple-300 dark:border-white/20';
 }
 
-export const EXPO_QR_URL = 'https://qr.expo.dev/eas-update?slug=exp&projectId=229c9ca8-de3e-495c-ae90-ddc19d189aab&groupId=d9f276e3-df74-4ede-96ef-66668e6a7262&host=u.expo.dev';
+export const EXPO_QR_URL = 'https://qr.expo.dev/eas-update?slug=exp&projectId=229c9ca8-de3e-495c-ae90-ddc19d189aab&groupId=1c8c508c-cfaf-4e6f-ae30-955bd8027c87&host=u.expo.dev';

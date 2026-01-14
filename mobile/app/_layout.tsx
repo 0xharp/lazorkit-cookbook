@@ -9,50 +9,53 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { LazorkitProvider } from '@/providers/LazorkitProvider';
 import { WalletProvider } from '@/contexts/WalletContext';
+import { ThemeProvider, useTheme } from '@/contexts/ThemeContext';
 import { Header } from '@/components/Header';
-import { colors } from '@/lib/theme';
+
+function AppContent() {
+    const { colors, isLazorkit } = useTheme();
+
+    return (
+        <>
+            <StatusBar style={isLazorkit ? 'dark' : 'light'} />
+            <Stack
+                screenOptions={{
+                    header: () => <Header />,
+                    contentStyle: {
+                        backgroundColor: colors.gradient.start,
+                    },
+                    // Theme-aware navigation title bar
+                    headerStyle: {
+                        backgroundColor: isLazorkit ? '#7857FF' : '#1e1b4b',
+                    },
+                    headerTintColor: '#ffffff',
+                    headerTitleStyle: {
+                        fontWeight: '600',
+                        color: '#ffffff',
+                    },
+                }}
+            >
+                <Stack.Screen
+                    name="index"
+                    options={{
+                        title: 'Home',
+                    }}
+                />
+            </Stack>
+        </>
+    );
+}
 
 export default function RootLayout() {
     return (
         <SafeAreaProvider>
-            <LazorkitProvider>
-                <WalletProvider>
-                    <StatusBar style="light" />
-                    <Stack
-                        screenOptions={{
-                            header: () => <Header />,
-                            contentStyle: {
-                                backgroundColor: colors.gradient.start,
-                            },
-                        }}
-                    >
-                        <Stack.Screen
-                            name="index"
-                            options={{
-                                title: 'Home',
-                            }}
-                        />
-                    {/*    <Stack.Screen*/}
-                    {/*        name="examples/01-connect-wallet"*/}
-                    {/*        options={{*/}
-                    {/*            title: 'Connect Wallet',*/}
-                    {/*        }}*/}
-                    {/*    />*/}
-                    {/*    <Stack.Screen*/}
-                    {/*        name="examples/02-gasless-transfer"*/}
-                    {/*        options={{*/}
-                    {/*            title: 'Gasless Transfer',*/}
-                    {/*        }}*/}
-                    {/*    />*/}
-                    {/*    <Stack.Screen*/}
-                    {/*        name="examples/03-raydium-swap"*/}
-                    {/*        options={{*/}
-                    {/*            title: 'Raydium Swap',*/}
-                    {/*        }}*/}
-                    {/*    />*/}
-                    </Stack>
-                </WalletProvider>
-            </LazorkitProvider>
+            <ThemeProvider>
+                <LazorkitProvider>
+                    <WalletProvider>
+                        <AppContent />
+                    </WalletProvider>
+                </LazorkitProvider>
+            </ThemeProvider>
         </SafeAreaProvider>
     );
 }

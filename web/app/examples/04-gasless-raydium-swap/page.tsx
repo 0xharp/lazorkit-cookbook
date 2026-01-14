@@ -10,6 +10,7 @@ import axios from "axios";
 import { DEV_API_URLS } from '@raydium-io/raydium-sdk-v2'
 import { useBalances } from '@/hooks/useBalances';
 import { useLazorkitWalletConnect } from '@/hooks/useLazorkitWalletConnect';
+import { useThemeClasses } from '@/hooks/useThemeClasses';
 import { getAssociatedTokenAddressSync, getConnection, formatTransactionError } from '@/lib/solana-utils';
 import { processInstructionsForLazorKit } from '@/lib/lazorkit-utils';
 
@@ -49,6 +50,7 @@ interface SwapCompute {
 
 export default function Recipe04() {
     const { isConnected, wallet, connect, connecting, signAndSendTransaction } = useLazorkitWalletConnect();
+    const theme = useThemeClasses();
     const [inputToken, setInputToken] = useState<'SOL' | 'USDC'>('SOL');
     const [outputToken, setOutputToken] = useState<'SOL' | 'USDC'>('USDC');
     const [inputAmount, setInputAmount] = useState('');
@@ -236,38 +238,38 @@ export default function Recipe04() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
+        <div className={`min-h-screen ${theme.bgPage}`}>
             <div className="container mx-auto px-4 py-8 max-w-7xl">
                 {/* Header */}
                 <div className="mb-8">
                     <Link
                         href="/"
-                        className="text-purple-400 hover:text-purple-300 mb-4 inline-block"
+                        className={`${theme.textAccent} hover:opacity-80 mb-4 inline-block`}
                     >
                         ← Back to Home
                     </Link>
                     <div className="flex items-start gap-3 mb-2">
                         <span className="text-4xl">🔄</span>
                         <div>
-                            <h1 className="text-4xl font-bold text-white">
+                            <h1 className={`text-4xl font-bold ${theme.textPrimary}`}>
                                 Gasless Token Swaps with Raydium
                             </h1>
                         </div>
                     </div>
-                    <p className="text-gray-400">
+                    <p className={theme.textMuted}>
                         Swap tokens on Raydium DEX without paying gas fees
                     </p>
                 </div>
 
                 {/* Devnet Warning */}
-                <div className="mb-6 bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
+                <div className={`mb-6 ${theme.infoYellow} rounded-xl p-4`}>
                     <div className="flex items-start gap-3">
                         <span className="text-2xl">⚠️</span>
                         <div>
-                            <h3 className="text-yellow-200 font-semibold mb-2">
+                            <h3 className={`${theme.infoYellowTitle} font-semibold mb-2`}>
                                 Devnet Limitations
                             </h3>
-                            <div className="text-sm text-yellow-100 space-y-2">
+                            <div className={`text-sm ${theme.infoYellowText} space-y-2`}>
                                 <p>
                                     Currently supporting <strong>SOL ↔ USDC</strong> pair on Devnet. Devnet liquidity pools can be
                                     unreliable - some swap directions may fail due to imbalanced pools or missing pool state.
@@ -287,77 +289,77 @@ export default function Recipe04() {
                     {/* Left Panel - Info */}
                     <div className="space-y-6">
                         {/* Integration Highlight */}
-                        <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-2xl p-6">
-                            <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <div className={`${theme.bgCardAlt} rounded-2xl p-6`}>
+                            <h2 className={`text-2xl font-bold ${theme.textPrimary} mb-4 flex items-center gap-2`}>
                                 <span>🤝</span> Raydium x LazorKit
                             </h2>
-                            <p className="text-sm text-gray-300 mb-4">
+                            <p className={`text-sm ${theme.textSecondary} mb-4`}>
                                 Integrating with an existing Solana protocol while maintaining gasless UX.
                             </p>
                             <div className="space-y-2 text-sm">
                                 <div className="flex items-start gap-2">
-                                    <span className="text-blue-400">✓</span>
-                                    <span className="text-gray-300">Raydium Trade API for swap routing</span>
+                                    <span className={theme.infoBlueTitle}>✓</span>
+                                    <span className={theme.textSecondary}>Raydium Trade API for swap routing</span>
                                 </div>
                                 <div className="flex items-start gap-2">
-                                    <span className="text-blue-400">✓</span>
-                                    <span className="text-gray-300">LazorKit paymaster covers all gas fees</span>
+                                    <span className={theme.infoBlueTitle}>✓</span>
+                                    <span className={theme.textSecondary}>LazorKit paymaster covers all gas fees</span>
                                 </div>
                                 <div className="flex items-start gap-2">
-                                    <span className="text-blue-400">✓</span>
-                                    <span className="text-gray-300">Works on Solana Devnet (SOL-USDC pair)</span>
+                                    <span className={theme.infoBlueTitle}>✓</span>
+                                    <span className={theme.textSecondary}>Works on Solana Devnet (SOL-USDC pair)</span>
                                 </div>
                                 <div className="flex items-start gap-2">
-                                    <span className="text-blue-400">✓</span>
-                                    <span className="text-gray-300">Swap more pairs on Mainnet</span>
+                                    <span className={theme.infoBlueTitle}>✓</span>
+                                    <span className={theme.textSecondary}>Swap more pairs on Mainnet</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Integration Challenges & Solutions */}
-                        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                            <h2 className="text-xl font-bold text-white mb-4">Making Raydium Work with LazorKit</h2>
-                            <div className="space-y-4 text-sm text-gray-300">
+                        <div className={`${theme.bgCard} rounded-2xl p-6`}>
+                            <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>Making Raydium Work with LazorKit</h2>
+                            <div className={`space-y-4 text-sm ${theme.textSecondary}`}>
                                 <div>
                                     <div className="flex items-start gap-2 mb-2">
-                                        <span className="text-yellow-400">1.</span>
-                                        <span className="font-semibold text-white">Use Legacy Transactions</span>
+                                        <span className={theme.infoYellowTitle}>1.</span>
+                                        <span className={`font-semibold ${theme.textPrimary}`}>Use Legacy Transactions</span>
                                     </div>
-                                    <p className="ml-5 text-gray-400">
-                                        Request <code className="bg-black/30 px-1 rounded text-gray-300">txVersion: 'LEGACY'</code> from Raydium API to keep instructions simpler than versioned transactions.
+                                    <p className={`ml-5 ${theme.textMuted}`}>
+                                        Request <code className={`${theme.codeBlock} px-1 rounded`}>txVersion: 'LEGACY'</code> from Raydium API to keep instructions simpler than versioned transactions.
                                     </p>
                                 </div>
 
                                 <div>
                                     <div className="flex items-start gap-2 mb-2">
-                                        <span className="text-yellow-400">2.</span>
-                                        <span className="font-semibold text-white">Skip ComputeBudget Instructions</span>
+                                        <span className={theme.infoYellowTitle}>2.</span>
+                                        <span className={`font-semibold ${theme.textPrimary}`}>Skip ComputeBudget Instructions</span>
                                     </div>
-                                    <p className="ml-5 text-gray-400 mb-2">
+                                    <p className={`ml-5 ${theme.textMuted} mb-2`}>
                                         LazorKit manages compute budget automatically. Filter them out:
                                     </p>
-                                    <code className="ml-5 block bg-black/30 p-2 rounded text-xs text-gray-300">
+                                    <code className={`ml-5 block ${theme.codeBlock} p-2 rounded text-xs`}>
                                         instructions.filter(ix =&gt; !ix.programId.equals(COMPUTE_BUDGET_PROGRAM))
                                     </code>
                                 </div>
 
                                 <div>
                                     <div className="flex items-start gap-2 mb-2">
-                                        <span className="text-yellow-400">3.</span>
-                                        <span className="font-semibold text-white">Fix SyncNative Validation</span>
+                                        <span className={theme.infoYellowTitle}>3.</span>
+                                        <span className={`font-semibold ${theme.textPrimary}`}>Fix SyncNative Validation</span>
                                     </div>
-                                    <p className="ml-5 text-gray-400 mb-2">
-                                        LazorKit's <code className="bg-black/30 px-1 rounded text-gray-300">execute_cpi</code> expects smart wallet in ALL instructions. Some (like SyncNative) don't need it. Workaround:
+                                    <p className={`ml-5 ${theme.textMuted} mb-2`}>
+                                        LazorKit's <code className={`${theme.codeBlock} px-1 rounded`}>execute_cpi</code> expects smart wallet in ALL instructions. Some (like SyncNative) don't need it. Workaround:
                                     </p>
-                                    <code className="ml-5 block bg-black/30 p-2 rounded text-xs text-gray-300">
-                                        if (!hasSmartWallet) &#123;<br/>
-                                        &nbsp;&nbsp;ix.keys.push(&#123; pubkey: smartWallet, isSigner: false, isWritable: false &#125;)<br/>
+                                    <code className={`ml-5 block ${theme.codeBlock} p-2 rounded text-xs`}>
+                                        if (!hasSmartWallet) &#123;<br />
+                                        &nbsp;&nbsp;ix.keys.push(&#123; pubkey: smartWallet, isSigner: false, isWritable: false &#125;)<br />
                                         &#125;
                                     </code>
                                 </div>
 
-                                <div className="mt-4 pt-4 border-t border-white/10">
-                                    <p className="text-xs text-gray-400">
+                                <div className={`mt-4 pt-4 ${theme.border} border-t`}>
+                                    <p className={`text-xs ${theme.textMuted}`}>
                                         💡 These patterns can be applied to most Solana protocols when integrating with LazorKit
                                     </p>
                                 </div>
@@ -365,23 +367,23 @@ export default function Recipe04() {
                         </div>
 
                         {/* What You'll Learn */}
-                        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                            <h2 className="text-xl font-bold text-white mb-4">What You'll Learn</h2>
-                            <ul className="space-y-3 text-sm text-gray-300">
+                        <div className={`${theme.bgCard} rounded-2xl p-6`}>
+                            <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>What You'll Learn</h2>
+                            <ul className={`space-y-3 text-sm ${theme.textSecondary}`}>
                                 <li className="flex items-start gap-3">
-                                    <span className="text-green-400">✓</span>
+                                    <span className="text-green-500 mt-1 flex-shrink-0">✓</span>
                                     <span>Use Raydium Trade API for quotes & swaps</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="text-green-400">✓</span>
+                                    <span className="text-green-500 mt-1 flex-shrink-0">✓</span>
                                     <span>Handling legacy transactions</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="text-green-400">✓</span>
+                                    <span className="text-green-500 mt-1 flex-shrink-0">✓</span>
                                     <span>Work around LazorKit validation quirks</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="text-green-400">✓</span>
+                                    <span className="text-green-500 mt-1 flex-shrink-0">✓</span>
                                     <span>Manage token accounts & balances</span>
                                 </li>
                             </ul>
@@ -390,19 +392,19 @@ export default function Recipe04() {
 
                     {/* Right Panel - Swap Interface */}
                     <div className="space-y-6">
-                        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8">
+                        <div className={`${theme.bgCard} rounded-2xl p-8`}>
                             {!isConnected ? (
                                 <div className="text-center space-y-6">
                                     <div>
-                                        <h3 className="text-2xl font-bold text-white mb-2">Connect Your Wallet</h3>
-                                        <p className="text-gray-400 text-sm">
+                                        <h3 className={`text-2xl font-bold ${theme.textPrimary} mb-2`}>Connect Your Wallet</h3>
+                                        <p className={`${theme.textMuted} text-sm`}>
                                             Use LazorKit smart wallet for gasless swaps
                                         </p>
                                     </div>
                                     <button
                                         onClick={connect}
                                         disabled={connecting}
-                                        className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-4 px-6 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className={theme.btnPrimary}
                                     >
                                         {connecting ? 'Connecting...' : '🔑 Connect Wallet'}
                                     </button>
@@ -410,20 +412,20 @@ export default function Recipe04() {
                             ) : (
                                 <div className="space-y-6">
                                     <div>
-                                        <h3 className="text-2xl font-bold text-white mb-2">Swap Tokens</h3>
-                                        <p className="text-gray-400 text-sm">
+                                        <h3 className={`text-2xl font-bold ${theme.textPrimary} mb-2`}>Swap Tokens</h3>
+                                        <p className={`${theme.textMuted} text-sm`}>
                                             {wallet?.smartWallet.slice(0, 4)}...{wallet?.smartWallet.slice(-4)}
                                         </p>
                                     </div>
 
                                     {/* Balances with Refresh */}
-                                    <div className="bg-white/5 rounded-xl p-4">
+                                    <div className={`${theme.bgCardAlt} rounded-xl p-4`}>
                                         <div className="flex justify-between items-center mb-3">
-                                            <span className="text-sm text-gray-300 font-semibold">Balances</span>
+                                            <span className={`text-sm ${theme.textSecondary} font-semibold`}>Balances</span>
                                             <button
                                                 onClick={fetchBalances}
                                                 disabled={refreshing}
-                                                className="text-xs text-purple-400 hover:text-purple-300 disabled:opacity-50 flex items-center gap-1"
+                                                className={`text-xs ${theme.textAccent} hover:opacity-80 disabled:opacity-50 flex items-center gap-1`}
                                             >
                                                 <span className={refreshing ? 'animate-spin' : ''}>🔄</span>
                                                 {refreshing ? 'Refreshing...' : 'Refresh'}
@@ -431,14 +433,14 @@ export default function Recipe04() {
                                         </div>
                                         <div className="space-y-2">
                                             <div className="flex justify-between text-sm">
-                                                <span className="text-gray-400">SOL:</span>
-                                                <span className="text-white font-semibold">
+                                                <span className={theme.textMuted}>SOL:</span>
+                                                <span className={`${theme.textPrimary} font-semibold`}>
                                                     {balances.SOL?.toFixed(4) || '0.0000'}
                                                 </span>
                                             </div>
                                             <div className="flex justify-between text-sm">
-                                                <span className="text-gray-400">USDC:</span>
-                                                <span className="text-white font-semibold">
+                                                <span className={theme.textMuted}>USDC:</span>
+                                                <span className={`${theme.textPrimary} font-semibold`}>
                                                     {balances.USDC?.toFixed(2) || '0.00'}
                                                 </span>
                                             </div>
@@ -447,22 +449,25 @@ export default function Recipe04() {
 
                                     {/* Input Token */}
                                     <div className="space-y-2">
-                                        <label className="text-sm text-gray-400">You Pay</label>
-                                        <div className="bg-white/5 rounded-xl p-4">
+                                        <label className={`text-sm ${theme.textMuted}`}>You Pay</label>
+                                        <div className={`${theme.bgCardAlt} rounded-xl p-4`}>
                                             <div className="flex justify-between items-center gap-4">
                                                 <input
                                                     type="number"
                                                     placeholder="0.0"
                                                     value={inputAmount}
                                                     onChange={(e) => setInputAmount(e.target.value)}
-                                                    className="bg-transparent text-white text-2xl font-semibold outline-none w-full"
+                                                    className={`bg-transparent ${theme.textPrimary} text-2xl font-semibold outline-none w-full`}
                                                     step="0.000001"
                                                     min="0"
                                                 />
                                                 <select
                                                     value={inputToken}
                                                     onChange={(e) => setInputToken(e.target.value as 'SOL' | 'USDC')}
-                                                    className="bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold cursor-pointer border-2 border-purple-500 hover:bg-purple-700 transition-colors"
+                                                    className={`px-4 py-2 rounded-lg font-semibold cursor-pointer border-2 transition-colors text-white ${theme.isLazorkit
+                                                        ? 'bg-[#7857FF] border-[#674BF7] hover:bg-[#674BF7]'
+                                                        : 'bg-purple-600 border-purple-500 hover:bg-purple-700'
+                                                        }`}
                                                     style={{
                                                         WebkitAppearance: 'none',
                                                         MozAppearance: 'none',
@@ -474,8 +479,8 @@ export default function Recipe04() {
                                                         paddingRight: '2.5rem'
                                                     }}
                                                 >
-                                                    <option value="SOL" style={{ backgroundColor: '#6B21A8', color: 'white' }}>SOL</option>
-                                                    <option value="USDC" style={{ backgroundColor: '#6B21A8', color: 'white' }}>USDC</option>
+                                                    <option value="SOL" style={{ backgroundColor: theme.isLazorkit ? '#7857FF' : '#6B21A8', color: 'white' }}>SOL</option>
+                                                    <option value="USDC" style={{ backgroundColor: theme.isLazorkit ? '#7857FF' : '#6B21A8', color: 'white' }}>USDC</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -493,16 +498,19 @@ export default function Recipe04() {
 
                                     {/* Output Token */}
                                     <div className="space-y-2">
-                                        <label className="text-sm text-gray-400">You Receive</label>
-                                        <div className="bg-white/5 rounded-xl p-4">
+                                        <label className={`text-sm ${theme.textMuted}`}>You Receive</label>
+                                        <div className={`${theme.bgCardAlt} rounded-xl p-4`}>
                                             <div className="flex justify-between items-center gap-4">
-                                                <div className="text-white text-2xl font-semibold">
+                                                <div className={`${theme.textPrimary} text-2xl font-semibold`}>
                                                     {outputAmount || '0.0'}
                                                 </div>
                                                 <select
                                                     value={outputToken}
                                                     onChange={(e) => setOutputToken(e.target.value as 'SOL' | 'USDC')}
-                                                    className="bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold cursor-pointer border-2 border-purple-500 hover:bg-purple-700 transition-colors"
+                                                    className={`px-4 py-2 rounded-lg font-semibold cursor-pointer border-2 transition-colors text-white ${theme.isLazorkit
+                                                        ? 'bg-[#7857FF] border-[#674BF7] hover:bg-[#674BF7]'
+                                                        : 'bg-purple-600 border-purple-500 hover:bg-purple-700'
+                                                        }`}
                                                     style={{
                                                         WebkitAppearance: 'none',
                                                         MozAppearance: 'none',
@@ -514,8 +522,8 @@ export default function Recipe04() {
                                                         paddingRight: '2.5rem'
                                                     }}
                                                 >
-                                                    <option value="SOL" style={{ backgroundColor: '#6B21A8', color: 'white' }}>SOL</option>
-                                                    <option value="USDC" style={{ backgroundColor: '#6B21A8', color: 'white' }}>USDC</option>
+                                                    <option value="SOL" style={{ backgroundColor: theme.isLazorkit ? '#7857FF' : '#6B21A8', color: 'white' }}>SOL</option>
+                                                    <option value="USDC" style={{ backgroundColor: theme.isLazorkit ? '#7857FF' : '#6B21A8', color: 'white' }}>USDC</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -523,7 +531,7 @@ export default function Recipe04() {
 
                                     {/* Error Message */}
                                     {quoteError && (
-                                        <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-3 text-sm text-red-200">
+                                        <div className={`${theme.statusError} rounded-xl p-3 text-sm`}>
                                             {quoteError}
                                         </div>
                                     )}
@@ -532,12 +540,12 @@ export default function Recipe04() {
                                     <button
                                         onClick={handleSwap}
                                         disabled={swapping || !inputAmount || !!quoteError}
-                                        className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-4 px-6 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold py-4 px-6 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {swapping ? 'Swapping...' : 'Swap (Gas-Free)'}
                                     </button>
 
-                                    <div className="text-xs text-gray-400 text-center">
+                                    <div className={`text-xs ${theme.textMuted} text-center`}>
                                         No gas fees • Powered by LazorKit
                                     </div>
                                 </div>
@@ -545,13 +553,13 @@ export default function Recipe04() {
                         </div>
                         {/* Last Transaction */}
                         {lastTxSignature && (
-                            <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-6">
-                                <h2 className="text-xl font-bold text-white mb-3">Last Transaction</h2>
+                            <div className={theme.statusSuccess + " rounded-2xl p-6"}>
+                                <h2 className={`text-xl font-bold ${theme.textPrimary} mb-3`}>Last Transaction</h2>
                                 <a
                                     href={`https://explorer.solana.com/tx/${lastTxSignature}?cluster=devnet`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-green-400 hover:text-green-300 text-sm break-all"
+                                    className={`${theme.textAccent} hover:opacity-80 text-sm break-all`}
                                 >
                                     {lastTxSignature}
                                 </a>

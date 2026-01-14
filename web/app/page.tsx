@@ -1,20 +1,35 @@
+'use client';
+
 import Link from 'next/link';
+import Image from 'next/image';
+import { useThemeClasses } from '@/hooks/useThemeClasses';
 import { EXPO_QR_URL } from '../lib/constants'
 
 export default function HomePage() {
+    const theme = useThemeClasses();
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
+        <div className={`min-h-screen ${theme.bgPage}`}>
             {/* Hero Section */}
             <div className="container mx-auto px-4 py-20">
                 <div className="text-center mb-16">
-                    <h1 className="text-6xl md:text-7xl font-bold text-white mb-6">
-                        🧪 LazorKit Cookbook
+                    <h1 className={`text-4xl md:text-7xl font-bold mb-6 ${theme.textPrimary} flex flex-col md:flex-row items-center justify-center gap-4`}>
+                        <Image
+                            src={theme.isLazorkit ? "/LazorKitLogoLight.png" : "/LazorKitLogoDark.png"}
+                            alt="LazorKit Logo"
+                            width={84}
+                            height={84}
+                            className="object-contain w-20 h-20 md:w-[84px] md:h-[84px]"
+                        />
+                        <span>
+                            <span className={theme.textAccent}>LazorKit</span> Cookbook
+                        </span>
                     </h1>
-                    <p className="text-xl md:text-2xl text-gray-300 mb-4">
+                    <p className={`text-xl md:text-2xl mb-4 ${theme.textSecondary}`}>
                         Real-world examples showing how LazorKit makes Solana development simpler
                     </p>
-                    <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                        No more wallet adapters, no gas fee headaches, no blockchain complexity.<br/>
+                    <p className={`text-lg max-w-2xl mx-auto ${theme.textMuted}`}>
+                        No more wallet adapters, no gas fee headaches, no blockchain complexity.<br />
                         Just connect with Face ID and build.
                     </p>
                 </div>
@@ -22,22 +37,22 @@ export default function HomePage() {
                 {/* Mobile App Section */}
                 <div className="max-w-4xl mx-auto mb-16">
                     <Link href="/mobile">
-                        <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 rounded-2xl p-8 hover:bg-blue-500/30 transition-all cursor-pointer">
+                        <div className={`${theme.bgCardAlt} rounded-2xl p-8 hover:scale-[1.01] transition-all cursor-pointer`}>
                             <div className="flex flex-col md:flex-row items-center gap-6">
                                 <div className="text-6xl">📱</div>
                                 <div className="flex-1 text-center md:text-left">
-                                    <h2 className="text-2xl font-bold text-white mb-2">
+                                    <h2 className={`text-2xl font-bold mb-2 ${theme.textPrimary}`}>
                                         Try the Mobile App
                                     </h2>
-                                    <p className="text-gray-300 mb-3">
+                                    <p className={`mb-3 ${theme.textSecondary}`}>
                                         Test the LazorKit React Native SDK integration on your iOS or Android device.
                                         Includes 3 mobile recipes with deep linking and gasless transactions.
                                     </p>
-                                    <span className="inline-flex items-center gap-2 text-blue-400 font-semibold">
+                                    <span className={`inline-flex items-center gap-2 font-semibold ${theme.textAccent}`}>
                                         Scan QR Code to Test →
                                     </span>
                                 </div>
-                                <div className="hidden md:block bg-white p-2 rounded-lg">
+                                <div className={`hidden md:block p-2 rounded-lg ${theme.isLazorkit ? 'bg-gray-100' : 'bg-white'}`}>
                                     <img
                                         src={EXPO_QR_URL}
                                         alt="Scan to open in Expo Go"
@@ -53,459 +68,128 @@ export default function HomePage() {
 
                 {/* Recipe Cards */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
-                    {/* Recipe 01 */}
-                    <Link href="/examples/01-passkey-wallet-basics">
-                        <div
-                            className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
-                            <div className="text-5xl mb-4">👛</div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="text-2xl font-bold text-white">Recipe 01</span>
-                                <span
-                                    className="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-semibold">
-                  ⭐ Beginner
-                </span>
+                    {[
+                        { num: '01', title: 'Passkey Wallet Basics', emoji: '👛', level: '⭐ Beginner', href: '/examples/01-passkey-wallet-basics', desc: 'Create wallets with Face ID, check balances, and request airdrops. Perfect for getting started!', features: ['Passkey authentication', 'Balance checking', 'Devnet airdrops'] },
+                        { num: '02', title: 'Gasless USDC Transfer', emoji: '⚡', level: '⭐⭐ Intermediate', href: '/examples/02-gasless-transfer', desc: 'Send USDC without paying gas fees. Learn how LazorKit\'s paymaster enables true gasless transactions.', features: ['Zero gas fees for users', 'SPL token transfers', 'Paymaster integration'] },
+                        { num: '03', title: 'Subscription Service', emoji: '💰', level: '⭐⭐⭐⭐ Advanced', href: '/examples/03-subscription-service', desc: 'Practical subscription billing with automatic recurring charges. Full-stack example!', features: ['Automatic billing', 'Token delegation', 'Backend automation'] },
+                        { num: '04', title: 'Gasless Raydium Token Swaps', emoji: '🔄', level: '⭐⭐⭐ Advanced', href: '/examples/04-gasless-raydium-swap', desc: 'Integrate with Raydium DEX for gasless token swaps. Learn to work with existing Solana protocols!', features: ['Raydium SDK/API integration', 'Gasless DEX swaps', 'Protocol integration pattern'] },
+                        { num: '05', title: 'Wallet Adapter Integration', emoji: '🔌', level: '⭐⭐⭐ Advanced', href: '/examples/05-wallet-adapter-integration', desc: 'Use LazorKit alongside other wallets with popular Solana wallet adapters with an example for transferring USDC!', features: ['4 popular wallet adapters', 'Anza, Jupiter, Wallet UI, ConnectorKit', 'Gasless USDC transfer demo'] },
+                        { num: '06', title: 'Regular Metaplex NFT Minting', emoji: '🎨', level: '⭐⭐⭐ Advanced', href: '/examples/06-nft-minting', desc: 'Mint NFTs using Metaplex Token Metadata standard. Learn the traditional approach!', features: ['Metaplex Token Metadata', 'Master Edition NFTs', 'On-chain metadata'] },
+                        { num: '07', title: 'Gasless cNFT Minting (Metaplex Bubblegum)', emoji: '🌳', level: '⭐⭐⭐ Advanced', href: '/examples/07-compressed-nft-minting', desc: 'Mint compressed NFTs using Metaplex Bubblegum - truly gasless!', features: ['Bubblegum integration', 'Merkle tree compression', 'Zero rent costs'] },
+                        { num: '08', title: 'Liquid Staking with Marinade', emoji: '🥩', level: '⭐⭐⭐ Advanced', href: '/examples/08-marinade-staking', desc: 'Stake SOL for mSOL with Marinade Finance - gas fees sponsored by LazorKit Paymaster!', features: ['Marinade SDK integration', 'Stake SOL & instant unstake', 'Real-time fee quotes'] },
+                    ].map((recipe) => (
+                        <Link key={recipe.num} href={recipe.href}>
+                            <div className={`${theme.bgCard} ${theme.bgCardHover} rounded-2xl p-8 transition-all cursor-pointer group h-full`}>
+                                <div className="text-5xl mb-4">{recipe.emoji}</div>
+                                <div className="flex items-center gap-2 mb-3 flex-wrap">
+                                    <span className={`text-2xl font-bold ${theme.textPrimary}`}>Recipe {recipe.num}</span>
+                                    <span className="px-2 py-1 rounded-full bg-green-500/20 text-green-600 text-xs font-semibold">
+                                        {recipe.level}
+                                    </span>
+                                </div>
+                                <h3 className={`text-xl font-semibold mb-3 ${theme.textPrimary}`}>{recipe.title}</h3>
+                                <p className={`mb-4 ${theme.textMuted}`}>{recipe.desc}</p>
+                                <ul className={`space-y-2 text-sm ${theme.textSecondary}`}>
+                                    {recipe.features.map((f, i) => (
+                                        <li key={i} className="flex items-center gap-2">
+                                            <span className="text-green-500">✓</span> {f}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <div className={`mt-6 font-semibold ${theme.textAccent} group-hover:opacity-80`}>
+                                    Start learning →
+                                </div>
                             </div>
-                            <h3 className="text-xl font-semibold text-white mb-3">
-                                Passkey Wallet Basics
-                            </h3>
-                            <p className="text-gray-400 mb-4">
-                                Create wallets with Face ID, check balances, and request airdrops. Perfect for getting
-                                started!
-                            </p>
-                            <ul className="space-y-2 text-sm text-gray-300">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Passkey authentication
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Balance checking
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Devnet airdrops
-                                </li>
-                            </ul>
-                            <div className="mt-6 text-purple-400 group-hover:text-purple-300 font-semibold">
-                                Start learning →
-                            </div>
-                        </div>
-                    </Link>
-
-                    {/* Recipe 02 */}
-                    <Link href="/examples/02-gasless-transfer">
-                        <div
-                            className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
-                            <div className="text-5xl mb-4">⚡</div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="text-2xl font-bold text-white">Recipe 02</span>
-                                <span
-                                    className="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-semibold">
-                  ⭐⭐ Intermediate
-                </span>
-                            </div>
-                            <h3 className="text-xl font-semibold text-white mb-3">
-                                Gasless USDC Transfer
-                            </h3>
-                            <p className="text-gray-400 mb-4">
-                                Send USDC without paying gas fees. Learn how LazorKit's paymaster enables true gasless
-                                transactions.
-                            </p>
-                            <ul className="space-y-2 text-sm text-gray-300">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Zero gas fees for users
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    SPL token transfers
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Paymaster integration
-                                </li>
-                            </ul>
-                            <div className="mt-6 text-purple-400 group-hover:text-purple-300 font-semibold">
-                                Start learning →
-                            </div>
-                        </div>
-                    </Link>
-
-                    {/* Recipe 03 */}
-                    <Link href="/examples/03-subscription-service">
-                        <div
-                            className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
-                            <div className="text-5xl mb-4">💰</div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="text-2xl font-bold text-white">Recipe 03</span>
-                                <span
-                                    className="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-semibold">
-                  ⭐⭐⭐⭐ Advanced
-                </span>
-                            </div>
-                            <h3 className="text-xl font-semibold text-white mb-3">
-                                Subscription Service
-                            </h3>
-                            <p className="text-gray-400 mb-4">
-                                Practical subscription billing with automatic recurring charges. Full-stack example!
-                            </p>
-                            <ul className="space-y-2 text-sm text-gray-300">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Automatic billing
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Token delegation
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Backend automation
-                                </li>
-                            </ul>
-                            <div className="mt-6 text-purple-400 group-hover:text-purple-300 font-semibold">
-                                Start learning →
-                            </div>
-                        </div>
-                    </Link>
-                    {/* Recipe 04 */}
-                    <Link href="/examples/04-gasless-raydium-swap">
-                        <div
-                            className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
-                            <div className="text-5xl mb-4">🔄</div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="text-2xl font-bold text-white">Recipe 04</span>
-                                <span
-                                    className="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-semibold">
-                                    ⭐⭐⭐ Advanced
-                                  </span>
-                            </div>
-                            <h3 className="text-xl font-semibold text-white mb-3">
-                                Gasless Raydium Token Swaps
-                            </h3>
-                            <p className="text-gray-400 mb-4">
-                                Integrate with Raydium DEX for gasless token swaps. Learn to work with existing Solana
-                                protocols!
-                            </p>
-                            <ul className="space-y-2 text-sm text-gray-300">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Raydium SDK/API integration
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Gasless DEX swaps
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Protocol integration pattern
-                                </li>
-                            </ul>
-                            <div className="mt-6 text-purple-400 group-hover:text-purple-300 font-semibold">
-                                Start learning →
-                            </div>
-                        </div>
-                    </Link>
-
-                    {/* Recipe 05 */}
-                    <Link href="/examples/05-wallet-adapter-integration">
-                        <div
-                            className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
-                            <div className="text-5xl mb-4">🔌</div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="text-2xl font-bold text-white">Recipe 05</span>
-                                <span
-                                    className="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-semibold">
-                                    ⭐⭐⭐ Advanced
-                                  </span>
-                            </div>
-                            <h3 className="text-xl font-semibold text-white mb-3">
-                                Wallet Adapter Integration
-                            </h3>
-                            <p className="text-gray-400 mb-4">
-                                Use LazorKit alongside other wallets with popular Solana wallet adapters with an example for transferring USDC!
-                            </p>
-                            <ul className="space-y-2 text-sm text-gray-300">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    4 popular wallet adapters
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Anza, Jupiter, Wallet UI, ConnectorKit
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Gasless USDC transfer demo
-                                </li>
-                            </ul>
-                            <div className="mt-6 text-purple-400 group-hover:text-purple-300 font-semibold">
-                                Start learning →
-                            </div>
-                        </div>
-                    </Link>
-
-                    {/* Recipe 06 */}
-                    <Link href="/examples/06-nft-minting">
-                        <div
-                            className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
-                            <div className="text-5xl mb-4">🎨</div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="text-2xl font-bold text-white">Recipe 06</span>
-                                <span
-                                    className="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-semibold">
-                                    ⭐⭐⭐ Advanced
-                                  </span>
-                            </div>
-                            <h3 className="text-xl font-semibold text-white mb-3">
-                                Regular Metaplex NFT Minting
-                            </h3>
-                            <p className="text-gray-400 mb-4">
-                                Mint NFTs using Metaplex Token Metadata standard. Learn the traditional approach!
-                            </p>
-                            <ul className="space-y-2 text-sm text-gray-300">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Metaplex Token Metadata
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Master Edition NFTs
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    On-chain metadata
-                                </li>
-                            </ul>
-                            <div className="mt-6 text-purple-400 group-hover:text-purple-300 font-semibold">
-                                Start learning →
-                            </div>
-                        </div>
-                    </Link>
-
-                    {/* Recipe 07 */}
-                    <Link href="/examples/07-compressed-nft-minting">
-                        <div
-                            className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
-                            <div className="text-5xl mb-4">🌳</div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="text-2xl font-bold text-white">Recipe 07</span>
-                                <span
-                                    className="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-semibold">
-                                    ⭐⭐⭐ Advanced
-                                </span>
-                            </div>
-                            <h3 className="text-xl font-semibold text-white mb-3">
-                                Gasless cNFT Minting (Metaplex Bubblegum)
-                            </h3>
-                            <p className="text-gray-400 mb-4">
-                                Mint compressed NFTs using Metaplex Bubblegum - truly gasless!
-                            </p>
-                            <ul className="space-y-2 text-sm text-gray-300">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Bubblegum integration
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Merkle tree compression
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Zero rent costs
-                                </li>
-                            </ul>
-                            <div className="mt-6 text-purple-400 group-hover:text-purple-300 font-semibold">
-                                Start learning →
-                            </div>
-                        </div>
-                    </Link>
-
-                    {/* Recipe 08 */}
-                    <Link href="/examples/08-marinade-staking">
-                        <div
-                            className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all cursor-pointer group">
-                            <div className="text-5xl mb-4">🥩</div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="text-2xl font-bold text-white">Recipe 08</span>
-                                <span
-                                    className="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-semibold">
-                                    ⭐⭐⭐ Advanced
-                                </span>
-                            </div>
-                            <h3 className="text-xl font-semibold text-white mb-3">
-                                Liquid Staking with Marinade
-                            </h3>
-                            <p className="text-gray-400 mb-4">
-                                Stake SOL for mSOL with Marinade Finance - gas fees sponsored by LazorKit Paymaster!
-                            </p>
-                            <ul className="space-y-2 text-sm text-gray-300">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Marinade SDK integration
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Stake SOL & instant unstake
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-green-400">✓</span>
-                                    Real-time fee quotes
-                                </li>
-                            </ul>
-                            <div className="mt-6 text-purple-400 group-hover:text-purple-300 font-semibold">
-                                Start learning →
-                            </div>
-                        </div>
-                    </Link>
+                        </Link>
+                    ))}
                 </div>
+
                 {/* Why LazorKit Section */}
                 <section className="container mx-auto px-4 py-16 max-w-7xl">
-                    <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">
+                    <div className={`${theme.bgCard} rounded-3xl p-8 md:p-12`}>
+                        <h2 className={`text-3xl md:text-4xl font-bold mb-8 text-center ${theme.textPrimary}`}>
                             Why LazorKit Changes Everything
                         </h2>
 
                         <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-                            {/* Traditional */}
                             <div>
-                                <h3 className="text-xl font-semibold text-red-400 mb-4 flex items-center gap-2">
+                                <h3 className="text-xl font-semibold text-red-500 mb-4 flex items-center gap-2">
                                     <span>❌</span> Traditional Solana Development
                                 </h3>
-                                <ul className="space-y-3 text-gray-300">
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-red-400 mt-1">•</span>
-                                        <span>Complex wallet adapter setup</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-red-400 mt-1">•</span>
-                                        <span>Users need SOL for gas fees</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-red-400 mt-1">•</span>
-                                        <span>Managing transaction signing</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-red-400 mt-1">•</span>
-                                        <span>Handling token accounts</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-red-400 mt-1">•</span>
-                                        <span>Building authentication flows</span>
-                                    </li>
+                                <ul className={`space-y-3 ${theme.textSecondary}`}>
+                                    {['Complex wallet adapter setup', 'Users need SOL for gas fees', 'Managing transaction signing', 'Handling token accounts', 'Building authentication flows'].map((item, i) => (
+                                        <li key={i} className="flex items-start gap-3">
+                                            <span className="text-red-500 mt-1">•</span>
+                                            <span>{item}</span>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
 
-                            {/* With LazorKit */}
                             <div>
-                                <h3 className="text-xl font-semibold text-green-400 mb-4 flex items-center gap-2">
+                                <h3 className="text-xl font-semibold text-green-500 mb-4 flex items-center gap-2">
                                     <span>✅</span> With LazorKit
                                 </h3>
-                                <ul className="space-y-3 text-gray-300">
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-green-400 mt-1">•</span>
-                                        <span>One hook: <code className="text-purple-400">useWallet()</code></span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-green-400 mt-1">•</span>
-                                        <span>Gasless transactions via paymaster</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-green-400 mt-1">•</span>
-                                        <span>Smart wallets with Face ID</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-green-400 mt-1">•</span>
-                                        <span>Auto token account creation</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-green-400 mt-1">•</span>
-                                        <span>Simplified transaction flow</span>
-                                    </li>
+                                <ul className={`space-y-3 ${theme.textSecondary}`}>
+                                    {[
+                                        <>One hook: <code className={theme.textAccent}>useWallet()</code></>,
+                                        'Gasless transactions via paymaster',
+                                        'Smart wallets with Face ID',
+                                        'Auto token account creation',
+                                        'Simplified transaction flow'
+                                    ].map((item, i) => (
+                                        <li key={i} className="flex items-start gap-3">
+                                            <span className="text-green-500 mt-1">•</span>
+                                            <span>{item}</span>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
 
                         <div className="mt-8 text-center">
-                            <p className="text-xl text-purple-300 font-semibold">
+                            <p className={`text-xl font-semibold ${theme.textAccent}`}>
                                 → Focus on your product, not blockchain complexity
                             </p>
                         </div>
                     </div>
                 </section>
+
                 {/* Features Section */}
                 <div className="max-w-4xl mx-auto mb-16">
-                    <h2 className="text-3xl font-bold text-white text-center mb-8">
+                    <h2 className={`text-3xl font-bold text-center mb-8 ${theme.textPrimary}`}>
                         Why Use This Cookbook?
                     </h2>
                     <div className="grid md:grid-cols-2 gap-6">
-                        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-6">
-                            <div className="text-3xl mb-3">📚</div>
-                            <h3 className="text-xl font-semibold text-white mb-2">
-                                Progressive Learning
-                            </h3>
-                            <p className="text-gray-400">
-                                Start with basic wallet creation and progress to advanced patterns like token delegation
-                                and backend automation.
-                            </p>
-                        </div>
-
-                        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-6">
-                            <div className="text-3xl mb-3">🎯</div>
-                            <h3 className="text-xl font-semibold text-white mb-2">
-                                Real-World Examples
-                            </h3>
-                            <p className="text-gray-400">
-                                Not just toy demos. Each recipe solves actual problems and includes detailed code you
-                                can copy and adapt.
-                            </p>
-                        </div>
-
-                        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-6">
-                            <div className="text-3xl mb-3">⚡</div>
-                            <h3 className="text-xl font-semibold text-white mb-2">
-                                Developer-Friendly
-                            </h3>
-                            <p className="text-gray-400">
-                                Clear setup guides, inline comments, and step-by-step tutorials. Works with both React
-                                and React Native.
-                            </p>
-                        </div>
-
-                        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-6">
-                            <div className="text-3xl mb-3">🚀</div>
-                            <h3 className="text-xl font-semibold text-white mb-2">
-                                No Seed Phrases
-                            </h3>
-                            <p className="text-gray-400">
-                                Eliminate the biggest UX barrier in crypto. Users authenticate with Face ID/Touch ID -
-                                simple and secure.
-                            </p>
-                        </div>
+                        {[
+                            { emoji: '📚', title: 'Progressive Learning', desc: 'Start with basic wallet creation and progress to advanced patterns like token delegation.' },
+                            { emoji: '🎯', title: 'Real-World Examples', desc: 'Not just toy demos. Each recipe solves actual problems with detailed code.' },
+                            { emoji: '⚡', title: 'Developer-Friendly', desc: 'Clear setup guides, inline comments, and step-by-step tutorials.' },
+                            { emoji: '🚀', title: 'No Seed Phrases', desc: 'Users authenticate with Face ID/Touch ID - simple and secure.' },
+                        ].map((feature, i) => (
+                            <div key={i} className={`${theme.bgCard} rounded-xl p-6`}>
+                                <div className="text-3xl mb-3">{feature.emoji}</div>
+                                <h3 className={`text-xl font-semibold mb-2 ${theme.textPrimary}`}>{feature.title}</h3>
+                                <p className={theme.textMuted}>{feature.desc}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
                 {/* CTA Section */}
                 <div className="text-center">
-                    <div
-                        className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-2xl p-8 max-w-2xl mx-auto">
-                        <h2 className="text-3xl font-bold text-white mb-4">
+                    <div className={`${theme.bgCta} rounded-2xl p-8 max-w-2xl mx-auto`}>
+                        <h2 className={`text-3xl font-bold mb-4 ${theme.textPrimary}`}>
                             Ready to Get Started?
                         </h2>
-                        <p className="text-gray-300 mb-6">
+                        <p className={`mb-6 ${theme.textSecondary}`}>
                             Jump into Recipe 01 and create your first passkey wallet in 5 minutes!
                         </p>
                         <div className="flex gap-4 justify-center flex-wrap">
-                            <Link
-                                href="/examples/01-passkey-wallet-basics"
-                                className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl font-semibold transition-all shadow-lg shadow-purple-500/50"
-                            >
+                            <Link href="/examples/01-passkey-wallet-basics" className={theme.btnPrimary}>
                                 Start with Recipe 01 →
                             </Link>
-                            <a
-                                href="https://docs.lazorkit.com/" target="_blank"
-                                className="px-8 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl font-semibold transition-all"
-                            >
+                            <a href="https://docs.lazorkit.com/" target="_blank" className={theme.btnSecondary}>
                                 View LazorKit Docs
                             </a>
                         </div>

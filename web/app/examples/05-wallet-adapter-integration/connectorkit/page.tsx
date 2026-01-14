@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useThemeClasses } from '@/hooks/useThemeClasses';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import {
     useConnector,
@@ -116,6 +117,8 @@ function TransferForm() {
         }
     };
 
+    const theme = useThemeClasses();
+
     if (!accountAddress) {
         return null;
     }
@@ -123,23 +126,23 @@ function TransferForm() {
     return (
         <div className="space-y-6">
             {/* Balance Display */}
-            <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
+            <div className={`${theme.statusSuccess} rounded-xl p-4`}>
                 <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-400">Your USDC Balance</span>
+                    <span className={`text-sm ${theme.textMuted}`}>Your USDC Balance</span>
                     <button
                         onClick={fetchBalances}
                         disabled={refreshing}
-                        className="text-xs text-purple-400 hover:text-purple-300 disabled:opacity-50 flex items-center gap-1"
+                        className={`text-xs ${theme.textAccent} hover:opacity-80 disabled:opacity-50 flex items-center gap-1`}
                     >
                         <span className={refreshing ? 'animate-spin' : ''}>🔄</span>
                         {refreshing ? 'Refreshing...' : 'Refresh'}
                     </button>
                 </div>
-                <div className="text-3xl font-bold text-white">
+                <div className={`text-3xl font-bold ${theme.textPrimary}`}>
                     {usdcBalance !== null ? `${usdcBalance.toFixed(2)} USDC` : 'Loading...'}
                 </div>
                 {usdcBalance === 0 && (
-                    <p className="text-xs text-yellow-400 mt-2">
+                    <p className={`text-xs ${theme.infoYellowTitle} mt-2`}>
                         No USDC? Get some from{' '}
                         <a href="https://faucet.circle.com/" target="_blank" className="underline">
                             Circle Faucet
@@ -151,7 +154,7 @@ function TransferForm() {
             {/* Transfer Form */}
             <div className="space-y-4">
                 <div>
-                    <label className="block text-sm text-gray-400 mb-2">
+                    <label className={`block text-sm ${theme.textMuted} mb-2`}>
                         Recipient Address
                     </label>
                     <input
@@ -159,12 +162,12 @@ function TransferForm() {
                         value={recipient}
                         onChange={(e) => setRecipient(e.target.value)}
                         placeholder="Enter Solana address..."
-                        className="w-full px-4 py-3 bg-black/30 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm font-mono"
+                        className={`w-full px-4 py-3 ${theme.bgInput} rounded-lg ${theme.textPrimary} placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm font-mono`}
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm text-gray-400 mb-2">
+                    <label className={`block text-sm ${theme.textMuted} mb-2`}>
                         Amount (USDC)
                     </label>
                     <input
@@ -174,12 +177,12 @@ function TransferForm() {
                         placeholder="0.00"
                         step="0.01"
                         min="0"
-                        className="w-full px-4 py-3 bg-black/30 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                        className={`w-full px-4 py-3 ${theme.bgInput} rounded-lg ${theme.textPrimary} placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm`}
                     />
                     {usdcBalance !== null && usdcBalance > 0 && (
                         <button
                             onClick={() => setAmount(usdcBalance.toString())}
-                            className="text-xs text-purple-400 hover:text-purple-300 mt-1"
+                            className={`text-xs ${theme.textAccent} hover:opacity-80 mt-1`}
                         >
                             Use Max ({usdcBalance.toFixed(2)})
                         </button>
@@ -200,14 +203,14 @@ function TransferForm() {
             </div>
 
             {/* Gasless Info */}
-            <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
+            <div className={`${theme.infoBlue} rounded-lg p-4`}>
                 <div className="flex items-start gap-2">
                     <span className="text-xl">ℹ️</span>
                     <div>
-                        <p className="text-sm text-blue-200 font-semibold mb-1">
+                        <p className={`text-sm ${theme.infoBlueTitle} font-semibold mb-1`}>
                             Gasless with LazorKit
                         </p>
-                        <p className="text-xs text-blue-200">
+                        <p className={`text-xs ${theme.infoBlueText}`}>
                             When connected via LazorKit (passkey), the paymaster covers transaction fees.
                             Other wallets will pay standard SOL fees.
                         </p>
@@ -217,13 +220,13 @@ function TransferForm() {
 
             {/* Last Transaction */}
             {lastTxSignature && (
-                <div className="bg-white/5 border border-white/10 rounded-lg p-4">
-                    <p className="text-xs text-gray-400 mb-2">Last Transaction:</p>
+                <div className={`${theme.bgCard} rounded-lg p-4`}>
+                    <p className={`text-xs ${theme.textMuted} mb-2`}>Last Transaction:</p>
                     <a
                         href={`https://explorer.solana.com/tx/${lastTxSignature}?cluster=devnet`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs text-purple-400 hover:text-purple-300 break-all"
+                        className={`text-xs ${theme.textAccent} hover:opacity-80 break-all`}
                     >
                         {lastTxSignature.slice(0, 20)}...{lastTxSignature.slice(-20)} ↗
                     </a>
@@ -237,16 +240,17 @@ function TransferForm() {
 function ConnectorKitDemo() {
     const { connected } = useConnector();
     const { address: accountAddress, formatted } = useAccount();
+    const theme = useThemeClasses();
 
     if (connected && accountAddress) {
         return (
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                <h2 className="text-xl font-bold text-white mb-6">Try Gasless Transfer</h2>
+            <div className={`${theme.bgCard} rounded-2xl p-6`}>
+                <h2 className={`text-xl font-bold ${theme.textPrimary} mb-6`}>Try Gasless Transfer</h2>
                 <div className="space-y-4">
-                    <div className="flex items-center justify-between p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
+                    <div className={`flex items-center justify-between p-4 ${theme.statusSuccess} rounded-xl`}>
                         <div>
-                            <p className="text-sm text-gray-400">Connected Wallet</p>
-                            <p className="text-white font-mono text-sm">{formatted}</p>
+                            <p className={`text-sm ${theme.textMuted}`}>Connected Wallet</p>
+                            <p className={`${theme.textPrimary} font-mono text-sm`}>{formatted}</p>
                         </div>
                         <ConnectButton />
                     </div>
@@ -257,14 +261,14 @@ function ConnectorKitDemo() {
     }
 
     return (
-        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-            <h2 className="text-xl font-bold text-white mb-6">Try Gasless Transfer</h2>
+        <div className={`${theme.bgCard} rounded-2xl p-6`}>
+            <h2 className={`text-xl font-bold ${theme.textPrimary} mb-6`}>Try Gasless Transfer</h2>
             <div className="text-center py-8">
                 <div className="text-6xl mb-6">💸</div>
-                <h3 className="text-xl font-semibold text-white mb-4">
+                <h3 className={`text-xl font-semibold ${theme.textPrimary} mb-4`}>
                     Connect Your Wallet
                 </h3>
-                <p className="text-sm text-gray-400 mb-6">
+                <p className={`text-sm ${theme.textMuted} mb-6`}>
                     Click the button below to open the wallet modal. LazorKit appears automatically via wallet-standard.
                 </p>
                 <div className="flex justify-center">
@@ -316,14 +320,15 @@ function ConnectorKitProvider({ children }: { children: React.ReactNode }) {
 }
 
 export default function ConnectorKitPage() {
+    const theme = useThemeClasses();
     return (
         <ConnectorKitProvider>
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 overflow-x-hidden">
+            <div className={`min-h-screen ${theme.bgPage} overflow-x-hidden`}>
                 <div className="container mx-auto px-4 py-8 max-w-7xl">
                     <div className="mb-8">
                         <Link
                             href="/examples/05-wallet-adapter-integration"
-                            className="text-purple-400 hover:text-purple-300 mb-4 inline-block"
+                            className={`${theme.textAccent} hover:opacity-80 mb-4 inline-block`}
                         >
                             &larr; Back to Wallet Adapters
                         </Link>
@@ -336,12 +341,12 @@ export default function ConnectorKitPage() {
                                 className="rounded-md"
                             />
                             <div className="flex-1 min-w-0">
-                                <h1 className="text-3xl md:text-4xl font-bold text-white break-words">
+                                <h1 className={`text-3xl md:text-4xl font-bold ${theme.textPrimary} break-words`}>
                                     ConnectorKit Integration
                                 </h1>
                             </div>
                         </div>
-                        <p className="text-gray-400 text-sm md:text-base">
+                        <p className={`${theme.textMuted} text-sm md:text-base`}>
                             Solana Foundation's modern wallet connector with pre-built UI components
                         </p>
                     </div>
@@ -350,25 +355,25 @@ export default function ConnectorKitPage() {
                         {/* Left Panel - Code Example */}
                         <div className="space-y-6 w-full min-w-0">
                             {/* Installation */}
-                            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                                <h2 className="text-xl font-bold text-white mb-4">Installation</h2>
-                                <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                  <pre className="text-xs text-gray-300">
-{`npm install @solana/connector @lazorkit/wallet
+                            <div className={`${theme.bgCard} rounded-2xl p-6`}>
+                                <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>Installation</h2>
+                                <div className={`${theme.codeBlock} rounded-lg p-4 overflow-x-auto`}>
+                                    <pre className="text-xs text-gray-100">
+                                        {`npm install @solana/connector @lazorkit/wallet
 
 # For pre-built UI components (shadcn/ui)
 npx shadcn@latest add button dialog \\
   dropdown-menu avatar badge`}
-                  </pre>
+                                    </pre>
                                 </div>
                             </div>
 
                             {/* Provider Setup */}
-                            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                                <h2 className="text-xl font-bold text-white mb-4">Provider Setup</h2>
-                                <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                  <pre className="text-xs text-gray-300">
-{`import { useEffect } from 'react';
+                            <div className={`${theme.bgCard} rounded-2xl p-6`}>
+                                <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>Provider Setup</h2>
+                                <div className={`${theme.codeBlock} rounded-lg p-4 overflow-x-auto`}>
+                                    <pre className="text-xs text-gray-100">
+                                        {`import { useEffect } from 'react';
 import { AppProvider } from '@solana/connector/react';
 import { getDefaultConfig } from '@solana/connector/headless';
 import { registerLazorkitWallet } from '@lazorkit/wallet';
@@ -397,16 +402,16 @@ function App() {
     </AppProvider>
   );
 }`}
-                  </pre>
+                                    </pre>
                                 </div>
                             </div>
 
                             {/* Using the Hooks */}
-                            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                                <h2 className="text-xl font-bold text-white mb-4">Using the Hooks</h2>
-                                <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                  <pre className="text-xs text-gray-300">
-{`import {
+                            <div className={`${theme.bgCard} rounded-2xl p-6`}>
+                                <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>Using the Hooks</h2>
+                                <div className={`${theme.codeBlock} rounded-lg p-4 overflow-x-auto`}>
+                                    <pre className="text-xs text-gray-100">
+                                        {`import {
   useConnector,
 } from '@solana/connector/react';
 import { useTransactionSigner } from '@solana/connector';
@@ -444,28 +449,28 @@ function MyComponent() {
     </div>
   );
 }`}
-                  </pre>
+                                    </pre>
                                 </div>
                             </div>
 
                             {/* Key Points */}
-                            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-2xl p-6">
-                                <h2 className="text-xl font-bold text-white mb-4">Key Points</h2>
-                                <ul className="space-y-3 text-sm text-gray-300">
+                            <div className={`${theme.infoBlue} rounded-2xl p-6`}>
+                                <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>Key Points</h2>
+                                <ul className={`space-y-3 text-sm ${theme.textSecondary}`}>
                                     <li className="flex items-start gap-3">
-                                        <span className="text-green-400 mt-1">✓</span>
+                                        <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
                                         <span><strong>Pre-built Components:</strong> ConnectButton, WalletModal with shadcn/ui styling</span>
                                     </li>
                                     <li className="flex items-start gap-3">
-                                        <span className="text-green-400 mt-1">✓</span>
+                                        <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
                                         <span><strong>useTransactionSigner:</strong> For legacy web3.js compatibility</span>
                                     </li>
                                     <li className="flex items-start gap-3">
-                                        <span className="text-green-400 mt-1">✓</span>
+                                        <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
                                         <span><strong>Wallet Standard:</strong> LazorKit auto-discovered after registration</span>
                                     </li>
                                     <li className="flex items-start gap-3">
-                                        <span className="text-green-400 mt-1">✓</span>
+                                        <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
                                         <span><strong>Gasless for LazorKit:</strong> Paymaster auto-handles gas when using LazorKit</span>
                                     </li>
                                 </ul>
@@ -477,14 +482,14 @@ function MyComponent() {
                             <ConnectorKitDemo />
 
                             {/* Links */}
-                            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                                <h3 className="text-lg font-semibold text-white mb-4">Resources</h3>
+                            <div className={`${theme.bgCard} rounded-2xl p-6`}>
+                                <h3 className={`text-lg font-semibold ${theme.textPrimary} mb-4`}>Resources</h3>
                                 <div className="space-y-2">
                                     <a
                                         href="https://www.connectorkit.dev"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 text-purple-400 hover:text-purple-300 text-sm"
+                                        className={`flex items-center gap-2 ${theme.textAccent} hover:opacity-80 text-sm`}
                                     >
                                         <span>📚</span> ConnectorKit Documentation
                                     </a>
@@ -492,7 +497,7 @@ function MyComponent() {
                                         href="https://github.com/solana-foundation/connectorkit"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 text-purple-400 hover:text-purple-300 text-sm"
+                                        className={`flex items-center gap-2 ${theme.textAccent} hover:opacity-80 text-sm`}
                                     >
                                         <span>💻</span> ConnectorKit GitHub
                                     </a>
@@ -500,7 +505,7 @@ function MyComponent() {
                                         href="https://docs.lazorkit.com/"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 text-purple-400 hover:text-purple-300 text-sm"
+                                        className={`flex items-center gap-2 ${theme.textAccent} hover:opacity-80 text-sm`}
                                     >
                                         <span>🔑</span> LazorKit Documentation
                                     </a>

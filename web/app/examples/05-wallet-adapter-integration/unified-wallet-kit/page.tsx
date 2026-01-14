@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useThemeClasses } from '@/hooks/useThemeClasses';
 import { Transaction } from '@solana/web3.js';
 import { ConnectionProvider, useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { UnifiedWalletProvider, UnifiedWalletButton } from '@jup-ag/wallet-adapter';
@@ -105,17 +106,19 @@ function TransferDemo() {
     }
   };
 
+  const theme = useThemeClasses();
+
   return (
-    <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-      <h2 className="text-xl font-bold text-white mb-6">Try Gasless Transfer</h2>
+    <div className={`${theme.bgCard} rounded-2xl p-6`}>
+      <h2 className={`text-xl font-bold ${theme.textPrimary} mb-6`}>Try Gasless Transfer</h2>
 
       {!connected ? (
         <div className="text-center py-8">
           <div className="text-6xl mb-6">💸</div>
-          <h3 className="text-xl font-semibold text-white mb-4">
+          <h3 className={`text-xl font-semibold ${theme.textPrimary} mb-4`}>
             Connect Your Wallet
           </h3>
-          <p className="text-sm text-gray-400 mb-6">
+          <p className={`text-sm ${theme.textMuted} mb-6`}>
             Click the button below to open the Unified Wallet modal. LazorKit will appear alongside other installed wallets.
           </p>
           <div className="flex justify-center">
@@ -124,10 +127,10 @@ function TransferDemo() {
         </div>
       ) : (
         <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
+          <div className={`flex items-center justify-between p-4 ${theme.statusSuccess} rounded-xl`}>
             <div>
-              <p className="text-sm text-gray-400">Connected Wallet</p>
-              <p className="text-white font-mono text-sm">
+              <p className={`text-sm ${theme.textMuted}`}>Connected Wallet</p>
+              <p className={`${theme.textPrimary} font-mono text-sm`}>
                 {publicKey?.toBase58().slice(0, 8)}...{publicKey?.toBase58().slice(-8)}
               </p>
             </div>
@@ -135,23 +138,23 @@ function TransferDemo() {
           </div>
 
           {/* Balance Display */}
-          <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
+          <div className={`${theme.statusSuccess} rounded-xl p-4`}>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-gray-400">Your USDC Balance</span>
+              <span className={`text-sm ${theme.textMuted}`}>Your USDC Balance</span>
               <button
                 onClick={fetchBalances}
                 disabled={balanceLoading}
-                className="text-xs text-purple-400 hover:text-purple-300 disabled:opacity-50 flex items-center gap-1"
+                className={`text-xs ${theme.textAccent} hover:opacity-80 disabled:opacity-50 flex items-center gap-1`}
               >
                 <span className={balanceLoading ? 'animate-spin' : ''}>🔄</span>
                 {balanceLoading ? 'Refreshing...' : 'Refresh'}
               </button>
             </div>
-            <div className="text-3xl font-bold text-white">
+            <div className={`text-3xl font-bold ${theme.textPrimary}`}>
               {usdcBalance !== null ? `${usdcBalance.toFixed(2)} USDC` : 'Loading...'}
             </div>
             {usdcBalance === 0 && (
-              <p className="text-xs text-yellow-400 mt-2">
+              <p className={`text-xs ${theme.infoYellowTitle} mt-2`}>
                 No USDC? Get some from{' '}
                 <a href="https://faucet.circle.com/" target="_blank" className="underline">
                   Circle Faucet
@@ -163,7 +166,7 @@ function TransferDemo() {
           {/* Transfer Form */}
           <div className="space-y-4">
             <div>
-              <label className="block text-sm text-gray-400 mb-2">
+              <label className={`block text-sm ${theme.textMuted} mb-2`}>
                 Recipient Address
               </label>
               <input
@@ -171,12 +174,12 @@ function TransferDemo() {
                 value={recipient}
                 onChange={(e) => setRecipient(e.target.value)}
                 placeholder="Enter Solana address..."
-                className="w-full px-4 py-3 bg-black/30 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm font-mono"
+                className={`w-full px-4 py-3 ${theme.bgInput} rounded-lg ${theme.textPrimary} placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm font-mono`}
               />
             </div>
 
             <div>
-              <label className="block text-sm text-gray-400 mb-2">
+              <label className={`block text-sm ${theme.textMuted} mb-2`}>
                 Amount (USDC)
               </label>
               <input
@@ -186,12 +189,12 @@ function TransferDemo() {
                 placeholder="0.00"
                 step="0.01"
                 min="0"
-                className="w-full px-4 py-3 bg-black/30 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                className={`w-full px-4 py-3 ${theme.bgInput} rounded-lg ${theme.textPrimary} placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm`}
               />
               {usdcBalance !== null && usdcBalance > 0 && (
                 <button
                   onClick={() => setAmount(usdcBalance.toString())}
-                  className="text-xs text-purple-400 hover:text-purple-300 mt-1"
+                  className={`text-xs ${theme.textAccent} hover:opacity-80 mt-1`}
                 >
                   Use Max ({usdcBalance.toFixed(2)})
                 </button>
@@ -212,14 +215,14 @@ function TransferDemo() {
           </div>
 
           {/* Gasless Info */}
-          <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
+          <div className={`${theme.infoBlue} rounded-lg p-4`}>
             <div className="flex items-start gap-2">
               <span className="text-xl">ℹ️</span>
               <div>
-                <p className="text-sm text-blue-200 font-semibold mb-1">
+                <p className={`text-sm ${theme.infoBlueTitle} font-semibold mb-1`}>
                   Gasless with LazorKit
                 </p>
-                <p className="text-xs text-blue-200">
+                <p className={`text-xs ${theme.infoBlueText}`}>
                   When connected via LazorKit (passkey), the paymaster covers transaction fees.
                   Other wallets will pay standard SOL fees.
                 </p>
@@ -229,13 +232,13 @@ function TransferDemo() {
 
           {/* Last Transaction */}
           {lastTxSignature && (
-            <div className="bg-white/5 border border-white/10 rounded-lg p-4">
-              <p className="text-xs text-gray-400 mb-2">Last Transaction:</p>
+            <div className={`${theme.bgCard} rounded-lg p-4`}>
+              <p className={`text-xs ${theme.textMuted} mb-2`}>Last Transaction:</p>
               <a
                 href={`https://explorer.solana.com/tx/${lastTxSignature}?cluster=devnet`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-purple-400 hover:text-purple-300 break-all"
+                className={`text-xs ${theme.textAccent} hover:opacity-80 break-all`}
               >
                 {lastTxSignature.slice(0, 20)}...{lastTxSignature.slice(-20)} ↗
               </a>
@@ -249,6 +252,7 @@ function TransferDemo() {
 
 // Theme switcher component
 function ThemeSwitcher({ theme, setTheme }: { theme: WalletTheme; setTheme: (t: WalletTheme) => void }) {
+  const themeClasses = useThemeClasses();
   const themes: { value: WalletTheme; label: string; color: string }[] = [
     { value: 'dark', label: 'Dark', color: 'bg-gray-900 border-gray-700' },
     { value: 'light', label: 'Light', color: 'bg-white border-gray-300' },
@@ -256,19 +260,18 @@ function ThemeSwitcher({ theme, setTheme }: { theme: WalletTheme; setTheme: (t: 
   ];
 
   return (
-    <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4">
+    <div className={`${themeClasses.bgCard} rounded-2xl p-4`}>
       <div className="flex items-center justify-between">
-        <span className="text-sm text-gray-400">Jupiter Unified Wallet Kit Theme</span>
+        <span className={`text-sm ${themeClasses.textMuted}`}>Jupiter Unified Wallet Kit Theme</span>
         <div className="flex gap-2">
           {themes.map((t) => (
             <button
               key={t.value}
               onClick={() => setTheme(t.value)}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                theme === t.value
-                  ? 'bg-purple-500/30 border border-purple-500 text-white'
-                  : 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10'
-              }`}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${theme === t.value
+                ? `bg-[#7857FF] text-white`
+                : `${themeClasses.bgInput} border ${themeClasses.borderSubtle} ${themeClasses.textSecondary} hover:opacity-80`
+                }`}
             >
               <span className={`w-3 h-3 rounded ${t.color}`}></span>
               {t.label}
@@ -306,33 +309,34 @@ function UnifiedWalletKitProvider({ children, theme }: { children: React.ReactNo
 
 export default function UnifiedWalletKitPage() {
   const [theme, setTheme] = useState<WalletTheme>('dark');
+  const cookbookTheme = useThemeClasses();
 
   return (
     <UnifiedWalletKitProvider theme={theme}>
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 overflow-x-hidden">
+      <div className={`min-h-screen ${cookbookTheme.bgPage} overflow-x-hidden`}>
         <div className="container mx-auto px-4 py-8 max-w-7xl">
           <div className="mb-8">
             <Link
               href="/examples/05-wallet-adapter-integration"
-              className="text-purple-400 hover:text-purple-300 mb-4 inline-block"
+              className={`${cookbookTheme.textAccent} hover:opacity-80 mb-4 inline-block`}
             >
               &larr; Back to Wallet Adapters
             </Link>
             <div className="flex items-center gap-3 mb-2">
-                <Image
-                    src='/icons/jupiter.png'
-                    alt='Jupiter'
-                    width={32}
-                    height={32}
-                    className="rounded-md"
-                />
+              <Image
+                src='/icons/jupiter.png'
+                alt='Jupiter'
+                width={32}
+                height={32}
+                className="rounded-md"
+              />
               <div className="flex-1 min-w-0">
-                <h1 className="text-3xl md:text-4xl font-bold text-white break-words">
+                <h1 className={`text-3xl md:text-4xl font-bold ${cookbookTheme.textPrimary} break-words`}>
                   Jupiter Unified Wallet Kit
                 </h1>
               </div>
             </div>
-            <p className="text-gray-400 text-sm md:text-base">
+            <p className={`${cookbookTheme.textMuted} text-sm md:text-base`}>
               The Swiss Army Knife wallet adapter used by Jupiter and Meteora
             </p>
           </div>
@@ -341,22 +345,22 @@ export default function UnifiedWalletKitPage() {
             {/* Left Panel - Code Example */}
             <div className="space-y-6 w-full min-w-0">
               {/* Installation */}
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                <h2 className="text-xl font-bold text-white mb-4">Installation</h2>
-                <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                  <pre className="text-xs text-gray-300">
-{`npm install @jup-ag/wallet-adapter \\
+              <div className={`${cookbookTheme.bgCard} rounded-2xl p-6`}>
+                <h2 className={`text-xl font-bold ${cookbookTheme.textPrimary} mb-4`}>Installation</h2>
+                <div className={`${cookbookTheme.codeBlock} rounded-lg p-4 overflow-x-auto`}>
+                  <pre className="text-xs text-gray-100">
+                    {`npm install @jup-ag/wallet-adapter \\
   @lazorkit/wallet`}
                   </pre>
                 </div>
               </div>
 
               {/* Provider Setup */}
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                <h2 className="text-xl font-bold text-white mb-4">Provider Setup</h2>
-                <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                  <pre className="text-xs text-gray-300">
-{`import { useEffect } from 'react';
+              <div className={`${cookbookTheme.bgCard} rounded-2xl p-6`}>
+                <h2 className={`text-xl font-bold ${cookbookTheme.textPrimary} mb-4`}>Provider Setup</h2>
+                <div className={`${cookbookTheme.codeBlock} rounded-lg p-4 overflow-x-auto`}>
+                  <pre className="text-xs text-gray-100">
+                    {`import { useEffect } from 'react';
 import { ConnectionProvider } from '@solana/wallet-adapter-react';
 import {
   UnifiedWalletProvider,
@@ -405,11 +409,11 @@ function AppProvider({ children }) {
               </div>
 
               {/* Using the Hooks */}
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                <h2 className="text-xl font-bold text-white mb-4">Using the Hooks</h2>
-                <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                  <pre className="text-xs text-gray-300">
-{`import { useWallet, useConnection } from
+              <div className={`${cookbookTheme.bgCard} rounded-2xl p-6`}>
+                <h2 className={`text-xl font-bold ${cookbookTheme.textPrimary} mb-4`}>Using the Hooks</h2>
+                <div className={`${cookbookTheme.codeBlock} rounded-lg p-4 overflow-x-auto`}>
+                  <pre className="text-xs text-gray-100">
+                    {`import { useWallet, useConnection } from
   '@solana/wallet-adapter-react';
 import { UnifiedWalletButton } from
   '@jup-ag/wallet-adapter';
@@ -443,50 +447,50 @@ function MyComponent() {
               </div>
 
               {/* Key Points */}
-              <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-2xl p-6">
-                <h2 className="text-xl font-bold text-white mb-4">Key Points</h2>
-                <ul className="space-y-3 text-sm text-gray-300">
+              <div className={`${cookbookTheme.infoBlue} rounded-2xl p-6`}>
+                <h2 className={`text-xl font-bold ${cookbookTheme.textPrimary} mb-4`}>Key Points</h2>
+                <ul className={`space-y-3 text-sm ${cookbookTheme.textSecondary}`}>
                   <li className="flex items-start gap-3">
-                    <span className="text-green-400 mt-1">✓</span>
+                    <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
                     <span><strong>Jupiter-powered:</strong> Used by Jupiter and Meteora in production</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-green-400 mt-1">✓</span>
+                    <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
                     <span><strong>Multiple Themes:</strong> Light, Dark, and Jupiter themes built-in</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-green-400 mt-1">✓</span>
+                    <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
                     <span><strong>Wallet Standard:</strong> Automatically discovers LazorKit after registration</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-green-400 mt-1">✓</span>
+                    <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
                     <span><strong>Mobile Ready:</strong> Built-in Mobile Wallet Adapter support</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-green-400 mt-1">✓</span>
+                    <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>
                     <span><strong>Gasless for LazorKit:</strong> Paymaster auto-handles gas when using LazorKit</span>
                   </li>
                 </ul>
               </div>
 
               {/* Theme Options */}
-              <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-2xl p-6">
-                <h2 className="text-xl font-bold text-white mb-4">Theme Options</h2>
+              <div className={`${cookbookTheme.infoPurple} rounded-2xl p-6`}>
+                <h2 className={`text-xl font-bold ${cookbookTheme.textPrimary} mb-4`}>Theme Options</h2>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center gap-3">
                     <span className="w-4 h-4 rounded bg-gray-900 border border-gray-700"></span>
-                    <code className="text-purple-300">dark</code>
-                    <span className="text-gray-400">- Dark theme{theme === 'dark' ? ' (active)' : ''}</span>
+                    <code className={cookbookTheme.textAccent}>dark</code>
+                    <span className={cookbookTheme.textMuted}>- Dark theme{theme === 'dark' ? ' (active)' : ''}</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="w-4 h-4 rounded bg-white border border-gray-300"></span>
-                    <code className="text-purple-300">light</code>
-                    <span className="text-gray-400">- Light theme{theme === 'light' ? ' (active)' : ''}</span>
+                    <code className={cookbookTheme.textAccent}>light</code>
+                    <span className={cookbookTheme.textMuted}>- Light theme{theme === 'light' ? ' (active)' : ''}</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="w-4 h-4 rounded bg-[rgba(28,41,54,1)]"></span>
-                    <code className="text-purple-300">jupiter</code>
-                    <span className="text-gray-400">- Jupiter brand theme{theme === 'jupiter' ? ' (active)' : ''}</span>
+                    <code className={cookbookTheme.textAccent}>jupiter</code>
+                    <span className={cookbookTheme.textMuted}>- Jupiter brand theme{theme === 'jupiter' ? ' (active)' : ''}</span>
                   </div>
                 </div>
               </div>
@@ -500,14 +504,14 @@ function MyComponent() {
               <TransferDemo />
 
               {/* Links */}
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-                <h3 className="text-lg font-semibold text-white mb-4">Resources</h3>
+              <div className={`${cookbookTheme.bgCard} rounded-2xl p-6`}>
+                <h3 className={`text-lg font-semibold ${cookbookTheme.textPrimary} mb-4`}>Resources</h3>
                 <div className="space-y-2">
                   <a
                     href="https://github.com/TeamRaccoons/Unified-Wallet-Kit"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-purple-400 hover:text-purple-300 text-sm"
+                    className={`flex items-center gap-2 ${cookbookTheme.textAccent} hover:opacity-80 text-sm`}
                   >
                     <span>📚</span> Unified Wallet Kit GitHub
                   </a>
@@ -515,7 +519,7 @@ function MyComponent() {
                     href="https://www.npmjs.com/package/@jup-ag/wallet-adapter"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-purple-400 hover:text-purple-300 text-sm"
+                    className={`flex items-center gap-2 ${cookbookTheme.textAccent} hover:opacity-80 text-sm`}
                   >
                     <span>📦</span> NPM Package
                   </a>
@@ -523,7 +527,7 @@ function MyComponent() {
                     href="https://docs.lazorkit.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-purple-400 hover:text-purple-300 text-sm"
+                    className={`flex items-center gap-2 ${cookbookTheme.textAccent} hover:opacity-80 text-sm`}
                   >
                     <span>🔑</span> LazorKit Documentation
                   </a>

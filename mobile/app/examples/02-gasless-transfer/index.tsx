@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import {
     View,
     Text,
-    StyleSheet,
     ScrollView,
     TextInput,
     TouchableOpacity,
@@ -25,11 +24,15 @@ import {
     formatTransactionError,
 } from '@/lib/solana-utils';
 import { getExplorerUrl, COMPUTE_UNITS } from '@/lib/constants';
-import { colors, spacing, borderRadius, fontSize, commonStyles } from '@/lib/theme';
+import { useThemeStyles } from '@/hooks/useThemeStyles';
+import { spacing, fontSize } from '@/lib/theme';
 import { Footer } from '@/components/Footer';
 import { Stack } from 'expo-router';
 
 export default function GaslessTransferScreen() {
+    const theme = useThemeStyles();
+    const { colors } = theme;
+
     const { wallet, isConnected, connect, signAndSendTransaction, connecting } = useLazorkitWalletConnect();
 
     const [recipient, setRecipient] = useState('');
@@ -114,6 +117,7 @@ export default function GaslessTransferScreen() {
                             instructions,
                             transactionOptions: {
                                 computeUnitLimit: COMPUTE_UNITS.TRANSFER,
+                                clusterSimulation: 'devnet',
                             },
                         },
                         'examples/02-gasless-transfer'
@@ -151,43 +155,39 @@ export default function GaslessTransferScreen() {
 
     return (
         <>
-            <Stack.Screen
-                options={{
-                    title: 'Gasless USDC Transfer',
-                }}
-            />
+            <Stack.Screen options={{ title: 'Gasless USDC Transfer' }} />
             <LinearGradient
                 colors={[colors.gradient.start, colors.gradient.middle, colors.gradient.end]}
-                style={styles.container}
+                style={theme.container}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
                 <KeyboardAvoidingView
-                    style={styles.keyboardView}
+                    style={theme.container}
                     behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                     keyboardVerticalOffset={100}
                 >
                     <ScrollView
-                        style={styles.scrollView}
-                        contentContainerStyle={styles.content}
+                        style={theme.container}
+                        contentContainerStyle={theme.scrollContent}
                         keyboardShouldPersistTaps="handled"
                         showsVerticalScrollIndicator={false}
                     >
                         {/* Header */}
-                        <View style={styles.header}>
-                            <Text style={styles.emoji}>⚡</Text>
-                            <Text style={styles.title}>Gasless USDC Transfer</Text>
-                            <Text style={styles.subtitle}>
+                        <View style={{ marginBottom: spacing.lg }}>
+                            <Text style={theme.emoji}>⚡</Text>
+                            <Text style={theme.title}>Gasless USDC Transfer</Text>
+                            <Text style={theme.subtitle}>
                                 Send USDC without paying gas fees - LazorKit's paymaster covers it
                             </Text>
                         </View>
 
                         {!isConnected ? (
                             /* Not Connected State */
-                            <View style={styles.glassCard}>
-                                <Text style={styles.lockIcon}>💸</Text>
-                                <Text style={styles.connectTitle}>Connect to Start</Text>
-                                <Text style={styles.connectDescription}>
+                            <View style={[theme.card, { alignItems: 'center' }]}>
+                                <Text style={{ fontSize: 64, marginBottom: spacing.lg }}>💸</Text>
+                                <Text style={theme.sectionTitle}>Connect to Start</Text>
+                                <Text style={[theme.textMuted, { textAlign: 'center', marginBottom: spacing.lg }]}>
                                     Connect your wallet to send gasless USDC transfers
                                 </Text>
 
@@ -195,14 +195,15 @@ export default function GaslessTransferScreen() {
                                     onPress={handleConnect}
                                     disabled={connecting}
                                     activeOpacity={0.8}
+                                    style={{ width: '100%' }}
                                 >
                                     <LinearGradient
                                         colors={[colors.button.primary.start, colors.button.primary.end]}
                                         start={{ x: 0, y: 0 }}
                                         end={{ x: 1, y: 0 }}
-                                        style={styles.connectButton}
+                                        style={theme.btnPrimary}
                                     >
-                                        <Text style={styles.connectButtonText}>
+                                        <Text style={theme.btnPrimaryText}>
                                             {connecting ? 'Connecting...' : '🔑 Connect Wallet'}
                                         </Text>
                                     </LinearGradient>
@@ -210,25 +211,25 @@ export default function GaslessTransferScreen() {
                             </View>
                         ) : (
                             /* Transfer Form */
-                            <View style={styles.formContainer}>
+                            <View style={theme.section}>
                                 {/* Balance Card */}
-                                <View style={styles.balanceCard}>
-                                    <View style={styles.balanceHeader}>
-                                        <Text style={styles.balanceLabel}>Your USDC Balance</Text>
+                                <View style={theme.balanceCard}>
+                                    <View style={theme.rowBetween}>
+                                        <Text style={theme.balanceLabel}>Your USDC Balance</Text>
                                         <TouchableOpacity onPress={fetchBalance} disabled={refreshing}>
-                                            <Text style={styles.refreshText}>
+                                            <Text style={theme.refreshText}>
                                                 {refreshing ? '⏳' : '🔄'} Refresh
                                             </Text>
                                         </TouchableOpacity>
                                     </View>
-                                    <Text style={styles.balanceValue}>
+                                    <Text style={theme.balanceValue}>
                                         {usdcBalance !== null ? `${usdcBalance.toFixed(2)} USDC` : '...'}
                                     </Text>
                                     {usdcBalance === 0 && (
                                         <TouchableOpacity
                                             onPress={() => Linking.openURL('https://faucet.circle.com/')}
                                         >
-                                            <Text style={styles.faucetLink}>
+                                            <Text style={[theme.textWarning, { marginTop: spacing.sm, fontSize: fontSize.xs }]}>
                                                 ⚠️ No USDC? Get some from Circle Faucet →
                                             </Text>
                                         </TouchableOpacity>
@@ -236,13 +237,13 @@ export default function GaslessTransferScreen() {
                                 </View>
 
                                 {/* Transfer Form Card */}
-                                <View style={styles.formCard}>
-                                    <Text style={styles.formTitle}>Send USDC</Text>
+                                <View style={theme.card}>
+                                    <Text style={theme.sectionTitle}>Send USDC</Text>
 
-                                    <View style={styles.inputGroup}>
-                                        <Text style={styles.inputLabel}>Recipient Address</Text>
+                                    <View style={{ marginBottom: spacing.md }}>
+                                        <Text style={theme.inputLabel}>Recipient Address</Text>
                                         <TextInput
-                                            style={styles.input}
+                                            style={theme.input}
                                             placeholder="Enter Solana address..."
                                             placeholderTextColor={colors.text.placeholder}
                                             value={recipient}
@@ -252,19 +253,19 @@ export default function GaslessTransferScreen() {
                                         />
                                     </View>
 
-                                    <View style={styles.inputGroup}>
-                                        <View style={styles.amountLabelRow}>
-                                            <Text style={styles.inputLabel}>Amount (USDC)</Text>
+                                    <View style={{ marginBottom: spacing.md }}>
+                                        <View style={theme.rowBetween}>
+                                            <Text style={theme.inputLabel}>Amount (USDC)</Text>
                                             {usdcBalance !== null && usdcBalance > 0 && (
                                                 <TouchableOpacity onPress={handleUseMax}>
-                                                    <Text style={styles.maxButton}>
+                                                    <Text style={theme.textAccent}>
                                                         Use Max ({usdcBalance.toFixed(2)})
                                                     </Text>
                                                 </TouchableOpacity>
                                             )}
                                         </View>
                                         <TextInput
-                                            style={styles.input}
+                                            style={theme.input}
                                             placeholder="0.00"
                                             placeholderTextColor={colors.text.placeholder}
                                             value={amount}
@@ -282,13 +283,13 @@ export default function GaslessTransferScreen() {
                                             colors={
                                                 canSend
                                                     ? [colors.button.success.start, colors.button.success.end]
-                                                    : ['#374151', '#374151']
+                                                    : [colors.button.disabled, colors.button.disabled]
                                             }
                                             start={{ x: 0, y: 0 }}
                                             end={{ x: 1, y: 0 }}
-                                            style={[styles.sendButton, !canSend && styles.sendButtonDisabled]}
+                                            style={[theme.btnSuccess, !canSend && theme.btnDisabled]}
                                         >
-                                            <Text style={styles.sendButtonText}>
+                                            <Text style={canSend ? theme.btnSuccessText : theme.btnDisabledText}>
                                                 {sending
                                                     ? retryCount > 0
                                                         ? `Retrying... (${retryCount}/3)`
@@ -298,8 +299,8 @@ export default function GaslessTransferScreen() {
                                         </LinearGradient>
                                     </TouchableOpacity>
 
-                                    <View style={styles.gaslessInfo}>
-                                        <Text style={styles.gaslessText}>
+                                    <View style={[theme.cardWarning, { marginTop: spacing.md }]}>
+                                        <Text style={[theme.textWarning, { textAlign: 'center', fontSize: fontSize.sm }]}>
                                             ✨ 100% Gasless - LazorKit's paymaster covers all fees
                                         </Text>
                                     </View>
@@ -308,11 +309,11 @@ export default function GaslessTransferScreen() {
                                 {/* Last Transaction */}
                                 {lastTxSignature && (
                                     <TouchableOpacity
-                                        style={styles.txCard}
+                                        style={theme.card}
                                         onPress={() => Linking.openURL(getExplorerUrl(lastTxSignature))}
                                     >
-                                        <Text style={styles.txLabel}>Last Transaction:</Text>
-                                        <Text style={styles.txSignature}>
+                                        <Text style={theme.textMuted}>Last Transaction:</Text>
+                                        <Text style={[theme.textAccent, { fontFamily: 'monospace', fontSize: fontSize.xs }]}>
                                             {lastTxSignature.slice(0, 20)}...{lastTxSignature.slice(-20)} ↗
                                         </Text>
                                     </TouchableOpacity>
@@ -321,42 +322,42 @@ export default function GaslessTransferScreen() {
                         )}
 
                         {/* How It Works */}
-                        <View style={styles.howItWorksCard}>
-                            <Text style={styles.sectionTitle}>How Gasless Works</Text>
+                        <View style={[theme.card, { marginTop: spacing.lg }]}>
+                            <Text style={theme.sectionTitle}>How Gasless Works</Text>
 
-                            <View style={styles.step}>
-                                <View style={styles.stepNumber}>
-                                    <Text style={styles.stepNumberText}>1</Text>
+                            <View style={theme.stepRow}>
+                                <View style={theme.stepNumber}>
+                                    <Text style={theme.stepNumberText}>1</Text>
                                 </View>
-                                <View style={styles.stepContent}>
-                                    <Text style={styles.stepTitle}>Build Transaction</Text>
-                                    <Text style={styles.stepDescription}>
+                                <View style={theme.stepContent}>
+                                    <Text style={theme.stepTitle}>Build Transaction</Text>
+                                    <Text style={theme.stepDescription}>
                                         Create USDC transfer instructions including automatic
                                         token account creation if needed.
                                     </Text>
                                 </View>
                             </View>
 
-                            <View style={styles.step}>
-                                <View style={styles.stepNumber}>
-                                    <Text style={styles.stepNumberText}>2</Text>
+                            <View style={theme.stepRow}>
+                                <View style={theme.stepNumber}>
+                                    <Text style={theme.stepNumberText}>2</Text>
                                 </View>
-                                <View style={styles.stepContent}>
-                                    <Text style={styles.stepTitle}>Paymaster Sponsorship</Text>
-                                    <Text style={styles.stepDescription}>
+                                <View style={theme.stepContent}>
+                                    <Text style={theme.stepTitle}>Paymaster Sponsorship</Text>
+                                    <Text style={theme.stepDescription}>
                                         LazorKit's paymaster sponsors the fees - users never need
                                         SOL for gas.
                                     </Text>
                                 </View>
                             </View>
 
-                            <View style={styles.step}>
-                                <View style={styles.stepNumber}>
-                                    <Text style={styles.stepNumberText}>3</Text>
+                            <View style={[theme.stepRow, { marginBottom: 0 }]}>
+                                <View style={theme.stepNumber}>
+                                    <Text style={theme.stepNumberText}>3</Text>
                                 </View>
-                                <View style={styles.stepContent}>
-                                    <Text style={styles.stepTitle}>Sign via Passkey</Text>
-                                    <Text style={styles.stepDescription}>
+                                <View style={theme.stepContent}>
+                                    <Text style={theme.stepTitle}>Sign via Passkey</Text>
+                                    <Text style={theme.stepDescription}>
                                         Sign with Face ID/Touch ID and the transaction is sent
                                         to Solana.
                                     </Text>
@@ -365,15 +366,15 @@ export default function GaslessTransferScreen() {
                         </View>
 
                         {/* Code Example */}
-                        <View style={styles.codeCard}>
-                            <Text style={styles.sectionTitle}>Code Example</Text>
-                            <View style={styles.mobileHighlight}>
-                                <Text style={styles.mobileHighlightText}>
+                        <View style={[theme.codeCard, { marginTop: spacing.md }]}>
+                            <Text style={[theme.sectionTitle, { padding: spacing.md, paddingBottom: 0 }]}>Code Example</Text>
+                            <View style={theme.codeHighlight}>
+                                <Text style={theme.codeHighlightText}>
                                     📱 Mobile: Include redirectUrl for deep link return
                                 </Text>
                             </View>
-                            <View style={styles.codeBlock}>
-                                <Text style={styles.code}>
+                            <View style={theme.codeBlock}>
+                                <Text style={theme.codeText}>
                                     {`import { useWallet } from '@lazorkit/wallet-mobile-adapter';
 import * as Linking from 'expo-linking';
 
@@ -396,13 +397,13 @@ const signature = await signAndSendTransaction(
 );`}
                                 </Text>
                             </View>
-                            <View style={styles.cookbookNote}>
-                                <Text style={styles.cookbookNoteText}>
+                            <View style={theme.codeNote}>
+                                <Text style={theme.codeNoteText}>
                                     💡 This cookbook includes a WalletContext wrapper that simplifies
                                     state management across screens.{'\n\n'}
                                     📖 See:{' '}
                                     <Text
-                                        style={styles.link}
+                                        style={theme.link}
                                         onPress={() =>
                                             Linking.openURL(
                                                 'https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/03-cookbook-patterns.md'
@@ -423,275 +424,3 @@ const signature = await signAndSendTransaction(
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    keyboardView: {
-        flex: 1,
-    },
-    scrollView: {
-        flex: 1,
-    },
-    content: {
-        padding: spacing.lg,
-        paddingBottom: spacing.xxl,
-    },
-
-    // Header
-    header: {
-        marginBottom: spacing.lg,
-    },
-    emoji: {
-        fontSize: 48,
-        marginBottom: spacing.sm,
-    },
-    title: {
-        fontSize: fontSize['2xl'],
-        fontWeight: 'bold',
-        color: colors.text.primary,
-        marginBottom: spacing.xs,
-    },
-    subtitle: {
-        fontSize: fontSize.base,
-        color: colors.text.muted,
-    },
-
-    // Connect State
-    glassCard: {
-        ...commonStyles.glassCard,
-        padding: spacing.xl,
-        alignItems: 'center',
-    },
-    lockIcon: {
-        fontSize: 64,
-        marginBottom: spacing.lg,
-    },
-    connectTitle: {
-        fontSize: fontSize.xl,
-        fontWeight: '600',
-        color: colors.text.primary,
-        marginBottom: spacing.sm,
-    },
-    connectDescription: {
-        fontSize: fontSize.base,
-        color: colors.text.muted,
-        textAlign: 'center',
-        marginBottom: spacing.lg,
-    },
-    connectButton: {
-        paddingVertical: spacing.md,
-        paddingHorizontal: spacing.xl,
-        borderRadius: borderRadius.md,
-        ...commonStyles.shadow,
-    },
-    connectButtonText: {
-        fontSize: fontSize.base,
-        fontWeight: '600',
-        color: colors.text.primary,
-    },
-
-    // Form
-    formContainer: {
-        gap: spacing.md,
-    },
-    balanceCard: {
-        backgroundColor: colors.status.successBg,
-        borderWidth: 1,
-        borderColor: colors.status.successBorder,
-        borderRadius: borderRadius.lg,
-        padding: spacing.lg,
-    },
-    balanceHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: spacing.sm,
-    },
-    balanceLabel: {
-        fontSize: fontSize.sm,
-        color: 'rgba(134, 239, 172, 0.8)',
-    },
-    refreshText: {
-        fontSize: fontSize.xs,
-        color: colors.accent.purple,
-    },
-    balanceValue: {
-        fontSize: fontSize['3xl'],
-        fontWeight: 'bold',
-        color: colors.text.primary,
-    },
-    faucetLink: {
-        fontSize: fontSize.xs,
-        color: colors.status.warning,
-        marginTop: spacing.sm,
-    },
-    formCard: {
-        ...commonStyles.glassCard,
-        padding: spacing.lg,
-    },
-    formTitle: {
-        fontSize: fontSize.lg,
-        fontWeight: '600',
-        color: colors.text.primary,
-        marginBottom: spacing.md,
-    },
-    inputGroup: {
-        marginBottom: spacing.md,
-    },
-    inputLabel: {
-        fontSize: fontSize.sm,
-        color: colors.text.muted,
-        marginBottom: spacing.xs,
-    },
-    amountLabelRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: spacing.xs,
-    },
-    maxButton: {
-        fontSize: fontSize.xs,
-        color: colors.accent.purple,
-        fontWeight: '600',
-    },
-    input: {
-        ...commonStyles.input,
-    },
-    sendButton: {
-        paddingVertical: spacing.md,
-        borderRadius: borderRadius.md,
-        ...commonStyles.shadow,
-    },
-    sendButtonDisabled: {
-        opacity: 0.5,
-    },
-    sendButtonText: {
-        fontSize: fontSize.base,
-        fontWeight: 'bold',
-        color: colors.text.primary,
-        textAlign: 'center',
-    },
-    gaslessInfo: {
-        backgroundColor: colors.status.warningBg,
-        borderWidth: 1,
-        borderColor: colors.status.warningBorder,
-        borderRadius: borderRadius.sm,
-        padding: spacing.sm,
-        marginTop: spacing.md,
-    },
-    gaslessText: {
-        fontSize: fontSize.sm,
-        color: colors.status.warning,
-        textAlign: 'center',
-    },
-    txCard: {
-        ...commonStyles.glassCard,
-        padding: spacing.md,
-    },
-    txLabel: {
-        fontSize: fontSize.xs,
-        color: colors.text.muted,
-        marginBottom: spacing.xs,
-    },
-    txSignature: {
-        fontSize: fontSize.xs,
-        color: colors.accent.purple,
-        fontFamily: 'monospace',
-    },
-
-    // How It Works
-    howItWorksCard: {
-        ...commonStyles.glassCard,
-        padding: spacing.lg,
-        marginTop: spacing.lg,
-    },
-    sectionTitle: {
-        fontSize: fontSize.lg,
-        fontWeight: 'bold',
-        color: colors.text.primary,
-        marginBottom: spacing.md,
-    },
-    step: {
-        flexDirection: 'row',
-        marginBottom: spacing.md,
-    },
-    stepNumber: {
-        width: 28,
-        height: 28,
-        borderRadius: 14,
-        backgroundColor: colors.accent.purpleDark,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: spacing.sm,
-    },
-    stepNumberText: {
-        fontSize: fontSize.sm,
-        fontWeight: 'bold',
-        color: colors.text.primary,
-    },
-    stepContent: {
-        flex: 1,
-    },
-    stepTitle: {
-        fontSize: fontSize.base,
-        fontWeight: '600',
-        color: colors.text.primary,
-        marginBottom: spacing.xs,
-    },
-    stepDescription: {
-        fontSize: fontSize.sm,
-        color: colors.text.muted,
-        lineHeight: 20,
-    },
-
-    // Code
-    codeCard: {
-        ...commonStyles.glassCard,
-        padding: spacing.lg,
-        marginTop: spacing.md,
-    },
-    codeBlock: {
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        borderRadius: borderRadius.sm,
-        padding: spacing.md,
-    },
-    code: {
-        fontSize: 11,
-        color: colors.text.secondary,
-        fontFamily: 'monospace',
-        lineHeight: 18,
-    },
-    mobileHighlight: {
-        backgroundColor: 'rgba(168, 85, 247, 0.15)',
-        borderWidth: 1,
-        borderColor: 'rgba(168, 85, 247, 0.3)',
-        borderRadius: borderRadius.sm,
-        padding: spacing.sm,
-        marginBottom: spacing.md,
-    },
-    mobileHighlightText: {
-        fontSize: fontSize.sm,
-        color: colors.accent.purple,
-        textAlign: 'center',
-        fontWeight: '600',
-    },
-    cookbookNote: {
-        backgroundColor: 'rgba(34, 197, 94, 0.1)',
-        borderWidth: 1,
-        borderColor: 'rgba(34, 197, 94, 0.2)',
-        borderRadius: borderRadius.sm,
-        padding: spacing.sm,
-        marginTop: spacing.md,
-    },
-    cookbookNoteText: {
-        fontSize: fontSize.xs,
-        color: 'rgba(134, 239, 172, 0.9)',
-        lineHeight: 18,
-    },
-    link: {
-        color: '#a78bfa', // purple accent
-        textDecorationLine: 'underline',
-    },
-});

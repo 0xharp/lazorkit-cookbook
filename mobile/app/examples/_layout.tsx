@@ -1,39 +1,27 @@
 import { Stack } from 'expo-router';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function ExamplesLayout() {
+  const { colors, isLazorkit } = useTheme();
+
   return (
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#1a1a2e',
+          backgroundColor: isLazorkit ? '#7857FF' : '#1e1b4b',
         },
-        headerTintColor: '#fff',
+        headerTintColor: '#ffffff',
         headerTitleStyle: {
-          fontWeight: 'bold',
+          fontWeight: '600',
+          color: '#ffffff',
+          fontSize: 16,
         },
+        headerTitleAlign: 'center', // Center align for Android consistency
+        headerShadowVisible: false, // Clean look without shadow
         contentStyle: {
-          backgroundColor: '#1a1a2e',
+          backgroundColor: colors.gradient.start,
         },
       }}
-    >
-      {/*<Stack.Screen*/}
-      {/*  name="01-connect-wallet"*/}
-      {/*  options={{*/}
-      {/*    title: 'Connect Wallet',*/}
-      {/*  }}*/}
-      {/*/>*/}
-      {/*<Stack.Screen*/}
-      {/*  name="02-gasless-transfer"*/}
-      {/*  options={{*/}
-      {/*    title: 'Gasless Transfer',*/}
-      {/*  }}*/}
-      {/*/>*/}
-      {/*<Stack.Screen*/}
-      {/*  name="03-raydium-swap"*/}
-      {/*  options={{*/}
-      {/*    title: 'Raydium Swap',*/}
-      {/*  }}*/}
-      {/*/>*/}
-    </Stack>
+    />
   );
 }

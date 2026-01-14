@@ -1,35 +1,36 @@
+'use client';
+
 import Link from 'next/link';
+import { useThemeClasses } from '@/hooks/useThemeClasses';
 import { EXPO_QR_URL } from '../../lib/constants'
 
 export default function MobilePage() {
+    const theme = useThemeClasses();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
+        <div className={`min-h-screen ${theme.bgPage}`}>
             <div className="container mx-auto px-4 py-12 max-w-4xl">
                 {/* Back Link */}
-                <Link
-                    href="/"
-                    className="text-purple-400 hover:text-purple-300 mb-8 inline-block"
-                >
+                <Link href="/" className={`${theme.textAccent} hover:opacity-80 mb-8 inline-block`}>
                     ← Back to Web Recipes
                 </Link>
 
                 {/* Header */}
                 <div className="text-center mb-12">
                     <div className="text-6xl mb-4">📱</div>
-                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                    <h1 className={`text-4xl md:text-5xl font-bold ${theme.textPrimary} mb-4`}>
                         LazorKit Mobile SDK
                     </h1>
-                    <p className="text-xl text-gray-300">
+                    <p className={`text-xl ${theme.textSecondary}`}>
                         Test the React Native integration on your device
                     </p>
                 </div>
 
                 {/* QR Code Section */}
-                <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 mb-8">
+                <div className={`${theme.bgCard} rounded-2xl p-8 mb-8`}>
                     <div className="flex flex-col md:flex-row items-center gap-8">
                         {/* QR Code */}
-                        <div className="bg-white p-4 rounded-xl">
+                        <div className={`bg-white p-4 rounded-xl shadow-sm border ${theme.border}`}>
                             <img
                                 src={EXPO_QR_URL}
                                 alt="Scan to open in Expo Go"
@@ -41,17 +42,17 @@ export default function MobilePage() {
 
                         {/* Instructions */}
                         <div className="flex-1 text-center md:text-left">
-                            <h2 className="text-2xl font-bold text-white mb-4">
+                            <h2 className={`text-2xl font-bold ${theme.textPrimary} mb-4`}>
                                 Scan to Test on Your Device
                             </h2>
-                            <ol className="space-y-3 text-gray-300">
+                            <ol className={`space-y-3 ${theme.textSecondary}`}>
                                 <li className="flex items-start gap-3">
-                                    <span className="bg-purple-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">1</span>
-                                    <span>Install <strong className="text-white">Expo Go</strong> from the App Store (iOS) or Play Store (Android)</span>
+                                    <span className={`${theme.infoPurple} ${theme.infoPurpleTitle} rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-xs font-bold`}>1</span>
+                                    <span>Install <strong className={theme.textPrimary}>Expo Go</strong> from the App Store (iOS) or Play Store (Android)</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="bg-purple-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">2</span>
-                                    <span>Scan the <strong className="text-white">QR code</strong> with <strong className="text-white">Expo Go (Android)</strong> or the <strong className="text-white">Camera app (iOS)</strong></span>
+                                    <span className={`${theme.infoPurple} ${theme.infoPurpleTitle} rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-xs font-bold`}>2</span>
+                                    <span>Scan the <strong className={theme.textPrimary}>QR code</strong> with <strong className={theme.textPrimary}>Expo Go (Android)</strong> or the <strong className={theme.textPrimary}>Camera app (iOS)</strong></span>
                                 </li>
                             </ol>
                         </div>
@@ -59,96 +60,74 @@ export default function MobilePage() {
                 </div>
 
                 {/* Mobile Recipes */}
-                <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 mb-8">
-                    <h2 className="text-2xl font-bold text-white mb-6">
+                <div className={`${theme.bgCard} rounded-2xl p-8 mb-8`}>
+                    <h2 className={`text-2xl font-bold ${theme.textPrimary} mb-6`}>
                         Mobile Recipes Included
                     </h2>
 
                     <div className="grid md:grid-cols-3 gap-4">
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                            <div className="text-3xl mb-3">👛</div>
-                            <h3 className="text-lg font-semibold text-white mb-2">
-                                01 - Connect Wallet
-                            </h3>
-                            <p className="text-sm text-gray-400">
-                                Passkey authentication with deep linking
-                            </p>
-                        </div>
-
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                            <div className="text-3xl mb-3">⚡</div>
-                            <h3 className="text-lg font-semibold text-white mb-2">
-                                02 - Gasless Transfer
-                            </h3>
-                            <p className="text-sm text-gray-400">
-                                Send USDC without gas fees
-                            </p>
-                        </div>
-
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                            <div className="text-3xl mb-3">🔄</div>
-                            <h3 className="text-lg font-semibold text-white mb-2">
-                                03 - Raydium Swap
-                            </h3>
-                            <p className="text-sm text-gray-400">
-                                DEX integration with gasless swaps
-                            </p>
-                        </div>
+                        {[
+                            { emoji: '👛', title: '01 - Connect Wallet', desc: 'Passkey authentication with deep linking' },
+                            { emoji: '⚡', title: '02 - Gasless Transfer', desc: 'Send USDC without gas fees' },
+                            { emoji: '🔄', title: '03 - Raydium Swap', desc: 'DEX integration with gasless swaps' }
+                        ].map((recipe, i) => (
+                            <div key={i} className={`${theme.bgInput} rounded-xl p-5`}>
+                                <div className="text-3xl mb-3">{recipe.emoji}</div>
+                                <h3 className={`text-lg font-semibold ${theme.textPrimary} mb-2`}>
+                                    {recipe.title}
+                                </h3>
+                                <p className={`text-sm ${theme.textMuted}`}>
+                                    {recipe.desc}
+                                </p>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
                 {/* Mobile vs Web */}
-                <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-2xl p-8 mb-8">
-                    <h2 className="text-2xl font-bold text-white mb-6">
+                <div className={`${theme.bgCta} rounded-2xl p-8 mb-8`}>
+                    <h2 className={`text-2xl font-bold ${theme.textPrimary} mb-6`}>
                         📱 Mobile vs 🌐 Web: Key Differences
                     </h2>
 
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
                             <thead>
-                                <tr className="border-b border-white/10">
-                                    <th className="py-3 px-4 text-gray-400 font-medium">Feature</th>
-                                    <th className="py-3 px-4 text-gray-400 font-medium">Web</th>
-                                    <th className="py-3 px-4 text-gray-400 font-medium">Mobile</th>
+                                <tr className={`border-b ${theme.borderAccent}`}>
+                                    <th className={`py-3 px-4 ${theme.textMuted} font-medium`}>Feature</th>
+                                    <th className={`py-3 px-4 ${theme.textMuted} font-medium`}>Web</th>
+                                    <th className={`py-3 px-4 ${theme.textMuted} font-medium`}>Mobile</th>
                                 </tr>
                             </thead>
-                            <tbody className="text-gray-300">
-                                <tr className="border-b border-white/5">
-                                    <td className="py-3 px-4 font-medium text-white">SDK Package</td>
-                                    <td className="py-3 px-4"><code className="text-purple-400">@lazorkit/wallet</code></td>
-                                    <td className="py-3 px-4"><code className="text-purple-400">@lazorkit/wallet-mobile-adapter</code></td>
-                                </tr>
-                                <tr className="border-b border-white/5">
-                                    <td className="py-3 px-4 font-medium text-white">Authentication</td>
-                                    <td className="py-3 px-4">Popup window</td>
-                                    <td className="py-3 px-4">External browser + deep link</td>
-                                </tr>
-                                <tr className="border-b border-white/5">
-                                    <td className="py-3 px-4 font-medium text-white">Redirect Handling</td>
-                                    <td className="py-3 px-4">Not required</td>
-                                    <td className="py-3 px-4"><code className="text-purple-400">redirectUrl: Linking.createURL(...)</code></td>
-                                </tr>
-                                <tr>
-                                    <td className="py-3 px-4 font-medium text-white">Transaction Signing</td>
-                                    <td className="py-3 px-4">In-app popup</td>
-                                    <td className="py-3 px-4">Opens LazorKit portal, returns via deep link</td>
-                                </tr>
+                            <tbody className={theme.textSecondary}>
+                                {[
+                                    { feature: 'SDK Package', web: '@lazorkit/wallet', mobile: '@lazorkit/wallet-mobile-adapter' },
+                                    { feature: 'Authentication', web: 'Popup window', mobile: 'External browser + deep link' },
+                                    { feature: 'Redirect Handling', web: 'Not required', mobile: 'Linking.createURL(...)' },
+                                    { feature: 'Transaction Signing', web: 'In-app popup', mobile: 'Opens LazorKit portal, returns via deep link' }
+                                ].map((row, i) => (
+                                    <tr key={i} className={`border-b ${theme.borderAccent}`}>
+                                        <td className={`py-3 px-4 font-medium ${theme.textPrimary}`}>{row.feature}</td>
+                                        <td className="py-3 px-4"><code className={theme.textAccent}>{row.web}</code></td>
+                                        <td className="py-3 px-4"><code className={theme.textAccent}>{row.mobile}</code></td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
                 </div>
 
                 {/* Code Example */}
-                <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8">
-                    <h2 className="text-2xl font-bold text-white mb-4">
+                <div className={`${theme.bgCard} rounded-2xl p-8`}>
+                    <h2 className={`text-2xl font-bold ${theme.textPrimary} mb-4`}>
                         Quick Start Code
                     </h2>
-                    <p className="text-gray-400 mb-4">
+                    <p className={`${theme.textMuted} mb-4`}>
                         Using the LazorKit Mobile SDK directly:
                     </p>
 
-                    <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                        <pre className="text-sm text-gray-300">
+                    <div className={`${theme.codeBlock} rounded-lg p-4 overflow-x-auto`}>
+                        <pre className="text-sm">
                             <code>{`import { useWallet } from '@lazorkit/wallet-mobile-adapter';
 import * as Linking from 'expo-linking';
 
@@ -169,15 +148,15 @@ const signature = await signAndSendTransaction(
                         </pre>
                     </div>
 
-                    <div className="mt-4 bg-green-500/10 border border-green-500/30 rounded-lg p-4">
-                        <p className="text-sm text-green-300 mb-2">
+                    <div className={`mt-4 ${theme.statusSuccess} rounded-lg p-4`}>
+                        <p className="text-sm mb-2">
                             💡 The cookbook includes a <strong>WalletContext</strong> wrapper that simplifies redirect handling across screens.
                         </p>
                         <a
                             href="https://github.com/0xharp/lazorkit-cookbook/blob/main/docs/mobile/03-cookbook-patterns.md"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm text-green-400 hover:text-green-300 underline"
+                            className={`text-sm ${theme.textAccent} hover:opacity-80 underline`}
                         >
                             📖 Read the Mobile Cookbook Patterns Guide →
                         </a>
@@ -187,17 +166,14 @@ const signature = await signAndSendTransaction(
                 {/* Footer Links */}
                 <div className="mt-12 text-center">
                     <div className="flex gap-4 justify-center flex-wrap">
-                        <Link
-                            href="/"
-                            className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl font-semibold transition-all"
-                        >
+                        <Link href="/" className={theme.btnSecondary}>
                             ← View Web Recipes
                         </Link>
                         <a
                             href="https://github.com/0xharp/lazorkit-cookbook"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl font-semibold transition-all"
+                            className={theme.btnSecondary}
                         >
                             View Source Code
                         </a>
