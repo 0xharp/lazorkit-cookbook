@@ -492,7 +492,7 @@ export default function RaydiumSwapScreen() {
                                             end={{ x: 1, y: 0 }}
                                             style={[theme.btnSuccess, !canSwap && theme.btnDisabled]}
                                         >
-                                            <Text style={theme.btnSuccessText}>
+                                            <Text style={canSwap ? theme.btnSuccessText : theme.btnDisabledText}>
                                                 {swapping ? 'Swapping...' : 'Swap (Gasless!)'}
                                             </Text>
                                         </LinearGradient>

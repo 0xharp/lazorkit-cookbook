@@ -289,7 +289,7 @@ export default function GaslessTransferScreen() {
                                             end={{ x: 1, y: 0 }}
                                             style={[theme.btnSuccess, !canSend && theme.btnDisabled]}
                                         >
-                                            <Text style={theme.btnSuccessText}>
+                                            <Text style={canSend ? theme.btnSuccessText : theme.btnDisabledText}>
                                                 {sending
                                                     ? retryCount > 0
                                                         ? `Retrying... (${retryCount}/3)`

@@ -12,9 +12,12 @@ export default function ExamplesLayout() {
         },
         headerTintColor: '#ffffff',
         headerTitleStyle: {
-          fontWeight: 'bold',
+          fontWeight: '600',
           color: '#ffffff',
+          fontSize: 16,
         },
+        headerTitleAlign: 'center', // Center align for Android consistency
+        headerShadowVisible: false, // Clean look without shadow
         contentStyle: {
           backgroundColor: colors.gradient.start,
         },

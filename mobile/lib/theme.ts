@@ -248,6 +248,7 @@ export interface ThemeStyles {
     btnSuccess: ViewStyle;
     btnSuccessText: TextStyle;
     btnDisabled: ViewStyle;
+    btnDisabledText: TextStyle;
     btnOutline: ViewStyle;
     btnOutlineText: TextStyle;
     btnDanger: ViewStyle;
@@ -449,7 +450,13 @@ export function createThemeStyles(colors: ThemeColors): ThemeStyles {
             textAlign: 'center',
         },
         btnDisabled: {
-            opacity: 0.5,
+            opacity: 1,
+        },
+        btnDisabledText: {
+            fontSize: fontSize.base,
+            fontWeight: 'bold',
+            color: colors.text.muted,
+            textAlign: 'center',
         },
         btnOutline: {
             paddingVertical: spacing.md,
